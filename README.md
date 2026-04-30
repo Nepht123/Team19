@@ -14,4 +14,4 @@ Rate my module is a community driven web application. It will allow students to 
 - (Other features are still to be included)
 
 ## Why this matters
-Currently, there isn't a dedicated platform for students to share module feedback. Rate My Module will attemptempt to fill that gap by creating a space where students can learn from each other's experciences.
+Currently, there isn't a dedicated platform for students to share module feedback. Rate My Module will attemptempt to fill that gap by creating a space where students can learn from each other's experciences!
