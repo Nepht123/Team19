@@ -4,6 +4,7 @@
 ## Overview
 Rate my module is a community driven web application. It will allow students to rate their University modules and share advice with peer. The goal is to provide transparent, student generated feedback to help others make informed decisions when it comes to selecting modules.
 
+
 ## Features
 - Rate modules out of 10 on:
   - Difficulty
