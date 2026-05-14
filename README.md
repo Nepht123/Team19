@@ -1,4 +1,4 @@
-#Team 6 (previouslly 19) repo
+#Team 25 (previouslly 19 and then 6) repo
 # Rate My Module
 
 ## Overview
