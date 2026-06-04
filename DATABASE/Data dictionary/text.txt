@@ -1,0 +1,12 @@
+Look under the "POSTGRADUATE MODULE DESCRIPTORS ". I want you to tell me how many modules there are
+
+
+
+
+Okay for those {} modules, I want you to Look under the " POSTGRADUATE MODULE DESCRIPTORS ". I want you to create for me an excel sheet with the columns:
+Module code, Module name, Year Level, Programmes, Pre-requisite, Co-requisite. Use the information from the resource I have provide to fill this excel sheet.
+
+
+
+Okay for those 289 modules, I want you to Look under the " POSTGRADUATE MODULE DESCRIPTORS ". I want you to create for me an excel sheet with the columns:
+Module code, Module name, Year Level, Programmes, Pre-requisite, Co-requisite. Use the information from the resource I have provide to fill this excel sheet. Make sure that every single one out of the 289 modules are covered. I want the generated excel sheet to be accurate and cover all modules. 

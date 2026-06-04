@@ -53,7 +53,6 @@ CREATE TABLE course_modules
 course_id INT NOT NULL,
     module_id INT NOT NULL,
     year_of_study INT NOT NULL,    
-    semester VARCHAR(15) NOT NULL, 
     
     PRIMARY KEY (course_id, module_id),
     
@@ -75,4 +74,5 @@ CREATE TABLE reviews
 	FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
 );
 
-SELECT * FROM reviews;
+
+SELECT * FROM course_modules;
