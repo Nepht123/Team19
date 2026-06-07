@@ -74,5 +74,5 @@ CREATE TABLE reviews
 	FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
 );
 
-
-SELECT * FROM course_modules;
+Use rate_mm;
+SELECT * FROM faculties;
