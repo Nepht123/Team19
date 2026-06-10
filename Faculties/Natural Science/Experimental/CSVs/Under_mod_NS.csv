@@ -1,0 +1,161 @@
+Module.code,Module.name,Year.Level,Programmes,Pre-requisite,Co-requisite
+APG232,Geology 232,Year 2,"BSc Applied Geology 3214 ,BSc Environment and Water Science 3331 ,BSc Applied Geology Extended 3011 ","ESC111, ESC121",None
+APG234,Geology 234,Year 2,"BSc Applied Geology 3214 ,BSc Applied Geology Extended 3011 ","ESC111, ESC121",None
+APG235,Geology 235,Year 2,"BSc Applied Geology 3214 ,BSc Applied Geology Extended 3011 ","ESC111, ESC121",None
+APG312,Geology 312,Year 3,"BSc Applied Geology 3214 ,BSc Applied Geology Extended 3011 ","APG232, APG234",None
+APG323,Geology 323,Year 3,"BSc Applied Geology 3214 ,BSc Applied Geology Extended 3011 ","APG232, APG234, APG235",None
+APG324,Geology 324,Year 3,"BSc Applied Geology 3214 ,BSc Applied Geology Extended 3011 ","APG232, APG234, APG235",None
+APG325,Geology 325,Year 3,"BSc Applied Geology 3214 ,BSc Applied Geology Extended 3011 ","APG232, APG234, APG235",None
+APM112,Mathematics 112,Year 1,"BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,MAT105 or MAT104 or MAM152
+APM123,Applied Mathematics 123,Year 1,"BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,MAT105 or MAT104 or MAM152
+BDC211,Biodiversity and Conservation Biology 211,Year 2,"BSc Biodiversity and Conservation Biology 3217 ,BSc Environment and Water Science 3331 ,BSc Biodiversity and Conservation Biology Extended 3015 ",LSC142 or LFS152,None
+BDC221,Biodiversity and Conservation Biology 221,Year 2,"BSc Biodiversity and Conservation Biology 3217 ,BSc Environment and Water Science 3331 ,BSc Biodiversity and Conservation Biology Extended 3015 ",LSC142 or LFS152,None
+BDC222,Biodiversity and Conservation Biology 222,Year 2,"BSc Biodiversity and Conservation Biology 3217 ,BSc Environment and Water Science 3331 ,BSc Biodiversity and Conservation Biology Extended 3015 ",LSC141/142 or LFS151/152,None
+BDC223,Biodiversity and Conservation Biology 223,Year 2,"BSc Biodiversity and Conservation Biology 3217 ,BSc Environment and Water Science 3331 ,BSc Biodiversity and Conservation Biology Extended 3015 ","LSC141, LSC142 (or LFS151, LFS152 AND CHE114 (or CHE124, CHE116, CHM126 ",None
+BDC332,Biodiversity and Conservation Biology 332,Year 3,"BSc Biodiversity and Conservation Biology 3217 ,BSc Biodiversity and Conservation Biology Extended 3015 ",BDC222,None
+BDC333,Biodiversity and Conservation Biology 333,Year 3,"BSc Biodiversity and Conservation Biology 3217 ,BSc Biodiversity and Conservation Biology Extended 3015 ","BDC222, BDC211",None
+BDC334,Biodiversity and Conservation Biology 334,Year 3,"BSc Biodiversity and Conservation Biology 3217 ,BSc Biodiversity and Conservation Biology Extended 3015 ","BDC222, BDC211, BDC223",None
+BDC335,Biodiversity and Conservation Biology 335,Year 3,"BSc Biodiversity and Conservation Biology 3217 ,BSc Biodiversity and Conservation Biology Extended 3015 ","BDC222, BDC211, BDC221",None
+BTN211,Biotechnology 211,Year 2,"BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Medical Bioscience 3230 ","CHE114/124, LSC141/142 (or LFS/MBS equivalents ",None
+BTN213,Biotechnology 213,Year 2,"BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Medical Bioscience 3230 ","CHE114, CHE124, LSC141, LSC142 (or equivalents ",None
+BTN215,Biotechnology 215,Year 2,"BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Medical Bioscience 3230 ","CHE114/124, LSC141/142 (or equivalents ",None
+BTN217,Biotechnology 217,Year 2,Bachelor of Pharmacy 3305 ,None,None
+BTN218,Biotechnology 218,Year 2,BSc Biotechnology 3211 ,"CHE114, CHE124, LSC141, LSC142 (or equivalents ",None
+BTN222,Biotechnology 222,Year 2,BSc Biotechnology 3211 ,"CHE114/124, LSC141/142 (or equivalents ",None
+BTN223,Biotechnology 223,Year 2,"BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Medical Bioscience 3230 ","CHE114/124, LSC141/142 (or equivalents ",None
+BTN312,Biotechnology 312,Year 3,BSc Biotechnology 3211 ,"BTN211, BTN215, BTN222, BTN223",None
+BTN315,Biotechnology 315,Year 3,BSc Biotechnology 3211 ,"BTN211, BTN215, BTN222, BTN223",None
+BTN316,Biotechnology 316,Year 3,BSc Biotechnology 3211 ,"BTN211, BTN215, BTN222, BTN223",None
+BTN322,Biotechnology 322,Year 3,BSc Biotechnology 3211 ,"BTN211, BTN215, BTN222, BTN223",None
+CHE114,Chemistry 114 (N ,Year 1,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Physical Science 3233 ,Bachelor of Pharmacy 3305 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ",None,None
+CHE116,Chemistry 116 (N ,Year 1,"BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Medical Bioscience 3230 ,BSc Biodiversity Extended 3015 ",None,None
+CHE124,Chemistry 124 (N ,Year 1,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Physical Science 3233 ,Bachelor of Pharmacy 3305 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ",None,None
+CHM126,Chemistry 126 (N ,Year 1,"BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Medical Bioscience 3230 ,BSc Biodiversity Extended 3015 ",None,None
+CHM211,Chemistry 211,Year 2,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Physical Science 3233 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ","CHE114, CHE124",None
+CHM212,Chemistry 212,Year 2,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Physical Science 3233 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ","CHE114, CHE124",None
+CHM221,Chemistry 221,Year 2,BSc Chemical Sciences 3220 ,"CHE114, CHE124",None
+CHM311,Chemistry 311,Year 3,"BSc Chemical Sciences 3220 ,BSc Physical Science 3233 ","CHM211, CHM212",None
+CHM312,Chemistry 312,Year 3,"BSc Chemical Sciences 3220 ,BSc Physical Science 3233 ","CHM211, CHM212",None
+CHM321,Chemistry 321,Year 3,BSc Chemical Sciences 3220 ,"CHM211, CHM212, CHM221",None
+CHM322,Chemistry 322,Year 3,BSc Chemical Sciences 3220 ,"CHM211, CHM212, CHM221",None
+COS101,Computer Science 101,Year 1,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,None
+COS114,Computing Fundamentals 114,Year 1,"BSc Applied Geology 3214 ,BSc Biotechnology 3211 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Medical Bioscience 3230 ,BSc Physical Science 3233 ",None,None
+COS124,Computing Fundamentals 124,Year 1,"BSc Applied Geology 3214 ,BSc Biotechnology 3211 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Medical Bioscience 3230 ,BSc Physical Science 3233 ",None,None
+CSC211,Computer Science 211,Year 2,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",COS101,None
+CSC212,Computer Science 212,Year 2,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",COS101,None
+CSC311,Computer Science 311,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ","CSC211, CSC212",None
+CSC312,Computer Science 312,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ","CSC211, CSC212",None
+ECO151,Economics 151,Year 1,BSc Mathematics and Statistical Sciences 3227 ,None,None
+ECO152,Economics 152,Year 1,BSc Mathematics and Statistical Sciences 3227 ,None,None
+ECO231,Economics 231,Year 2,BSc Mathematics and Statistical Sciences 3227 ,ECO151 (or ECO241 ,None
+ECO232,Economics 232,Year 2,BSc Mathematics and Statistical Sciences 3227 ,ECO152 (or equivalent ,None
+ECO235,Economics 235,Year 2,BSc Mathematics and Statistical Sciences 3227 ,ECO151 (or ECO241 ,None
+ECO242,Economics 242,Year 2,BSc Mathematics and Statistical Sciences 3227 ,"ECO151, ECO152",ECO231
+ECO311,Economics 311,Year 3,BSc Mathematics and Statistical Sciences 3227 ,ECO242,None
+ECO331,Economics 331,Year 3,BSc Mathematics and Statistical Sciences 3227 ,ECO231,None
+ECO332,Economics 332,Year 3,BSc Mathematics and Statistical Sciences 3227 ,ECO232,None
+ECO334,Economics 334,Year 3,BSc Mathematics and Statistical Sciences 3227 ,"ECO231, ECO232",None
+ECO335,Economics 335,Year 3,BSc Mathematics and Statistical Sciences 3227 ,"ECO231, ECO232",None
+ECO336,Economics 336,Year 3,BSc Mathematics and Statistical Sciences 3227 ,ECO232,None
+EED117,English for Educational Development 117,Year 1,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Medical Bioscience 3230 ,BSc Physical Science 3233 ",None,None
+EED127,English for Educational Development 127,Year 1,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Computer Science 3221 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Medical Bioscience 3230 ,BSc Physical Science 3233 ",None,None
+ESC111,Earth Science 111,Year 1,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Physical Science 3233 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ",None,None
+ESC121,Earth Science 121,Year 1,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Physical Science 3233 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ",None,None
+EWP211,Environmental and Water Science 211,Year 2,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ","ESC111, ESC121",None
+EWP221,Environmental and Water Science 221,Year 2,"BSc Applied Geology 3214 ,BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ","ESC111, ESC121",None
+EWP222,Environmental and Water Science 222,Year 2,BSc Environment and Water Science 3331 ,"ESC111, ESC121","EWP211, EWP221"
+EWP311,Geographical Information Systems 311,Year 3,BSc Environment and Water Science 3331 ,"EWP211, EWP221, EWP222",None
+EWP312,Environmental and Water Science 312,Year 3,BSc Environment and Water Science 3331 ,"EWP211, EWP221, EWP222",None
+EWP321,Environmental and Water Science 321,Year 3,"BSc Biodiversity 3217 ,BSc Environment and Water Science 3331 ,BSc Biodiversity Extended 3015 ","EWP211, EWP221",None
+EWP322,Environmental and Water Science 322,Year 3,BSc Environment and Water Science 3331 ,"EWP211, EWP221, EWP222",None
+HUB113,Human Biology 113,Year 1,Bachelor of Pharmacy 3305 ,None,None
+HUB123,Human Biology 123,Year 1,Bachelor of Pharmacy 3305 ,None,None
+IFS132,Information Systems 132,Year 1,BSc Computer Science 3221 ,None,None
+IFS231,Information Systems 231,Year 2,BSc Computer Science 3221 ,"IFS131/132, COS101/114, COS124, EED127, ISC153, MAT151/103, MAT104, STA111, IFS131/132, COS101, PHY151, MAT151",None
+IFS233,Information Systems 233,Year 2,BSc Computer Science 3221 ,IFS231,None
+IFS316,Information Systems 316,Year 3,BSc Computer Science 3221 ,"IFS233, IFS244",None
+IFS317,Information Systems 317,Year 3,BSc Computer Science 3221 ,IFS316,None
+ISC153,Introduction to Science 153,Year 1,"BSc Applied Geology Extended 3011 ,BSc Biodiversity Extended 3015 ",None,PHY151/LFS151; MAM151/150
+LFS151,Life Sciences 151 (SF ,Year 1,BSc Biodiversity Extended 3015 ,None,None
+LFS152,Life Sciences 152 (SF ,Year 1,BSc Biodiversity Extended 3015 ,None,None
+LSC141,Life Sciences 141,Year 1,"BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Environment and Water Science 3331 ,BSc Medical Bioscience 3230 ",None,None
+LSC142,Life Sciences 142,Year 1,"BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Chemical Sciences 3220 ,BSc Environment and Water Science 3331 ",None,None
+MAM115,Mathematics 115 (N ,Year 1,"BSc Applied Geology 3214 ,BSc Biotechnology 3211 ,Bachelor of Pharmacy 3305 ",None,None
+MAM150,Introduction to Mathematics 150,Year 1,BSc Biodiversity Extended 3015 ,None,None
+MAM151,Mathematics 151 (SF ,Year 1,BSc Applied Geology Extended 3011 ,None,None
+MAT105,Mathematics 105,Year 1,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,None
+MAT211,Mathematics 211,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",MAT105 (or equivalent ,None
+MAT212,Mathematics 212,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",MAT105 (or equivalent ,MAT211
+MAT221,Mathematics 221,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,MAT211
+MAT232,Mathematics 232,Year 2,"BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ","APM112, MAT105 (or equivalent ",None
+MAT311,Mathematics 311,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",MAT211,None
+MAT312,Mathematics 312,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ","MAT211, MAT212/221",None
+MAT321,Mathematics 321,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",MAT221,None
+MAT322,Mathematics 322,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ","MAT211, MAT212/221",None
+MBS111,Medical Biosciences 111,Year 1,BSc Medical Bioscience 3230 ,None,None
+MBS121,Medical Biosciences 121,Year 1,BSc Medical Bioscience 3230 ,None,None
+MBS231,Medical Biosciences 231,Year 2,BSc Medical Bioscience 3230 ,"LSC141/MBS111, MBS121",None
+MBS232,Medical Biosciences 232,Year 2,BSc Medical Bioscience 3230 ,"LSC141/MBS111, MBS121",None
+MBS331,Medical Biosciences 331,Year 3,BSc Medical Bioscience 3230 ,"MBS231, MBS232",None
+MBS332,Medical Biosciences 332,Year 3,BSc Medical Bioscience 3230 ,"MBS231, MBS232, MBS331",None
+MIC251,Medical Microbiology 251,Year 2,BSc Medical Bioscience 3230 ,LSC141,None
+MIC252,Medical Microbiology 252,Year 2,BSc Medical Bioscience 3230 ,MIC251,None
+MIC353,Medical Microbiology 353,Year 3,BSc Medical Bioscience 3230 ,"MIC251, MIC252",None
+MIC354,Medical Microbiology 354,Year 3,BSc Medical Bioscience 3230 ,"MIC251, MIC252",None
+PCE231,Pharmaceutics 231,Year 2,Bachelor of Pharmacy 3305 ,"MAM115, PHC123, PHY112",None
+PCE232,Pharmaceutics 232,Year 2,Bachelor of Pharmacy 3305 ,"MAM115, PHC123, PHY112",None
+PCE331,Pharmaceutics 331,Year 3,Bachelor of Pharmacy 3305 ,"PCE231, PCE232",None
+PCE333,Pharmaceutics 333,Year 3,Bachelor of Pharmacy 3305 ,"PHC123, PCE231, PCE232",None
+PCE401,Pharmaceutics 401,Year 4,Bachelor of Pharmacy 3305 ,"PCE331, PCE333",None
+PCE431,Pharmaceutics 431,Year 4,Bachelor of Pharmacy 3305 ,"PCE331, PCE333",None
+PCH232,Pharmaceutical Chemistry 232,Year 2,Bachelor of Pharmacy 3305 ,"CHE114, CHE124, PCH233/ (min 40% in PCH233 ",None
+PCH233,Pharmaceutical Chemistry 233,Year 2,Bachelor of Pharmacy 3305 ,"CHE114, CHE124",None
+PCH312,Pharmaceutical Chemistry 312,Year 3,Bachelor of Pharmacy 3305 ,"PCH232, PCH233, BTN216",None
+PCH322,Pharmaceutical Chemistry 322,Year 3,Bachelor of Pharmacy 3305 ,"PCH232, PCH233, PCH312/ (min 40% in PCH312 ",None
+PCH402,Pharmaceutical Chemistry 402,Year 4,Bachelor of Pharmacy 3305 ,"PCH312, PCH322",None
+PHA116,Pharmacy 116,Year 1,Bachelor of Pharmacy 3305 ,None,None
+PHA408,Pharmacy 408,Year 4,Bachelor of Pharmacy 3305 ,"PCE331, PCE333, PCH312, PCH322, PHC313, PHC323, PPR314, PPR324",None
+PHA426,Pharmacy 426,Year 4,Bachelor of Pharmacy 3305 ,None,None
+PHA427,Community Engagement 427,Year 4,Bachelor of Pharmacy 3305 ,"PCH312, PCH322, PCE331, PCE333",None
+PHC123,Pharmacology and Clinical Pharmacy 123,Year 1,Bachelor of Pharmacy 3305 ,HUB123,None
+PHC213,Pharmacology and Clinical Pharmacy 213,Year 2,Bachelor of Pharmacy 3305 ,"PHC123, HUB113, HUB123, PHA116",None
+PHC223,Pharmacology and Clinical Pharmacy 223,Year 2,Bachelor of Pharmacy 3305 ,"HUB113, HUB123, PHC123, PHA116/ (min 40% for PHC213 ",None
+PHC313,Pharmacology and Clinical Pharmacy 313,Year 3,Bachelor of Pharmacy 3305 ,"PHC213, PHC223",None
+PHC323,Pharmacology and Clinical Pharmacy 323,Year 3,Bachelor of Pharmacy 3305 ,"PHC213, PHC223, PHC313/ (min 40% for PHC313 ",None
+PHC403,Pharmacology and Clinical Pharmacy 403,Year 4,Bachelor of Pharmacy 3305 ,"PHC313, PHC323",None
+PHC405,Pharmacology and Clinical Pharmacy 405,Year 4,Bachelor of Pharmacy 3305 ,"PCE331, PCE333, PCH312, PCH322, PHC313, PHC323, PPR314, PPR324",None
+PHC423,Pharmacology and Clinical Pharmacy 423,Year 4,Bachelor of Pharmacy 3305 ,"PHC313, PHC323, PPR314, PPR324",None
+PHC424,Global Pharmacy 424,Year 4,Bachelor of Pharmacy 3305 ,Determined by home university,None
+PHC425,Rational Medicine Use 425,Year 4,Bachelor of Pharmacy 3305 ,"PHC323, PPR324",None
+PHC426,Paediatrics for Pharmacists 426,Year 4,Bachelor of Pharmacy 3305 ,"PHC313, PHC323",None
+PHY111,Physics 111,Year 1,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,MAT103 or MAT105
+PHY112,Physics 112,Year 1,Bachelor of Pharmacy 3305 ,None,None
+PHY116,Physics 116,Year 1,"BSc Applied Geology 3214 ,BSc Biotechnology 3211 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ",None,None
+PHY121,Physics 121,Year 1,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,MAT103 or MAT105
+PHY126,Physics 126,Year 1,"BSc Applied Geology 3214 ,BSc Biotechnology 3211 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ",None,None
+PHY151,Physics 151 (SF ,Year 1,BSc Applied Geology Extended 3011 ,None,MAM151
+PHY152,Physics 152 (SF ,Year 2,BSc Applied Geology Extended 3011 ,None,None
+PHY212,Physics 212,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",PHY111/121 OR PHY151/152,MAT211/104/152
+PHY217,Physics 217,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",None,None
+PHY222,Physics 222,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",PHY111/121 OR PHY151/152 AND MAT105/103/152,None
+PHY227,Physics 227,Year 2,"BSc Chemical Sciences 3220 ,BSc Computer Science 3221 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ,BSc Physical Science 3233 ",PHY116/126 OR PHY111/151,None
+PHY314,Physics 314,Year 3,"BSc Computer Science 3221 ,BSc Physical Science 3233 ","PHY212, PHY222, MAT211, MAT221",None
+PHY317,Physics 317,Year 3,"BSc Computer Science 3221 ,BSc Physical Science 3233 ",PHY227,None
+PHY324,Physics 324,Year 3,"BSc Computer Science 3221 ,BSc Physical Science 3233 ","PHY212, PHY222, MAT211, MAT221",None
+PHY327,Physics 327,Year 3,"BSc Computer Science 3221 ,BSc Physical Science 3233 ","PHY212/217, MAT105/103/152",None
+PPR214,Pharmacy Practice 214,Year 2,Bachelor of Pharmacy 3305 ,"PHA116, PHC123",None
+PPR224,Pharmacy Practice 224,Year 2,Bachelor of Pharmacy 3305 ,"PCE231, PHC213, PPR214/ (min 40% in each ",PHC223
+PPR314,Pharmacy Practice 314,Year 3,Bachelor of Pharmacy 3305 ,"PPR214, PPR224",None
+PPR324,Pharmacy Practice 324,Year 3,Bachelor of Pharmacy 3305 ,"PPR214, PPR224, PPR314 (min 40% ",None
+PPR404,Pharmacy Practice 404,Year 4,Bachelor of Pharmacy 3305 ,"PPR314, PPR324",None
+PPR414,Pharmacy Practice 414,Year 4,Bachelor of Pharmacy 3305 ,"PPR314, PPR324",None
+PPR434,Pharmacy Practice 434,Year 4,Bachelor of Pharmacy 3305 ,"PPR314, PPR324",None
+STA111,Statistics 111,Year 1,"BSc Biodiversity 3217 ,BSc Computer Science 3221 ,BSc Environment and Water Science 3331 ,BSc Mathematics and Statistical Sciences 3227 ",None,None
+STA121,Statistics 121,Year 1,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ",None,STA111/125/151 (or equivalent 
+STA125,Statistics 125,Year 1,"BSc Biodiversity 3217 ,BSc Biotechnology 3211 ,BSc Environment and Water Science 3331 ,BSc Medical Bioscience 3230 ",None,None
+STA151,Statistics 151 (SF ,Year 1,BSc Biodiversity Extended 3015 ,None,None
+STA211,Statistics 211,Year 2,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ",MAT105 (or equivalent AND STA111/125/151,None
+STA221,Statistics 221,Year 2,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ",STA211 (qualified for exam ,None
+STA331,Statistics 331,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ","STA211, STA221",None
+STA332,Statistics 332,Year 3,"BSc Computer Science 3221 ,BSc Mathematics and Statistical Sciences 3227 ","STA211, STA221",None
+STC101,Statistics 101,Year 1, General Science Elective ,None,None

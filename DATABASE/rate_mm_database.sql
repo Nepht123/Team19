@@ -74,6 +74,5 @@ CREATE TABLE reviews
 );
 
 
-
 Use rate_mm;
 SELECT * FROM modules;

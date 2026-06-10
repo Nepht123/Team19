@@ -1,0 +1,218 @@
+Module.Code,Module.Name,Year.Level,Programmes,Pre-requisite,Co-requisite
+APG709,Research Project 709,1,BScHons Applied Geology 3710,None,None
+APG721,Advanced Geology 721,1,BScHons Applied Geology 3710,None,None
+APG722,Applied Geochemistry 722,1,BScHons Applied Geology 3710,None,None
+APG723,Economic Geology and Exploration Techniques 723,1,BScHons Applied Geology 3710,APG321,None
+APG724,Geology 724,1,BScHons Applied Geology 3710,None,None
+ASP701,Research Project 701,1,BScHons Astrophysics 3793,None,None
+ASP702,Topics in Physics 702,1,BScHons Astrophysics 3793,None,None
+ASP703,General Astrophysics 703,1,"BScHons Astrophysics 3793, BScHons Physical Science 3714",None,None
+ASP704,Computational Methods in Astronomy 704,1,BScHons Astrophysics 3793,None,None
+ASP706,Astrophysical Physics Topics 706,1,BScHons Astrophysics 3793,None,None
+ASP707,Geospace 707,1,BScHons Astrophysics 3793,None,None
+ASP708,General Relativity 708,1,BScHons Astrophysics 3793,None,None
+ASP709,Observational Techniques 709,1,BScHons Astrophysics 3793,None,None
+ASP710,Cosmology 710,1,BScHons Astrophysics 3793,None,None
+ASP711,Space Science Topics 711,1,BScHons Astrophysics 3793,None,None
+ASP712,Advanced Topics in Astrophysics 712,1,"BScHons Astrophysics 3793, BScHons Physical Science 3714",None,None
+ASP713,Electrodynamics 713,1,BScHons Astrophysics 3793,None,None
+BCB700,Research Project 700,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BCB731,Systematics and Evolution 731,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BCB736,Biodiversity Information Management 736,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BCB738,Marine Biology 738,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BCB739,Herpetology 739,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BCB742,Research Method 742,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BCB743,Quantitative Ecology 743,1,BScHons Biodiversity and Conservation Biology 3731,None,BCB744
+BCB744,Biostatistics 744,1,BScHons Biodiversity and Conservation Biology 3731,None,None
+BTY701,Molecular Biology and Bioinformatics Practical 701,1,BScHons Biotechnology 3707,None,None
+BTY702,Literature Review 702,1,BScHons Biotechnology 3707,None,None
+BTY703,Research Project 703,1,BScHons Biotechnology 3707,None,None
+BTY704,Advanced Plant Biotechnology 704,1,BScHons Biotechnology 3707,60% in GEO 3rd Yr,None
+BTY709,Genomics 709,1,BScHons Biotechnology 3707,None,None
+BTY710,Apoptosis 710,1,BScHons Biotechnology 3707,None,None
+BTY711,Advanced Food Microbiology 711,1,BScHons Biotechnology 3707,None,None
+BTY714,Forensic DNA Analysis 714,1,"BScHons Biotechnology 3707, BScHons Medical Bioscience 3721",None,None
+BTY717,Special Topics 717,1,BScHons Biotechnology 3707,None,None
+BTY718,Proteomics 718,1,BScHons Biotechnology 3707,None,None
+BTY719,Biofuels 719,1,BScHons Biotechnology 3707,None,None
+BTY721,Molecular Mechanisms of Cancer 721,1,BScHons Biotechnology 3707,None,None
+BTY722,Next Generation Sequencing 722,1,BScHons Biotechnology 3707,None,None
+CHM701,Analytical Chemistry 701,1,BScHons Chemistry 3734,None,None
+CHM702,Organic Chemistry 702,1,BScHons Chemistry 3734,None,None
+CHM703,Inorganic Chemistry 703,1,BScHons Chemistry 3734,None,None
+CHM704,Physical Chemistry 704,1,BScHons Chemistry 3734,None,None
+CHM705,Applied Chemistry 705,1,BScHons Chemistry 3734,None,None
+CHM707,Research Project 707,1,BScHons Chemistry 3734,None,None
+CHM708,Chemistry Advanced Specialist Topics 708,1,BScHons Chemistry 3734,None,None
+CMP716,Research Project Computer Science 716,46024,PGDip Computer and Media Application 1627,BIA715 + 45 credits,None
+COF710,Simulation 710,1,"BScHons Statistical Science 3737, BScHons Computational Finance 3739","STA331, STA332, MAT211, MAT221",None
+COF711,Computational Finance 711,1,"BScHons Statistical Science 3737, BScHons Computational Finance 3739","STA211, STA221, MAT211, MAT221",None
+COF712,Computational Finance 712,1,"BScHons Statistical Science 3737, BScHons Computational Finance 3739",STA331 or equivalent,None
+COF714,Stochastic Calculus for Finance 714,1,"BScHons Mathematical Science 3736, BScHons Computational Finance 3739",None,None
+COF716,Financial Engineering 716,1,"BScHons Mathematical Science 3736, BScHons Computational Finance 3739",None,None
+COF726,Computational Finance 726,1,"BScHons Computational Finance 3739, BScHons Statistical Science 3737",STA331 or equivalent,None
+COS726,Advanced Software Engineering 726,1,BScHons Computer Science 3735,CSC312,None
+COS731,Project Analysis and Design 731,1,BScHons Computer Science 3735,None,None
+COS732,Project Implementation and Testing 732,1,BScHons Computer Science 3735,None,None
+COS734,ICT4D,1,BScHons Computer Science 3735,None,None
+COS735,An Introduction to the Internet of Things 735,1,BScHons Computer Science 3735,None,None
+COS736,Big Data Engineering 736,1,"BScHons Computer Science 3735, BScHons Statistical Science 3737",None,None
+COS737,Computer Science 737  Artificial Intelligence ,1,"BScHons Computer Science 3735, BScHons Statistical Science 3737",None,None
+COS738,Computer Science 738  Cybersecurity ,1,BScHons Computer Science 3735,None,None
+COS739,Computer Science 739  4IR Special Topics ,1,BScHons Computer Science 3735,None,None
+COS740,Computer Science 740  Cloud Computing ,1,BScHons Computer Science 3735,None,None
+COS741,Computer Science 741  Applied AI ,1,BScHons Computer Science 3735,"CSC311, CSC312",None
+COS742,Computer Science 742  Immersive Tech ,1,BScHons Computer Science 3735,None,None
+COS743,Computer Science 743  Adv Immersive Tech ,1,BScHons Computer Science 3735,None,None
+EWP701,Environmental Assessment and Management 701,1,BScHons Environment and Water Science 3780,None,None
+EWP702,Advanced Geographical Information Systems 702,1,BScHons Environment and Water Science 3780,None,None
+EWP703,Groundwater Hydrology 703,1,BScHons Environment and Water Science 3780,None,None
+EWP704,Surface Water Hydrology 704,1,BScHons Environment and Water Science 3780,None,None
+EWP705,Research Project or Internship 705,1,BScHons Environment and Water Science 3780,None,None
+EWP707,Anthropocene Rivers 707,1,BScHons Environment and Water Science 3780,None,None
+MAM707,Ordinary Differential Equations 707,1,BScHons Mathematical Science 3736,None,None
+MAM709,Number Theory 709,1,BScHons Mathematical Science 3736,None,None
+MAM710,Graph Theory 710,1,"BScHons Mathematical Science 3736, BScHons Statistical Science 3737",None,None
+MAM717,Partial Differential Equations 717,1,BScHons Mathematical Science 3736,None,None
+MAM727,Measure and Integration 727,1,BScHons Mathematical Science 3736,None,None
+MAM728,Computational Linear Algebra 728,1,"BScHons Mathematical Science 3736, BScHons Computational Finance 3739, BScHons Computer Science 3735",None,None
+MAM731,Mathematical Physics 731,1,BScHons Mathematical Science 3736,None,None
+MAM732,Category Theory and Order Theory 732,1,BScHons Mathematical Science 3736,None,None
+MAM737,Topology 737,1,BScHons Mathematical Science 3736,None,None
+MAM738,Functions of a Complex Variable 738,1,BScHons Mathematical Science 3736,None,None
+MAM739,Group Theory 739,1,BScHons Mathematical Science 3736,None,None
+MAM747,Coding Theory 747,1,"BScHons Mathematical Science 3736, BScHons Computer Science 3735",None,None
+MAM748,Project 748,1,"BScHons Mathematical Science 3736, BScHons Computational Finance 3739",None,None
+MAM757,Rings and Modules 757,1,BScHons Mathematical Science 3736,None,None
+MAM767,Functional Analysis 767,1,BScHons Mathematical Science 3736,None,None
+MAM777,Numerical Analysis 777,1,BScHons Mathematical Science 3736,None,None
+MBS701,Specialist Module in Epidemiology 701,1,BScHons Medical Bioscience 3721,None,None
+MBS702,Advanced Technique Studies 702,1,BScHons Medical Bioscience 3721,None,None
+MBS704,Research Project 704,1,BScHons Medical Bioscience 3721,None,None
+MBS705,Specialist Module in Anatomical Science 705,1,BScHons Medical Bioscience 3721,None,None
+MBS707,Microbiology of Female Morbidity 707,1,BScHons Medical Bioscience 3721,None,None
+MBS709,Microbiology of Female Morbidity 709,1,BScHons Medical Bioscience 3721,None,None
+MBS712,Foetal Origins of Adult Disease 712,1,BScHons Medical Bioscience 3721,None,None
+MBS713,Advanced Studies in Reproduction and Health 713,1,BScHons Medical Bioscience 3721,None,None
+MBS714,Applied Immunology 714,1,BScHons Medical Bioscience 3721,None,None
+MBS715,Applied Exercise Science 715,1,BScHons Medical Bioscience 3721,None,None
+MBS716,Nutrition in Health and Disease 716,1,BScHons Medical Bioscience 3721,None,None
+PHY709,Physics 709,1,BScHons Physical Science 3714,None,None
+PHY720,Physics 720,1,"BScHons Physical Science 3714, BScHons Computer Science 3735",None,None
+PHY721,Physics 721,1,BScHons Physical Science 3714,None,None
+PHY722,Physics 722,1,BScHons Physical Science 3714,None,None
+PHY723,Nuclear Physics 723,1,BScHons Physical Science 3714,None,PHY720
+PHY724,Theoretical Materials Science 724,1,BScHons Physical Science 3714,None,None
+PHY725,Applied Materials Science 725,1,BScHons Physical Science 3714,PHY724,None
+PHY726,Advanced Analytical Techniques 726,1,"BScHons Physical Science 3714, BScHons Computer Science 3735",PHY724,None
+POP703,Official Statistics 703,1,BScHons Population Studies 3738,None,None
+POP706,Survey Methods 706,1,"BScHons Population Studies 3738, BScHons Statistical Science 3737",None,None
+POP707,Demographic Analysis 707,1,"BScHons Population Studies 3738, BScHons Statistical Science 3737",None,None
+POP708,Gender Issues and Reproductive Health 708,1,BScHons Population Studies 3738,POP707 or equiv,None
+POP709,Social Demography 709,1,BScHons Population Studies 3738,POP707 or equiv,None
+POP710,Mathematical Demography and Pop Modelling 710,1,"BScHons Population Studies 3738, BScHons Statistical Science 3737",POP707 + Maths,None
+POP761,Research Project  Population Studies  761,1,BScHons Population Studies 3738,None,None
+STA501,Applied Statistics 501,1,"BScHons Population Studies 3738, BScHons Medical Bioscience 3721",None,None
+STA701,Multivariate Analysis 701,1,BScHons Statistical Science 3737,"STA331, STA332,  STA739 ",None
+STA702,Research Methodology 702,1,BScHons Computational Finance 3739,None,STA501
+STA705,Theoretical Statistics 705,1,"BScHons Statistical Science 3737, BScHons Computational Finance 3739","STA331, STA332, MAT211",None
+STA710,Experimental Design 710,1,BScHons Statistical Science 3737,"STA331, STA332 or equiv",None
+STA733,Biostatistics 733,1,"BScHons Population Studies 3738, BScHons Statistical Science 3737","STA331, STA332 or equiv",None
+STA736,Statistical Genetics 736,1,BScHons Statistical Science 3737,"STA701, STA733, COF712",None
+STA737,Statistical Modelling 737,1,BScHons Statistical Science 3737,None,None
+STA738,Applied Analytics 738,1,BScHons Statistical Science 3737,None,None
+STA739,Introductory Multivariate Analysis 739,1,BScHons Statistical Science 3737,None,None
+STA760,Data Mining I 760,1,"BScHons Statistical Science 3737, BScHons Computer Science 3735","STA331, STA332 or equiv",None
+STA761,Honors Project 761,1,"BScHons Statistical Science 3737, BScHons Computational Finance 3739",None,None
+STA790,Population Projections 790,1,"BScHons Population Studies 3738, BScHons Statistical Science 3737",POP707 or equiv,None
+WAT731,IWRM in Practice 731,1,PGDip IWRM 3880,None,None
+WAT732,Water Resources Management 732,1,PGDip IWRM 3880,None,None
+WAT733,Spatial Analysis for IWRM 733,1,PGDip IWRM 3880,None,None
+WAT734,Environmental Management and Water Regulations 734,1,PGDip IWRM 3880,None,None
+WAT735,Water Quality Management 735,1,PGDip IWRM 3880,None,None
+WAT736,Aquatic Ecosystems Management 736,1,PGDip IWRM 3880,None,None
+WAT737,Environmental Education and Water Security 737,1,PGDip IWRM 3880,None,None
+WAT738,Water Demand Management for Sustainable Dev 738,1,PGDip IWRM 3880,None,None
+AIM803,Mini-Thesis  Research Project  803,1,MSc Mathematical Science 3849,None,None
+AIM811,"Communication Skills, Computing and LaTeX 811",46024,MSc Mathematical Science 3849,None,None
+AIM812,Mathematical Problem Solving 812,46024,MSc Mathematical Science 3849,None,None
+AIM813,Problem Solving in Physics 813,46024,MSc Mathematical Science 3849,None,None
+AIM814,Scientific Software Development in Python 814,46024,MSc Mathematical Science 3849,None,None
+AIM815,Experimental Mathematics with SAGE 815,46024,MSc Mathematical Science 3849,None,None
+AIM816,Selected Topics in the Mathematical Sciences 816,46024,MSc Mathematical Science 3849,None,None
+AIM817,Professional Development and Entrepreneurism 817,46024,MSc Mathematical Science 3849,None,None
+AIM818,Advanced Topics in Mathematics Science A 818,46024,MSc Mathematical Science 3849,None,None
+AIM819,Advanced Topics in Mathematics Science B 819,46024,MSc Mathematical Science 3849,None,None
+AIM820,Advanced Topics in the Mathematical Sciences C 820,46024,MSc Mathematical Science 3849,None,None
+AIM821,Advanced Topics in the Mathematical Sciences D 821,46024,MSc Mathematical Science 3849,None,None
+AIM822,Advanced Topics in the Mathematical Sciences E 822,46024,MSc Mathematical Science 3849,None,None
+COF817,Simulation 817,46024,"MSc Statistical Science 3838, MSc Computational Finance 3093","STA211, STA221, MAT211, MAT221",None
+COF818,International Finance 818,46024,MSc Computational Finance 3093,None,None
+COF821,Financial Computing 821,46024,MSc Computational Finance 3093,STA331 or equivalent,None
+COF826,Theoretical Statistics 826,46024,"MPhil Population Studies 3921, MSc Statistical Science 3838, MSc Computational Finance 3093","STA331, STA332, MAT211, MAT221",None
+COF827,Risk Management 827,46024,"MSc Computational Finance 3093, MSc Statistical Science 3838",STA331 or equivalent,None
+COF828,Probability and Stochastic Processes 828,46024,"MSc Statistical Science 3838, MSc Computational Finance 3093",STA331 or equivalent,None
+COF829,Time Series Analysis 829,46024,"MSc Statistical Science 3838, MSc Computational Finance 3093","STA211, STA221, MAT211, MAT221",None
+COF832,Statistical Arbitrage 832,46024,MSc Computational Finance 3093,"MAN781, MAN756 or equiv",None
+COF835,Credit Derivatives 835,46024,MSc Computational Finance 3093,STA331 or equivalent,None
+COF836,Linear Financial Models 836,46024,MSc Computational Finance 3093,STA331 or equivalent,None
+NSS803/804,Nanoscience Research Project 803/804,46024,MSc Nanoscience 3089,None,None
+NSS809,Central Concepts in Nanoscience 809,46024,MSc Nanoscience 3089,None,None
+NSS810,Management for Nanoscientists 810,46024,MSc Nanoscience 3089,None,None
+NSS811,Advanced Nanobiomedical Science 811,46024,MSc Nanoscience 3089,None,None
+NSS812,Experimental Techniques in Nanobiomedical Science 812,46024,MSc Nanoscience 3089,None,None
+NSS813,Foundations of Nanobiomedical Science  Non-Bio  813,46024,MSc Nanoscience 3089,None,None
+NSS821,Advanced Nanochemistry 821,46024,MSc Nanoscience 3089,"CHM701, CHM704",None
+NSS822,Experimental Techniques in Nanochemistry 822,46024,MSc Nanoscience 3089,"CHM701, CHM705",None
+NSS823,Foundations of Nanochemistry  Non-Chem  823,46024,MSc Nanoscience 3089,None,None
+NSS831,Advanced Nanophysics 831,46024,MSc Nanoscience 3089,"PHY724, PHY725, PHY726",None
+NSS832,Experimental Techniques in Nanophysics 832,46024,MSc Nanoscience 3089,"PHY724, PHY725, PHY726",None
+NSS833,Foundations of Nanophysics  Non-Phys  833,46024,MSc Nanoscience 3089,None,None
+PAR803/804,Mini Thesis 803/804,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR811,Ethics 811,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR812,Common Technical Document 812,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR813,Regulatory Science 813,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR814,Comp and Trad Medicines and Regulation 814,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR815,Regulatory Science and Medical Devices 815,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR816,Pharmacovigilance 816,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR817,Regulatory Affairs 817,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR818,Research Methods 818,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR819,Leadership and Negotiations 819,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR820,Clinical Trials and Statistics 820,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PAR821,Health Economics 821,46024,MSc Pharmacy Admin and Policy Regulation 3859,None,None
+PHC803/804,Mini-Thesis in Clinical Pharmacy 803/804,46056,Master of Clinical Pharmacy 3852,None,None
+PHC811,Intro to Clinical Pharmacy and Pharm Care 811,1,Master of Clinical Pharmacy 3852,BPharm,None
+PHC812,"EBM, Rational Medicine Use and Pharmacopidemiology 812",1,Master of Clinical Pharmacy 3852,BPharm,None
+PHC814,Applied Pharmacokinetics 814,46024,Master of Clinical Pharmacy 3852,None,None
+PHC815,Pharmaceutical Care – Adult Medicine  1  815,46024,Master of Clinical Pharmacy 3852,None,None
+PHC816,Pharmaceutical Care – Paediatrics 816,2,Master of Clinical Pharmacy 3852,"PHC811, PHC812",None
+PHC820,Pharmaceutical Care - Adult Medicine  2  820,46024,Master of Clinical Pharmacy 3852,None,None
+PHC821,Advanced Pharmaceutical Care – HIV 821,2,Master of Clinical Pharmacy 3852,"PHC811, PHC812",None
+PHC822,Advanced Pharmaceutical Care – Oncology 822,2,Master of Clinical Pharmacy 3852,"PHC811, PHC812",None
+PHC823,Advanced Pharmaceutical Care – Critical Care 823,2,Master of Clinical Pharmacy 3852,"PHC811, PHC812",None
+PHY820,Quantum Mechanics 820,46024,MSc Physical Science 3081,None,None
+PHY830,Nuclear Physics 830,46024,MSc Physical Science 3081,None,None
+PHY840,Solid State Physics 840,46024,MSc Physical Science 3081,None,None
+PHY850,Physics Education 850,46024,MSc Physical Science 3081,None,None
+PHY860,Mathematical Methods of Physics 860,46024,MSc Physical Science 3081,None,None
+POP807,Demographic Analysis 807,46024,MPhil Population Studies 3921,None,None
+POP809,Official Statistics 809,46024,MPhil Population Studies 3921,None,None
+POP811,Survey Methods 811,46024,MPhil Population Studies 3921,None,None
+POP812,Population Projections 812,46024,MPhil Population Studies 3921,POP807 or equiv,None
+POP813,African Historical Demography 813,46024,MPhil Population Studies 3921,POP807 or equiv,None
+POP814,Social Demography 814,46024,MPhil Population Studies 3921,POP807 or equiv,None
+POP815,Gender Issues and Reproductive Health 815,46024,MPhil Population Studies 3921,POP807 or equiv,None
+POP848,Math Demography and Pop Modelling 848,46024,MPhil Population Studies 3921,POP807 + Maths,None
+STA800,Data Mining II 800,46024,MSc Statistical Science 3838,"STA331, STA332 or equiv",None
+STA801/802,Statistics Master’s Thesis 801/802,46024,"MSc Statistical Science 3838, MSc Computational Finance 3093",STA810 or equivalent,None
+STA803/804,Statistics Mini-Thesis 803/804,46024,"MSc Statistical Science 3838, MSc Computational Finance 3093, MPhil Population Studies 3921",STA810 or equivalent,None
+STA810,Research Methodology 810,1,MSc Statistical Science 3838,None,None
+STA829,Multivariate Analysis 829,46024,"MSc Statistical Science 3838, MPhil Population Studies 3921",STA853 or equiv + SAS,None
+STA830,Experimental Design 830,46024,"MSc Statistical Science 3838, MPhil Population Studies 3921","STA331, STA332 or equiv",None
+STA835,Biostatistics 835,46024,"MSc Statistical Science 3838, MSc Medical Biosciences 3819, MPhil Population Studies 3921","STA331, STA332 or equiv",None
+STA837,Statistical Genetics 837,1,MSc Statistical Science 3838,None,None
+STA839,Industry Research Project 839,46024,"MSc Statistical Science 3838, MSc Computational Finance 3093, MPhil Population Studies 3921",STA810 + 3 electives,None
+STA841,Business Intelligence 841,46024,MSc Statistical Sciences 3838,None,None
+STA842,Contemporary Business Analysis 842,46024,MSc Statistical Sciences 3838,None,None
+STA843,Multicriteria Decision Making 843,46024,MSc Statistical Sciences 3838,None,None
+STA853,Matrix Methods 853,46024,MSc Statistical Sciences 3838,"STA331, STA332, MAT211, MAT221",None
