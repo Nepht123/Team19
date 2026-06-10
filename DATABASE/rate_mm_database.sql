@@ -7,7 +7,6 @@ CREATE TABLE modules
 id INT PRIMARY KEY AUTO_INCREMENT,
 mod_code VARCHAR(15) UNIQUE NOT NULL,
 mod_name VARCHAR(127) NOT NULL,
-credits INT NOT NULL,
 prerequisites VARCHAR(255) DEFAULT "None",
 corequisites VARCHAR(255) DEFAULT "None"
 
@@ -74,5 +73,7 @@ CREATE TABLE reviews
 	FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
 );
 
+
+
 Use rate_mm;
-SELECT * FROM faculties;
+SELECT * FROM modules;

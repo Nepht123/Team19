@@ -1,4 +1,4 @@
-'''I will use this to instert the data into my database while I am still learning Spring Boot'''
+'''I will use this to instert the data into my faculties while I am still learning Spring Boot'''
 
 import mysql.connector
 from mysql.connector import Error
