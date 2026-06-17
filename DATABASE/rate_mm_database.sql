@@ -78,3 +78,5 @@ Use rate_mm;
 SELECT * FROM courses;
 SELECT * FROM modules;
 SELECT * FROM course_modules;
+
+ 
