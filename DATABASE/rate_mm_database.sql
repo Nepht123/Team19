@@ -24,13 +24,20 @@ icon_name VARCHAR(63) NOT NULL
 
 
 	#Here I am creating the users table
-CREATE TABLE users
-(
-id INT PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(50) UNIQUE NOT NULL,
-student_email VARCHAR(50) UNIQUE NOT NULL,
-password VARCHAR(255) NOT NULL,
-role VARCHAR(20) DEFAULT 'ROLE_STUDENT'
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    student_email VARCHAR(100) UNIQUE NOT NULL, 
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) DEFAULT 'ROLE_STUDENT',
+    
+    -- Context for the UI
+    degree_program VARCHAR(100),                
+    year_of_study VARCHAR(20),                  
+    
+    -- Community/Gamification
+    helpful_votes INT DEFAULT 0,                
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -60,23 +67,37 @@ course_id INT NOT NULL,
 );
 
 
-CREATE TABLE reviews
-(
+CREATE TABLE reviews (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    rating INT NOT NULL,
-    comment_text TEXT NOT NULL,
+    
+    -- 1. The README Rating Requirements (Out of 10)
+    difficulty_rating INT NOT NULL CHECK (difficulty_rating BETWEEN 1 AND 10),
+    teaching_rating INT NOT NULL CHECK (teaching_rating BETWEEN 1 AND 10),
+    content_rating INT NOT NULL CHECK (content_rating BETWEEN 1 AND 10),
+    
+    -- 2. The Text Content (Separated for the UI)
+    pros TEXT,
+    cons TEXT,
+    general_advice TEXT,
+    
+    -- 3. UX Features
+    is_anonymous BOOLEAN DEFAULT FALSE,
+    helpful_votes INT DEFAULT 0,
+    
+    -- 4. Metadata & Relations
     date_posted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id INT NOT NULL,
     module_id INT NOT NULL,
     
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-	FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
 );
 
 
 Use rate_mm;
-SELECT * FROM courses;
+SELECT * FROM users;
 SELECT * FROM modules;
 SELECT * FROM course_modules;
+
 
  
