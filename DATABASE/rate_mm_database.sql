@@ -51,7 +51,7 @@ CREATE TABLE course_modules
 (
 course_id INT NOT NULL,
     module_id INT NOT NULL,
-    year_of_study INT NOT NULL,    
+    year_of_study VARCHAR(20) NOT NULL,    
     
     PRIMARY KEY (course_id, module_id),
     
@@ -75,4 +75,6 @@ CREATE TABLE reviews
 
 
 Use rate_mm;
+SELECT * FROM courses;
 SELECT * FROM modules;
+SELECT * FROM course_modules;
