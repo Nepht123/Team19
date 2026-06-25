@@ -107,10 +107,11 @@
 
                                 <!-- Official required academic communication verification address input -->
                                 <div class="mb-3">
-                                    <label for="regEmail" class="form-label small fw-bold text-secondary">Student Email *</label>
+                                    <label for="regEmailPrefix" class="form-label small fw-bold text-secondary">Student Email *</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-envelope"></i></span>
-                                        <input type="email" class="form-control bg-light border-start-0" id="regEmail" placeholder="username@myuwc.ac.za" required>
+                                        <input type="text" class="form-control bg-light border-start-0" id="regEmailPrefix" placeholder="e.g., 4123456" pattern="\d{7}" title="Enter your 7-digit student number" required>
+                                        <span class="input-group-text bg-light text-muted fw-semibold">@myuwc.ac.za</span>
                                     </div>
                                 </div>
 
@@ -123,23 +124,15 @@
                                     </div>
                                 </div>
 
-                                <!-- Optional cascade selector component mapping parent primary faculty options -->
+                                <!-- Optional cascade selector component mapping programmes -->
                                 <div class="mb-3">
-                                    <label for="facultySelect" class="form-label small fw-bold text-secondary">Faculty (Optional)</label>
-                                    <select class="form-select bg-light" id="facultySelect" onchange="updateProgrammes()">
-                                        <option value="">-- Select Faculty --</option>
-                                        <option value="ems">Economic and Management Sciences</option>
-                                        <option value="arts">Arts and Humanities</option>
-                                        <option value="science">Natural Sciences</option>
-                                    </select>
-                                </div>
-
-                                <!-- Optional cascade sub-selector populated dynamically via script array data -->
-                                <div class="mb-3">
-                                    <label for="programmeSelect" class="form-label small fw-bold text-secondary">Programme / Degree (Optional)</label>
-                                    <select class="form-select bg-light" id="programmeSelect" disabled>
-                                        <option value="">-- Select Faculty First --</option>
-                                    </select>
+                                    <label for="programmeSearchInput" class="form-label small fw-bold text-secondary">Programme / Degree (Optional)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-graduation-cap"></i></span>
+                                        <input class="form-control bg-light border-start-0" list="programmesOptions" id="programmeSearchInput" placeholder="Type to search e.g., BSc Computer Science">
+                                        <datalist id="programmesOptions">
+                                            </datalist>
+                                    </div>
                                 </div>
 
                                 <!-- Optional selector parsing current registered student module term length tracking -->
@@ -210,40 +203,30 @@
             document.getElementById('backToHomeBtn').classList.remove('d-none');
         }
 
-        //<!-- JavaScript structured relational object map linking individual faculties to degree lists -->
-        const programmeData = {
-            ems: ["BCom General", "BCom Accounting", "BCom Information Systems", "Bachelor of Administration"],
-            arts: ["BA General", "Bachelor of Laws (LLB)", "BA Psychology"],
-            science: ["BSc General", "BSc Computer Science", "BSc Biotechnology", "BSc Chemical Sciences"]
-        };
+        const flatProgrammesList = [
+        "BCom General", 
+        "BCom Accounting", 
+        "BCom Information Systems", 
+        "Bachelor of Administration",
+        "BA General", 
+        "Bachelor of Laws (LLB)", 
+        "BA Psychology",
+        "BSc General", 
+        "BSc Computer Science", 
+        "BSc Biotechnology", 
+        "BSc Chemical Sciences"
+    ];
 
-        //<!-- Processes modifications to build dynamic custom option listings in sub-tier degree nodes -->
-        function updateProgrammes() {
-            const facultySelect = document.getElementById('facultySelect');
-            const programmeSelect = document.getElementById('programmeSelect');
-            const selectedFaculty = facultySelect.value;
-
-            programmeSelect.innerHTML = '';
-
-            if (!selectedFaculty) {
-                programmeSelect.innerHTML = '<option value="">-- Select Faculty First --</option>';
-                programmeSelect.disabled = true;
-                return;
-            }
-
-            programmeSelect.disabled = false;
-            let initialOption = document.createElement('option');
-            initialOption.value = "";
-            initialOption.textContent = "-- Select Programme --";
-            programmeSelect.appendChild(initialOption);
-
-            programmeData[selectedFaculty].forEach(function(prog) {
-                let opt = document.createElement('option');
-                opt.value = prog.toLowerCase().replace(/\s+/g, '-');
-                opt.textContent = prog;
-                programmeSelect.appendChild(opt);
+    document.addEventListener("DOMContentLoaded", function() {
+        const datalistContainer = document.getElementById('programmesOptions');
+        if (datalistContainer) {
+            flatProgrammesList.forEach(function(programme) {
+                let optionNode = document.createElement('option');
+                optionNode.value = programme;
+                datalistContainer.appendChild(optionNode);
             });
         }
-    </script>
+    });
+</script>
 </body>
 </html>
