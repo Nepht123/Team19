@@ -1,0 +1,527 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Module Reviews - Rate My Module</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Custom brand colors matching UWC theme */
+        .text-navy { color: #00205b; }
+        .bg-navy { background-color: #00205b; }
+        .btn-navy { background-color: #00205b; color: white; transition: 0.2s; }
+        .btn-navy:hover { background-color: #00153b; color: white; }
+        
+        /* Star and metric system colors */
+        .text-gold { color: #ffb400; }
+        
+        /* Review card interaction layout effects */
+        .review-card { border-left: 4px solid transparent; transition: 0.2s; }
+        .review-card:hover { border-left-color: #00205b; background-color: #f8f9fa; }
+
+        /* Micro progress bars for sub-ratings inside individual review cards */
+        .micro-progress { height: 6px; background-color: #e9ecef; border-radius: 3px; }
+        .micro-progress-bar { background-color: #00205b; border-radius: 3px; }
+
+        /* Core custom progress bar architecture for sidebar */
+        .progress { height: 8px; background-color: #e9ecef; }
+        .progress-bar { background-color: #00205b; }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-navy d-flex align-items-center" href="home.html">
+                <img src="UWC_LOGO.png" alt="UWC Logo" height="45" class="me-2">                  
+                Rate My Module
+            </a>
+            
+            <div class="ms-auto d-flex gap-2 align-items-center">
+                <button id="authSimulateToggle" class="btn btn-danger rounded-pill fw-bold btn-sm shadow-sm me-2">
+                    <i class="fa-solid fa-lock me-1"></i> Logged Out
+                </button>
+
+                <button onclick="history.back()" class="btn btn-outline-secondary rounded-pill fw-bold">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back
+                </button>
+                <a href="home.html" class="btn btn-outline-secondary rounded-pill fw-bold">
+                    <i class="fa-solid fa-house me-1"></i> Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container my-5">
+        <div class="row g-4">
+            
+            <div class="col-lg-8">
+                
+                <div class="card shadow-sm border-0 mb-4 p-2">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-3">
+                            <div>
+                                <span class="badge bg-light text-navy border border-secondary rounded px-3 py-1 mb-2 fs-6 shadow-sm" id="moduleCodeBadge">
+                                    Loading...
+                                </span>
+                                <h2 class="fw-bold text-dark mb-1" id="moduleNameTitle">Loading Module Name...</h2>
+                                <p class="text-muted mb-0"><i class="fa-solid fa-graduation-cap me-2"></i>University of the Western Cape</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2 mt-4">
+                            <button id="writeReviewBtn" class="btn btn-secondary rounded-pill px-4 fw-bold shadow-sm">
+                                <i class="fa-solid fa-lock me-2"></i>Log in to write review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="fw-bold text-secondary mb-3 mt-5">Student Reviews</h4>
+                
+                <div id="reviewsContainer" class="d-flex flex-column gap-3"></div>
+
+            </div>
+
+            <div class="col-lg-4">
+                
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Overall Rating</h5>
+                        <div class="d-flex align-items-center mb-3 gap-3">
+                            <h1 class="display-4 fw-bold mb-0 text-dark" id="overallScore">0.0</h1>
+                            <div>
+                                <div class="text-gold fs-5" id="overallStarsContainer"></div>
+                                <small class="text-muted d-block mt-1" id="totalReviewsCount">0 reviews</small>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top">
+                            <h6 class="fw-bold text-dark mb-3">Category Score Averages</h6>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between text-muted small mb-1">
+                                    <span>Difficulty Challenge</span>
+                                    <span class="fw-bold text-dark" id="avgDifficulty">0.0/10</span>
+                                </div>
+                                <div class="micro-progress"><div class="micro-progress-bar" id="barDifficulty" style="width: 0%"></div></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between text-muted small mb-1">
+                                    <span>Teaching Quality</span>
+                                    <span class="fw-bold text-dark" id="avgTeaching">0.0/10</span>
+                                </div>
+                                <div class="micro-progress"><div class="micro-progress-bar" id="barTeaching" style="width: 0%"></div></div>
+                            </div>
+
+                            <div class="mb-0">
+                                <div class="d-flex justify-content-between text-muted small mb-1">
+                                    <span>Content Relevance</span>
+                                    <span class="fw-bold text-dark" id="avgContent">0.0/10</span>
+                                </div>
+                                <div class="micro-progress"><div class="micro-progress-bar" id="barContent" style="width: 0%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Module Information</h5>
+                        
+                        <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                            <li class="d-flex align-items-start gap-3">
+                                <div class="text-muted fs-5"><i class="fa-solid fa-bookmark"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Credits & Year</h6>
+                                    <p class="text-muted small mb-0" id="modCreditsYear">15 Credits • 1st Year</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start gap-3">
+                                <div class="text-muted fs-5"><i class="fa-solid fa-lock-open"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Prerequisites</h6>
+                                    <p class="text-muted small mb-0" id="modPrereqs">None</p>
+                                </div>
+                            </li>
+                            <li class="d-flex align-items-start gap-3">
+                                <div class="text-muted fs-5"><i class="fa-solid fa-link"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Corequisites</h6>
+                                    <p class="text-muted small mb-0" id="modCoreqs">None</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-navy text-white">
+                    <h5 class="modal-title fw-bold" id="reviewModalLabel">Submit Academic Evaluation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="addReviewForm">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-0">Difficulty Rating</label>
+                            <span class="text-muted d-block small mb-2">How challenging/demanding is the workload? (1-10)</span>
+                            <select id="inputDifficulty" class="form-select" required>
+                                <option value="10">10 - Extremely Hard / Intensive</option>
+                                <option value="9">9 - Very Demanding</option>
+                                <option value="8">8 - Substantial Effort Needed</option>
+                                <option value="7" selected>7 - Modestly Challenging</option>
+                                <option value="6">6 - Moderate Balance</option>
+                                <option value="5">5 - Average Academic Workload</option>
+                                <option value="4">4 - Quite Manageable</option>
+                                <option value="3">3 - Easy Content</option>
+                                <option value="2">2 - Minimal effort</option>
+                                <option value="1">1 - Effortless Module</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-0">Teaching Rating</label>
+                            <span class="text-muted d-block small mb-2">Quality, availability, and clarity of the lecturer/tutors. (1-10)</span>
+                            <select id="inputTeaching" class="form-select" required>
+                                <option value="10">10 - Flawless Presentation & Guidance</option>
+                                <option value="9">9 - Exceptional Teaching Standards</option>
+                                <option value="8" selected>8 - Very Engaging & Professional</option>
+                                <option value="7">7 - Good Quality Instruction</option>
+                                <option value="6">6 - Competent presentation</option>
+                                <option value="5">5 - Average lecturing standards</option>
+                                <option value="4">4 - Subpar explanations</option>
+                                <option value="3">3 - Unorganized delivery structure</option>
+                                <option value="2">2 - Highly problematic assistance</option>
+                                <option value="1">1 - Completely dysfunctional teaching</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-0">Content Rating</label>
+                            <span class="text-muted d-block small mb-2">Relevance, interest level, and real-world value of materials. (1-10)</span>
+                            <select id="inputContent" class="form-select" required>
+                                <option value="10">10 - Incredibly valuable / highly industry relevant</option>
+                                <option value="9" selected>9 - Extremely fascinating information</option>
+                                <option value="8">8 - Great structured and modern contents</option>
+                                <option value="7">7 - Productive and useful theories</option>
+                                <option value="6">6 - Fairly standard syllabus architecture</option>
+                                <option value="5">5 - Average curriculum concepts</option>
+                                <option value="4">4 - Outdated material aspects</option>
+                                <option value="3">3 - Largely irrelevant information tracks</option>
+                                <option value="2">2 - Poorly designed module syllabus</option>
+                                <option value="1">1 - Zero value or operational logic</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Review Description Summary</label>
+                            <textarea id="inputContentText" class="form-control" rows="4" placeholder="Detail any critical student strategies, lecturer patterns or tips for succeeding..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 fw-bold rounded-pill shadow-sm">
+                            <i class="fa-solid fa-paper-plane me-2"></i>Post Review Summary
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Process explicit URI query arguments to target context properties
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetCode = urlParams.get('code') || "CSC111";
+
+            // 2. Structured Syllabus Blueprint Dataset Repository Maps
+            const mockModuleDatabase = {
+                "CSC111": { name: "Introduction to Computer Science", credits: "15 Credits", year: "1st Year", prereqs: "None", coreqs: "MAT111" },
+                "MAT111": { name: "Mathematics for Computer Science", credits: "15 Credits", year: "1st Year", prereqs: "Grade 12 Mathematics", coreqs: "None" },
+                "CSC211": { name: "Data Structures and Algorithms", credits: "20 Credits", year: "2nd Year", prereqs: "CSC111", coreqs: "None" }
+            };
+
+            const selectedMod = mockModuleDatabase[targetCode] || { name: "Academic Curricular Course Module", credits: "15 Credits", year: "Undergraduate Phase", prereqs: "Consult Handbook", coreqs: "None" };
+
+            // Apply module specification metrics metadata context array nodes cleanly to DOM placeholders
+            document.getElementById('moduleCodeBadge').textContent = targetCode;
+            document.getElementById('moduleNameTitle').textContent = selectedMod.name;
+            document.getElementById('modCreditsYear').textContent = `${selectedMod.credits} • ${selectedMod.year}`;
+            document.getElementById('modPrereqs').textContent = selectedMod.prereqs;
+            document.getElementById('modCoreqs').textContent = selectedMod.coreqs;
+
+            // 3. Extensible Multi-Metric Local Evaluation Storage Array Track
+            let reviewDataset = [
+                {
+                    user: "Anonymous Student",
+                    date: "Oct 12, 2025",
+                    difficulty: 8,
+                    teaching: 7,
+                    content: 9,
+                    content_text: "The coursework is very well structured. Make sure you attend all the practical sessions, they help immensely with the final assignments."
+                },
+                {
+                    user: "Jane Doe",
+                    date: "Sep 05, 2025",
+                    difficulty: 6,
+                    teaching: 8,
+                    content: 8,
+                    content_text: "The pacing is a bit fast in the second term, but the tutors are always willing to help. Past papers are your best friend for this module."
+                },
+                {
+                    user: "John S.",
+                    date: "Aug 22, 2025",
+                    difficulty: 8,
+                    teaching: 9,
+                    content: 9,
+                    content_text: "Lecturer explains concepts beautifully. The assignments actually match what you learn in class."
+                }
+            ];
+
+            // FEATURE 2: Setup local structural tracking states and DOM instance handles
+            let isLoggedIn = false; 
+            const authSimulateToggle = document.getElementById('authSimulateToggle');
+            const writeReviewBtn = document.getElementById('writeReviewBtn');
+            const reviewModalEl = document.getElementById('reviewModal');
+            const reviewModalInstance = new bootstrap.Modal(reviewModalEl);
+
+            // FEATURE 2: Central UI engine function to synchronize appearance with mock login state
+            function updateAuthUI() {
+                if (isLoggedIn) {
+                    authSimulateToggle.className = "btn btn-success rounded-pill fw-bold btn-sm shadow-sm me-2";
+                    authSimulateToggle.innerHTML = '<i class="fa-solid fa-lock-open me-1"></i> Logged In';
+                    
+                    writeReviewBtn.className = "btn btn-primary rounded-pill px-4 fw-bold shadow-sm";
+                    writeReviewBtn.innerHTML = '<i class="fa-solid fa-pen me-2"></i>Write a review';
+                } else {
+                    authSimulateToggle.className = "btn btn-danger rounded-pill fw-bold btn-sm shadow-sm me-2";
+                    authSimulateToggle.innerHTML = '<i class="fa-solid fa-lock me-1"></i> Logged Out';
+                    
+                    writeReviewBtn.className = "btn btn-secondary rounded-pill px-4 fw-bold shadow-sm";
+                    writeReviewBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Log in to write review';
+                }
+            }
+
+            // FEATURE 2: Click listener to toggle login states for prototyping validation
+            authSimulateToggle.addEventListener('click', function() {
+                isLoggedIn = !isLoggedIn;
+                updateAuthUI();
+            });
+
+            // FEATURE 2: Intercept access requests safely depending on validation variables
+            writeReviewBtn.addEventListener('click', function() {
+                if (!isLoggedIn) {
+                    alert("🔒 Access Rejected: You must be logged into an active account to post a module evaluation summary!");
+                } else {
+                    reviewModalInstance.show();
+                }
+            });
+
+            // Initial UI evaluation call state sync
+            updateAuthUI();
+
+
+            // Helper function to build star markup dynamically from any 5-star metric numeric value
+            function generateStarsHTML(ratingValue) {
+                let starsHtml = '';
+                const fullStars = Math.floor(ratingValue);
+                const hasHalf = (ratingValue % 1) >= 0.4;
+
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= fullStars) {
+                        starsHtml += '<i class="fa-solid fa-star"></i>';
+                    } else if (i === fullStars + 1 && hasHalf) {
+                        starsHtml += '<i class="fa-solid fa-star-half-stroke"></i>';
+                    } else {
+                        starsHtml += '<i class="fa-regular fa-star"></i>';
+                    }
+                }
+                return starsHtml;
+            }
+
+            // 4. Core Mathematical Metric Compositing and Conversion Calculation Sub-System
+            function processMetricsAndRender() {
+                const container = document.getElementById('reviewsContainer');
+                container.innerHTML = '';
+
+                let totalDifficulty = 0;
+                let totalTeaching = 0;
+                let totalContent = 0;
+                let compositeGlobalStarsSum = 0;
+
+                reviewDataset.forEach((rev, index) => {
+                    // Collect running metric values to determine global overall score updates later
+                    totalDifficulty += rev.difficulty;
+                    totalTeaching += rev.teaching;
+                    totalContent += rev.content;
+
+                    // Calculate individual evaluation card average out of 10 points
+                    const localTenPointAvg = (rev.difficulty + rev.teaching + rev.content) / 3;
+                    
+                    // Convert the 10-point mathematical average down into a standard 5-star visual rating value
+                    const localFiveStarRating = localTenPointAvg / 2;
+                    compositeGlobalStarsSum += localFiveStarRating;
+
+                    // Generate complete Star markup structures based on scaled system rating evaluation
+                    const starsHtml = generateStarsHTML(localFiveStarRating);
+
+                    // Unique dynamic collapse targeting hash keys per user list row
+                    const collapseId = `metricCollapse_${index}`;
+
+                    // Build standard multi-metric response evaluation template nodes injection markup block
+                    const cardHTML = `
+                        <div class="card shadow-sm border-0 review-card p-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center text-muted" style="width: 40px; height: 40px;">
+                                            <i class="fa-solid fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-0">${rev.user}</h6>
+                                            <small class="text-muted">${rev.date}</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="text-gold small">${starsHtml}</div>
+                                        <small class="text-navy fw-bold small">${localFiveStarRating.toFixed(1)} / 5.0</small>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-muted my-3 small">${rev.content_text}</p>
+                                
+                                <div class="mt-3 pt-2 border-top">
+                                    <button class="btn btn-sm btn-link text-navy p-0 fw-bold text-decoration-none small d-flex align-items-center gap-1" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false">
+                                        <i class="fa-solid fa-sliders text-muted"></i> View Individual Category Scores <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                                    </button>
+                                    
+                                    <div class="collapse mt-3" id="${collapseId}">
+                                        <div class="bg-light p-3 rounded border">
+                                            <div class="row g-3">
+                                                <div class="col-sm-4">
+                                                    <div class="text-muted small mb-1 fw-bold">Difficulty Challenge</div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <div class="progress flex-grow-1 micro-progress"><div class="progress-bar bg-navy" style="width: ${rev.difficulty * 10}%"></div></div>
+                                                        <span class="small fw-bold text-dark">${rev.difficulty}/10</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="text-muted small mb-1 fw-bold">Teaching Quality</div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <div class="progress flex-grow-1 micro-progress"><div class="progress-bar bg-navy" style="width: ${rev.teaching * 10}%"></div></div>
+                                                        <span class="small fw-bold text-dark">${rev.teaching}/10</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="text-muted small mb-1 fw-bold">Content Relevance</div>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <div class="progress flex-grow-1 micro-progress"><div class="progress-bar bg-navy" style="width: ${rev.content * 10}%"></div></div>
+                                                        <span class="small fw-bold text-dark">${rev.content}/10</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += cardHTML;
+                });
+
+                // 5. Compute System Overall Analytical Parameters for Sidebar Data synchronization
+                const len = reviewDataset.length;
+                if (len > 0) {
+                    const finalAvgDifficulty = totalDifficulty / len;
+                    const finalAvgTeaching = totalTeaching / len;
+                    const finalAvgContent = totalContent / len;
+                    const finalGlobalStarsAverage = compositeGlobalStarsSum / len;
+
+                    // Write statistical string metrics content arrays instantly back to UI cards
+                    document.getElementById('overallScore').textContent = finalGlobalStarsAverage.toFixed(1);
+                    document.getElementById('totalReviewsCount').textContent = `${len} student reviews`;
+                    
+                    // DYNAMICALLY FIX: Render and replace the golden star icons in the sidebar context panel 
+                    document.getElementById('overallStarsContainer').innerHTML = generateStarsHTML(finalGlobalStarsAverage);
+                    
+                    document.getElementById('avgDifficulty').textContent = `${finalAvgDifficulty.toFixed(1)}/10`;
+                    document.getElementById('barDifficulty').style.width = `${finalAvgDifficulty * 10}%`;
+                    
+                    document.getElementById('avgTeaching').textContent = `${finalAvgTeaching.toFixed(1)}/10`;
+                    document.getElementById('barTeaching').style.width = `${finalAvgTeaching * 10}%`;
+                    
+                    document.getElementById('avgContent').textContent = `${finalAvgContent.toFixed(1)}/10`;
+                    document.getElementById('barContent').style.width = `${finalAvgContent * 10}%`;
+                } else {
+                    document.getElementById('overallScore').textContent = "0.0";
+                    document.getElementById('totalReviewsCount').textContent = "0 student reviews";
+                    document.getElementById('overallStarsContainer').innerHTML = generateStarsHTML(0);
+                }
+            }
+
+            // Execute base system evaluation build pipeline upon original load phase sequence
+            processMetricsAndRender();
+
+            // 6. Action Form Event Dispatcher Pipeline capture interface logic rules
+            document.getElementById('addReviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // FEATURE 2: Explicit double guard checking configuration payload limits
+                if (!isLoggedIn) {
+                    alert("Action blocked: Session context timed out or missing verification tokens.");
+                    return;
+                }
+
+                // Harvest selection array elements from input items variables
+                const difficultyValue = parseInt(document.getElementById('inputDifficulty').value);
+                const teachingValue = parseInt(document.getElementById('inputTeaching').value);
+                const contentValue = parseInt(document.getElementById('inputContent').value);
+                const descriptionText = document.getElementById('inputContentText').value;
+
+                // Configure standard date timestamp signatures localized tracking references
+                const options = { month: 'short', day: '2-digit', year: 'numeric' };
+                const formattedDate = new Date().toLocaleDateString('en-US', options);
+
+                // Initialize structural payload properties parameters block structure definition array item
+                const newReviewPayload = {
+                    user: "Verified Student Evaluator",
+                    date: formattedDate,
+                    difficulty: difficultyValue,
+                    teaching: teachingValue,
+                    content: contentValue,
+                    content_text: descriptionText
+                };
+
+                // Push item straight onto primary sequence database engine stack tracking arrays configuration context map
+                reviewDataset.unshift(newReviewPayload);
+
+                // Regenerate component visualization layers dynamically
+                processMetricsAndRender();
+
+                // Reset structural evaluation states clean for alternate sequential use entries later
+                document.getElementById('addReviewForm').reset();
+                
+                // Programmatically hide active modal instance cleanly using references
+                reviewModalInstance.hide();
+            });
+
+        });
+    </script>
+</body>
+</html>
