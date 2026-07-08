@@ -1,0 +1,361 @@
+<!-- Declares the document type as HTML5 so browsers render it in standards mode -->
+<!doctype html> 
+<!-- Root html element, lang="en" tells browsers/screen readers the page content is in English -->
+<html lang="en"> 
+<!-- Start of the head section: contains metadata, title, and stylesheet links (not visible page content) -->
+<head>
+        <!-- Sets the character encoding to UTF-8 so special characters display correctly -->
+        <meta charset="utf-8">
+        <!-- Makes the page responsive: sets viewport width to device width and disables auto-zoom scaling -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- Sets the text shown in the browser tab / title bar -->
+        <title>Rate My Module - Home</title>
+        
+        <!-- Loads the Bootstrap 5.3.3 CSS framework from a CDN, with integrity hash for security and crossorigin for CORS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        
+        <!-- Loads a custom local stylesheet named home.css for page-specific styling -->
+        <link rel="stylesheet" href="home.css">
+    <!-- End of the head section -->
+    </head>
+
+
+<!-- The following blank lines are whitespace/spacing left in the original source (no functional effect) -->
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <!-- Start of the visible page body; bg-light applies Bootstrap's light gray background color -->
+    <body class="bg-light" >
+
+        <!-- Navigation bar: Bootstrap navbar, expands on large screens, light theme, white background, sticky to top, with shadow and vertical padding -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+            <!-- Bootstrap container to center and constrain the navbar's width -->
+            <div class="container">
+                
+                <!-- The brand/logo link in the navbar, bold and custom navy text color, links to "#" (top of page) -->
+                <a class="navbar-brand fw-bold text-navy" href="#">
+                    <!-- UWC logo image, 40px tall, with right margin spacing -->
+                    <img src="UWC_LOGO.png" alt="UWC Logo" height="40" class="me-2">
+                    Rate My Module
+                <!-- End of the brand link -->
+                </a>
+                
+                <!-- Flex container pushed to the right (ms-auto) holding the auth toggle, categories dropdown, and login button -->
+                <div class="ms-auto d-flex align-items-center">
+
+                    <!-- Developer/testing toggle button: red "danger" style button used to simulate login/logout state -->
+                    <button id="devAuthToggle" class="btn btn-danger btn-sm fw-bold rounded-pill me-3 px-3 shadow-sm" style="font-size: 0.8rem;">
+                        Testing: Logged Out
+                    <!-- End of the dev auth toggle button -->
+                    </button>
+
+                    <!-- Wrapper div for the Bootstrap dropdown menu, with right margin spacing -->
+                    <div class="dropdown me-4">
+                        <!-- The clickable "Categories" dropdown toggle link, wired to Bootstrap's dropdown behavior via data attributes -->
+                        <a class="nav-link fw-semibold dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        <!-- End of the dropdown toggle link -->
+                        </a>
+                        <!-- Unordered list holding the dropdown menu items, right-aligned with shadow and no border -->
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="categoriesDropdown">
+                            <!-- Dropdown item linking to the Arts and Humanities faculty page via query string -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=arts">Arts and Humanities</a></li>
+                            <!-- Dropdown item linking to the Community & Health Sciences faculty page -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=chs">Community & Health Sciences</a></li>
+                            <!-- Dropdown item linking to the Dentistry faculty page -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=dentistry">Dentistry</a></li>
+                            <!-- Dropdown item linking to the Economic & Management Sciences faculty page -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=ems">Economic & Management Sciences</a></li>
+                            <!-- Dropdown item linking to the Education faculty page -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=education">Education</a></li>
+                            <!-- Dropdown item linking to the Law faculty page -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=law">Law</a></li>
+                            <!-- Dropdown item linking to the Natural Sciences faculty page -->
+                            <li><a class="dropdown-item" href="by_program.html?faculty=science">Natural Sciences</a></li>
+                        <!-- End of the dropdown menu list -->
+                        </ul>
+                    <!-- End of the dropdown wrapper div -->
+                    </div>
+
+                    <!-- Main authentication action button/link; starts as "Log In" pointing to the login/create account page; JS below changes it dynamically -->
+                    <a id="authActionButton" href="login_create.html" class="btn btn-navy text-white fw-bold rounded-pill shadow-sm">
+                        Log In
+                    <!-- End of the auth action link -->
+                    </a>
+                    
+                <!-- End of the right-aligned flex container -->
+                </div>
+                
+            <!-- End of the navbar's inner container -->
+            </div>
+        <!-- End of the navbar -->
+        </nav>
+
+
+        <!-- Hero header section: navy background, white text, centered text, vertical padding -->
+        <header class="bg-navy text-white text-center py-5">
+            <!-- Bootstrap container adding extra vertical margin around the hero content -->
+            <div class="container my-5">
+                
+                <!-- Large bold heading (Bootstrap display-4 style) introducing the site's purpose, with a line break -->
+                <h1 class="display-4 fw-bold mb-3 text-white">Read reviews. Write reviews.<br>Master your modules.</h1>
+                
+                <!-- Subheading/tagline text under the main heading, lighter font weight/color, with bottom margin -->
+                <p class="lead text-light mb-4">Your guide to navigating modules at UWC.</p>
+                
+                <!-- Bootstrap row used to horizontally center the search bar column -->
+                <div class="row justify-content-center">
+                    <!-- Column sizing: 8/12 width on medium screens, 6/12 width on large screens -->
+                    <div class="col-md-8 col-lg-6">
+                        
+                        <!-- Search form styled as a large, rounded, shadowed input group with white background and padding -->
+                        <form class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden bg-white p-1">
+                            
+                            <!-- Text input field for entering a module search query, borderless with padding and rounded left edge -->
+                            <input type="text" class="form-control border-0 px-4 py-3 rounded-pill-start" placeholder="Search for a module (e.g., COS101, MAT105)..." aria-label="Module Search">
+                            
+                            <!-- Submit button for the search form, styled with a custom gold background and dark text -->
+                            <button class="btn btn-gold text-dark font-weight-bold px-4 rounded-pill" type="submit">
+                                <!-- Bold "Search" label text inside the button -->
+                                <strong>Search</strong>
+                            <!-- End of the search button -->
+                            </button>
+                            
+                        <!-- End of the search form -->
+                        </form>
+                        
+                    <!-- End of the search bar column -->
+                    </div>
+                <!-- End of the centering row -->
+                </div>
+            <!-- End of the hero container -->
+            </div>
+        <!-- End of the hero header section -->
+        </header>
+
+
+        <!-- Section for browsing modules by faculty; container with vertical margin/padding and a custom background pattern class -->
+        <section class="container my-5 py-5 custom-pattern-bg">
+            
+            <!-- Centered, bold, secondary-colored heading introducing the faculty cards below -->
+            <h3 class="text-center fw-bold text-secondary mb-5">Browse Modules by Faculty</h3>
+            
+            <!-- Bootstrap row with gutter spacing (g-4), centering the faculty cards and center-aligning their text -->
+            <div class="row g-4 justify-content-center text-center">
+                
+                <!-- Responsive column for the Arts and Humanities card: full width on extra small, half on small, third on medium, quarter on large screens -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the whole card, pointing to the Arts faculty page, with no underline and dark text -->
+                    <a href="by_program.html?faculty=arts" class="text-decoration-none text-dark">
+                        <!-- Bootstrap card with full height, no border, shadow, vertical padding, and a custom faculty-card style -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Large emoji icon representing the Arts faculty, with bottom margin -->
+                            <div class="fs-1 mb-2">🎭</div>
+                            <!-- Bold card title showing the faculty name, with horizontal padding and custom font size -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Arts and Humanities</h5>
+                        <!-- End of the Arts and Humanities card -->
+                        </div>
+                    <!-- End of the Arts and Humanities link -->
+                    </a>
+                <!-- End of the Arts and Humanities column -->
+                </div>
+
+                <!-- Responsive column for the Community & Health Sciences card -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the card, pointing to the Community & Health Sciences faculty page -->
+                    <a href="by_program.html?faculty=chs" class="text-decoration-none text-dark">
+                        <!-- Card container for this faculty -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Hospital emoji icon representing this faculty -->
+                            <div class="fs-1 mb-2">🏥</div>
+                            <!-- Faculty name title -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Community & Health Sciences</h5>
+                        <!-- End of the card -->
+                        </div>
+                    <!-- End of the link -->
+                    </a>
+                <!-- End of the column -->
+                </div>
+
+                <!-- Responsive column for the Dentistry card -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the card, pointing to the Dentistry faculty page -->
+                    <a href="by_program.html?faculty=dentistry" class="text-decoration-none text-dark">
+                        <!-- Card container for this faculty -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Tooth emoji icon representing Dentistry -->
+                            <div class="fs-1 mb-2">🦷</div>
+                            <!-- Faculty name title -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Dentistry</h5>
+                        <!-- End of the card -->
+                        </div>
+                    <!-- End of the link -->
+                    </a>
+                <!-- End of the column -->
+                </div>
+
+                <!-- Responsive column for the Economic & Management Sciences card -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the card, pointing to the EMS faculty page -->
+                    <a href="by_program.html?faculty=ems" class="text-decoration-none text-dark">
+                        <!-- Card container for this faculty -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Chart-increasing emoji icon representing EMS -->
+                            <div class="fs-1 mb-2">📈</div>
+                            <!-- Faculty name title -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Economic & Management Sciences</h5>
+                        <!-- End of the card -->
+                        </div>
+                    <!-- End of the link -->
+                    </a>
+                <!-- End of the column -->
+                </div>
+
+                <!-- Responsive column for the Education card -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the card, pointing to the Education faculty page -->
+                    <a href="by_program.html?faculty=education" class="text-decoration-none text-dark">
+                        <!-- Card container for this faculty -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Apple emoji icon representing Education -->
+                            <div class="fs-1 mb-2">🍎</div>
+                            <!-- Faculty name title -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Education</h5>
+                        <!-- End of the card -->
+                        </div>
+                    <!-- End of the link -->
+                    </a>
+                <!-- End of the column -->
+                </div>
+
+                <!-- Responsive column for the Law card -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the card, pointing to the Law faculty page -->
+                    <a href="by_program.html?faculty=law" class="text-decoration-none text-dark">
+                        <!-- Card container for this faculty -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Balance scale emoji icon representing Law -->
+                            <div class="fs-1 mb-2">⚖️</div>
+                            <!-- Faculty name title -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Law</h5>
+                        <!-- End of the card -->
+                        </div>
+                    <!-- End of the link -->
+                    </a>
+                <!-- End of the column -->
+                </div>
+
+                <!-- Responsive column for the Natural Sciences card -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <!-- Link wrapping the card, pointing to the Natural Sciences faculty page -->
+                    <a href="by_program.html?faculty=science" class="text-decoration-none text-dark">
+                        <!-- Card container for this faculty -->
+                        <div class="card h-100 border-0 shadow-sm py-4 custom-faculty-card">
+                            <!-- Microscope emoji icon representing Natural Sciences -->
+                            <div class="fs-1 mb-2">🔬</div>
+                            <!-- Faculty name title -->
+                            <h5 class="fw-bold px-2 mb-0" style="font-size: 1.1rem;">Natural Sciences</h5>
+                        <!-- End of the card -->
+                        </div>
+                    <!-- End of the link -->
+                    </a>
+                <!-- End of the column -->
+                </div>
+
+            <!-- End of the faculty cards row -->
+            </div>
+        <!-- End of the faculty browsing section -->
+        </section>
+
+        <!-- Loads the Bootstrap JS bundle (includes Popper) from a CDN, needed for dropdown/interactive components -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <!-- Start of the page's custom inline JavaScript -->
+        <script>
+            // Waits until the full HTML document has been parsed and loaded before running the enclosed code
+            document.addEventListener('DOMContentLoaded', function() {
+                // 1. Initial State Tracking (False = Logged Out, True = Logged In)
+                // Declares a variable to track whether the mock user is currently "logged in"; starts as false (logged out)
+                let userIsLoggedIn = false;
+
+                // 2. Elements from the DOM
+                // Grabs a reference to the developer testing toggle button by its id
+                const devAuthToggle = document.getElementById('devAuthToggle');
+                // Grabs a reference to the main login/AI-guide action button by its id
+                const authActionButton = document.getElementById('authActionButton');
+
+                // 3. Central UI Layout Engine
+                // Defines a function that updates the navbar's appearance based on the current login state
+                function updateNavbarState() {
+                    // Checks if the mock user is currently logged in
+                    if (userIsLoggedIn) {
+                        // Change Dev Switch Display Style
+                        // Updates the toggle button's classes to a green "success" style to indicate logged-in state
+                        devAuthToggle.className = "btn btn-success btn-sm fw-bold rounded-pill me-3 px-3 shadow-sm";
+                        // Updates the toggle button's visible text to reflect the logged-in state
+                        devAuthToggle.textContent = "Logged In";
+
+                        // Transform the main action button
+                        // Changes the auth button's link destination to the AI career/guide page when logged in
+                        authActionButton.href = "AI_carear_page.html";
+                        // Changes the auth button's visible text to "AI Guide" when logged in
+                        authActionButton.textContent = "AI Guide";
+                    // Handles the case where the mock user is logged out
+                    } else {
+                        // Change Dev Switch Display Style
+                        // Updates the toggle button's classes to a red "danger" style to indicate logged-out state
+                        devAuthToggle.className = "btn btn-danger btn-sm fw-bold rounded-pill me-3 px-3 shadow-sm";
+                        // Updates the toggle button's visible text to reflect the logged-out state
+                        devAuthToggle.textContent = "Logged Out";
+
+                        // Revert the main action button back
+                        // Resets the auth button's link destination back to the login/create account page
+                        authActionButton.href = "login_create.html";
+                        // Resets the auth button's visible text back to "Log In"
+                        authActionButton.textContent = "Log In";
+                    // Closes the if/else block
+                    }
+                // Closes the updateNavbarState function definition
+                }
+
+                // 4. Click Event to instantly toggle user state in the browser mockup
+                // Attaches a click listener to the dev toggle button so clicking it flips the mock login state
+                devAuthToggle.addEventListener('click', function() {
+                    // Flips the boolean value of userIsLoggedIn (true becomes false, and vice versa)
+                    userIsLoggedIn = !userIsLoggedIn;
+                    // Calls the function to refresh the navbar UI to match the new state
+                    updateNavbarState();
+                // Closes the click event listener callback
+                });
+
+                // Initialize layout setup on page render
+                // Runs the update function once immediately so the navbar matches the initial state on page load
+                updateNavbarState();
+            // Closes the DOMContentLoaded event listener callback
+            });
+        <!-- End of the inline JavaScript block -->
+        </script>
+    <!-- End of the visible page body -->
+    </body>
+
+
+<!-- The following blank lines are whitespace/spacing left in the original source (no functional effect) -->
+
+
+
+
+
+
+<!-- End of the HTML document -->
+</html>

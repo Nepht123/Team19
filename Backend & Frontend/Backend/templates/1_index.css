@@ -1,0 +1,84 @@
+/* =========================================
+   UWC BRANDING COLORS
+   ========================================= */
+
+/* The dark UWC Navy Blue for the background */
+.bg-navy {
+    background-color: #002147 !important; 
+}
+
+/* Navy text for the logo */
+.text-navy {
+    color: #002147 !important;
+}
+
+/* Navy Button styling */
+.btn-navy {
+    background-color: #002147;
+    color: white !important;
+}
+
+.btn-navy:hover {
+    background-color: #001630; /* Slightly darker navy on hover */
+    color: white;
+}
+
+/* The contrasting UWC Gold for the Search Button */
+.btn-gold {
+    background-color: #FFC72C !important; 
+    color: #000000 !important; /* Black text so it's easy to read on gold */
+}
+
+.btn-gold:hover {
+    background-color: #E5B325 !important;
+}
+
+/* =========================================
+   INTERACTIVE ANIMATIONS
+   ========================================= */
+
+/* Makes the faculty cards jump up slightly when you hover over them */
+.custom-faculty-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+    border-top: 4px solid #FFC72C !important; /* This applies a sharp UWC Navy line to the top edge */
+    border-radius: 8px; /* Keeps the card corners smooth */
+    overflow: hidden;                         /* Clips the gold line cleanly inside the rounded corners */
+}
+
+.custom-faculty-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(9, 17, 168, 0.81) !important;
+}
+
+/* ============================================================================== */
+/* SUBTLE NAVY & GOLD PATTERN BACKGROUND                                          */
+/* This uses CSS linear and radial gradients to draw a micro-dot grid matrix      */
+/* ============================================================================== */
+
+.custom-pattern-bg {
+    background-color: #f8f9fa;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3C!-- Blue circles --%3E%3Ccircle cx='32' cy='28' r='4' fill='rgba(74,107,191,0.2)'/%3E%3Ccircle cx='160' cy='22' r='5' fill='rgba(74,107,191,0.15)'/%3E%3Ccircle cx='280' cy='45' r='3.5' fill='rgba(74,107,191,0.2)'/%3E%3Ccircle cx='370' cy='18' r='4' fill='rgba(74,107,191,0.18)'/%3E%3Ccircle cx='95' cy='130' r='5' fill='rgba(74,107,191,0.15)'/%3E%3Ccircle cx='230' cy='110' r='3.5' fill='rgba(74,107,191,0.2)'/%3E%3Ccircle cx='355' cy='140' r='4' fill='rgba(74,107,191,0.18)'/%3E%3Ccircle cx='50' cy='230' r='3.5' fill='rgba(74,107,191,0.2)'/%3E%3Ccircle cx='185' cy='250' r='4' fill='rgba(74,107,191,0.15)'/%3E%3Ccircle cx='310' cy='220' r='5' fill='rgba(74,107,191,0.18)'/%3E%3Ccircle cx='130' cy='350' r='4' fill='rgba(74,107,191,0.2)'/%3E%3Ccircle cx='270' cy='370' r='3.5' fill='rgba(74,107,191,0.15)'/%3E%3Ccircle cx='390' cy='310' r='5' fill='rgba(74,107,191,0.18)'/%3E%3C!-- Gold circles --%3E%3Ccircle cx='90' cy='60' r='3.5' fill='rgba(213,163,0,0.3)'/%3E%3Ccircle cx='215' cy='35' r='4' fill='rgba(213,163,0,0.28)'/%3E%3Ccircle cx='340' cy='80' r='3' fill='rgba(213,163,0,0.32)'/%3E%3Ccircle cx='22' cy='160' r='4' fill='rgba(213,163,0,0.25)'/%3E%3Ccircle cx='165' cy='175' r='3.5' fill='rgba(213,163,0,0.3)'/%3E%3Ccircle cx='295' cy='155' r='4' fill='rgba(213,163,0,0.28)'/%3E%3Ccircle cx='375' cy='200' r='3' fill='rgba(213,163,0,0.3)'/%3E%3Ccircle cx='110' cy='290' r='4' fill='rgba(213,163,0,0.25)'/%3E%3Ccircle cx='250' cy='310' r='3.5' fill='rgba(213,163,0,0.3)'/%3E%3Ccircle cx='380' cy='360' r='4' fill='rgba(213,163,0,0.28)'/%3E%3Ccircle cx='30' cy='385' r='3' fill='rgba(213,163,0,0.3)'/%3E%3Ccircle cx='200' cy='395' r='4' fill='rgba(213,163,0,0.25)'/%3E%3C!-- Blue squares --%3E%3Crect x='118' y='55' width='7' height='7' rx='1.5' fill='rgba(74,107,191,0.2)' transform='rotate(25 121 58)'/%3E%3Crect x='258' y='70' width='6' height='6' rx='1' fill='rgba(74,107,191,0.18)' transform='rotate(40 261 73)'/%3E%3Crect x='45' y='185' width='7' height='7' rx='1.5' fill='rgba(74,107,191,0.2)' transform='rotate(15 48 188)'/%3E%3Crect x='320' cy='190' width='6' height='6' rx='1' fill='rgba(74,107,191,0.18)' transform='rotate(35 323 193)'/%3E%3Crect x='175' y='325' width='7' height='7' rx='1.5' fill='rgba(74,107,191,0.2)' transform='rotate(20 178 328)'/%3E%3Crect x='340' y='290' width='6' height='6' rx='1' fill='rgba(74,107,191,0.18)' transform='rotate(50 343 293)'/%3E%3C!-- Gold squares --%3E%3Crect x='58' y='95' width='7' height='7' rx='1.5' fill='rgba(213,163,0,0.28)' transform='rotate(30 61 98)'/%3E%3Crect x='200' y='78' width='6' height='6' rx='1' fill='rgba(213,163,0,0.3)' transform='rotate(45 203 81)'/%3E%3Crect x='145' y='210' width='7' height='7' rx='1.5' fill='rgba(213,163,0,0.25)' transform='rotate(20 148 213)'/%3E%3Crect x='365' y='255' width='6' height='6' rx='1' fill='rgba(213,163,0,0.28)' transform='rotate(38 368 258)'/%3E%3Crect x='70' y='335' width='7' height='7' rx='1.5' fill='rgba(213,163,0,0.3)' transform='rotate(15 73 338)'/%3E%3Crect x='295' y='380' width='6' height='6' rx='1' fill='rgba(213,163,0,0.25)' transform='rotate(42 298 383)'/%3E%3C!-- Short lines --%3E%3Cline x1='75' y1='175' x2='100' y2='165' stroke='rgba(74,107,191,0.2)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='210' y1='48' x2='232' y2='58' stroke='rgba(213,163,0,0.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='330' y1='120' x2='355' y2='110' stroke='rgba(74,107,191,0.2)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='15' y1='270' x2='38' y2='260' stroke='rgba(213,163,0,0.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='240' y1='275' x2='262' y2='265' stroke='rgba(74,107,191,0.2)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='155' y1='385' x2='178' y2='375' stroke='rgba(213,163,0,0.3)' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='390' y1='165' x2='400' y2='150' stroke='rgba(74,107,191,0.2)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 400px 400px;
+}
+
+
+
+/* ============================================================================== */
+/* TARGETED AUTHENTICATION LOGIN CARD DESIGN                                     */
+/* Adds the structural gold border frame to mimic your homepage card aesthetic    */
+/* ============================================================================== */
+.login-card {
+    border-top: 4px solid #ffc107 !important; /* Keeps cohesion with faculty grid borders */
+    overflow: hidden;
+}
+
+/* Styled adjustment overlays for form element spacing */
+.input-group-text {
+    border-color: #dee2e6;
+}
+.form-control:focus {
+    border-color: #003570;
+    box-shadow: 0 0 0 0.25rem rgba(0, 53, 112, 0.15);
+}
