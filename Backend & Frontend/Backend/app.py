@@ -6,7 +6,6 @@ from mysql.connector import Error
 
 
 
-{Now I need to update the faculty buttons at the bottom of the screen}
 
 
 #Now what I need to do is to establish a connection with my database and get all the faculties into a list 
@@ -122,12 +121,11 @@ def index():
     return render_template("1_index.html",Faculties=Faculties)
 
 
-@app.route("/program",methods=["GET"])
-def by_program():
-    #Here I am just capturing the selected faculty id
-    faculty_id = request.args.get('faculty')
+@app.route("/Program",methods=["GET"])
+def Program():
+    # Flask automatically grabs 'faculty' from the URL query string
+    faculty_name = request.args.get('faculty')
+    # Your logic here...
+    return render_template('1_Program.html', faculty=faculty_name)
 
-    #Here I am getting all of the modules under that faculty
-    filtered_modules = get_modules(request.args.get('faculty'))
-    return render_template("by_program.html", faculty=faculty_id)
-    '''I must make changes to by_program.html'''
+
