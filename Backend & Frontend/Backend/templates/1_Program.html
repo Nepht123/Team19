@@ -172,62 +172,15 @@
 
 
 
-
-
-
-
-
-/*Need to connect flask to this */
-
-
-
-
-
-
-
-            // 1. Database of dummy programmes for the prototype
+            // Dynamic Database to replace the dummy programmes
+           
             const facultyData = {
-                arts: {
-                    title: "Arts and Humanities",
-                    programmes: ["BA General", "BA Linguistics", "BA History", "BA Psychology", "Bachelor of Theology"]
-                },
-                chs: {
-                    title: "Community & Health Sciences",
-                    programmes: ["BSc Physiotherapy", "BSc Nursing", "BSc Occupational Therapy", "BSc Dietetics", "Bachelor of Social Work"]
-                },
-                dentistry: {
-                    title: "Dentistry",
-                    programmes: ["BChD (Dentistry)", "Bachelor of Oral Health"]
-                },
-                ems: {
-                    title: "Economic & Management Sciences",
-                    programmes: ["BCom General", "BCom Accounting", "BCom Information Systems", "BCom Finance", "BAdmin"]
-                },
-                education: {
-                    title: "Education",
-                    programmes: ["BEd Foundation Phase", "BEd Senior Phase", "Postgraduate Certificate in Education (PGCE)"]
-                },
-                law: {
-                    title: "Law",
-                    programmes: ["LLB (Bachelor of Laws)", "BA Law", "BCom Law"]
-                },
-                science: {
-                    title: "Natural Sciences",
-                    programmes: ["BSc Computer Science", "BSc Mathematics", "BSc Physics", "BSc Biotechnology", "BSc Environmental Water Science"]
+                "{{ faculty }}": {
+                    title: "{{ faculty }}",
+                    programmes: JSON.parse('{{ programmes | tojson | safe }}')
                 }
             };
-
-
-
-
-
-
-
-
-
-
-
-
+                   
 
 
             // 2. Get the faculty parameter from the URL (e.g., ?faculty=science)
@@ -265,18 +218,28 @@
                 } else {
                     noResultsMsg.classList.add('d-none');
                     
+
+
+
+                    // 1. Define a base URL using url_for with a placeholder string at the top
+                    // NOTE: Replace 'by_program_modules' with the exact name of your Python function in app.py!
+                    const modulesBaseUrl = "{{ url_for('Program_modules', module='PLACEHOLDER') }}";
+
+
                     // Loop through each programme and create a card for it
                     programmesToRender.forEach(prog => {
-                        // ADJUSTED: Changed href to redirect to by_program_modules.html with the program parameter passed in safely
+
+                        // 2. Use JS to swap 'PLACEHOLDER' with your dynamic browser variable
+                        const finalUrl = modulesBaseUrl.replace('PLACEHOLDER', encodeURIComponent(prog));
+
                         const cardHTML = `
                             <div class="card shadow-sm border-0 programme-card">
                                 <div class="card-body p-4 d-flex justify-content-between align-items-center">
                                     <div>
                                         <h5 class="fw-bold text-dark mb-1 programme-name">${prog}</h5>
-                                        <small class="text-muted"><i class="fa-solid fa-graduation-cap me-1"></i> Undergraduate Degree</small>
+                                        <small class="text-muted"><i class="fa-solid fa-graduation-cap me-1"></i></small>
                                     </div>
-                                    <a href="by_program_modules.html?program=${encodeURIComponent(prog)}" class="btn btn-outline-primary rounded-pill px-4">View Modules</a>
-                                </div>
+                                    <a href="${finalUrl}" class="btn btn-outline-primary rounded-pill px-4">View Modules</a>                                </div>
                             </div>
                         `;
                         listContainer.innerHTML += cardHTML;
