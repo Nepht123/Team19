@@ -42,7 +42,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
         <div class="container">
             <a class="navbar-brand fw-bold text-navy d-flex align-items-center" href="home.html">
-                <img src="UWC_LOGO.png" alt="UWC Logo" height="45" class="me-2">                  
+                <img src="/static/UWC_LOGO.png" alt="UWC Logo" height="45" class="me-2">                  
                 Rate My Module
             </a>
             
@@ -50,7 +50,7 @@
                 <button onclick="history.back()" class="btn btn-outline-secondary rounded-pill fw-bold">
                     <i class="fa-solid fa-arrow-left me-1"></i> Back
                 </button>
-                <a href="home.html" class="btn btn-outline-secondary rounded-pill fw-bold">
+                <a href="1_index.html" class="btn btn-outline-secondary rounded-pill fw-bold">
                     <i class="fa-solid fa-house me-1"></i> Home
                 </a>
             </div>
@@ -102,59 +102,19 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // 1. Local Database storing sample modules mapped directly to program titles
-            const programModulesData = {
-                "BSc Computer Science": [
-                    { code: "CSC111", name: "Introduction to Computer Science", year: "1st Year", credits: "15 Credits" },
-                    { code: "MAT111", name: "Mathematics for Computer Science", year: "1st Year", credits: "15 Credits" },
-                    { code: "CSC211", name: "Data Structures and Algorithms", year: "2nd Year", credits: "20 Credits" },
-                    { code: "CSC212", name: "Database Systems", year: "2nd Year", credits: "20 Credits" },
-                    { code: "CSC311", name: "Software Engineering", year: "3rd Year", credits: "24 Credits" },
-                    { code: "CSC312", name: "Advanced Computer Networks", year: "3rd Year", credits: "24 Credits" }
-                ],
-                "BCom Accounting": [
-                    { code: "ACC111", name: "Financial Accounting 1A", year: "1st Year", credits: "15 Credits" },
-                    { code: "MAN121", name: "Introduction to Management", year: "1st Year", credits: "15 Credits" },
-                    { code: "ACC211", name: "Management Accounting 2A", year: "2nd Year", credits: "20 Credits" },
-                    { code: "TAX201", name: "Introduction to Taxation", year: "2nd Year", credits: "20 Credits" },
-                    { code: "AUD301", name: "Auditing and Assurance", year: "3rd Year", credits: "24 Credits" }
-                ],
-                "LLB (Bachelor of Laws)": [
-                    { code: "LAW111", name: "Introduction to Legal Studies", year: "1st Year", credits: "15 Credits" },
-                    { code: "LAW122", name: "Law of Persons", year: "1st Year", credits: "15 Credits" },
-                    { code: "LAW211", name: "Law of Contract", year: "2nd Year", credits: "20 Credits" },
-                    { code: "LAW311", name: "Criminal Law", year: "3rd Year", credits: "24 Credits" },
-                    { code: "LAW411", name: "Constitutional Law", year: "4th Year", credits: "24 Credits" }
-                ],
-                "BSc Nursing": [
-                    { code: "NUR111", name: "Foundations of Professional Nursing", year: "1st Year", credits: "15 Credits" },
-                    { code: "ANAT121", name: "Human Anatomy & Physiology", year: "1st Year", credits: "20 Credits" },
-                    { code: "NUR211", name: "Clinical Nursing Practice", year: "2nd Year", credits: "24 Credits" },
-                    { code: "NUR311", name: "General Nursing: Medical and Surgical", year: "3rd Year", credits: "30 Credits" }
-                ],
-                "BA Psychology": [
-                    { code: "PSY111", name: "Introduction to Psychology", year: "1st Year", credits: "15 Credits" },
-                    { code: "PSY211", name: "Developmental Psychology", year: "2nd Year", credits: "20 Credits" },
-                    { code: "PSY311", name: "Research Methods in Psychology", year: "3rd Year", credits: "24 Credits" },
-                    { code: "PSY312", name: "Psychopathology", year: "3rd Year", credits: "24 Credits" }
-                ],
-                "BChD (Dentistry)": [
-                    { code: "DEN111", name: "Dental Anatomy and Morphology", year: "1st Year", credits: "15 Credits" },
-                    { code: "DEN211", name: "Oral Biology and Histology", year: "2nd Year", credits: "20 Credits" },
-                    { code: "DEN311", name: "Clinical Dentistry I", year: "3rd Year", credits: "30 Credits" }
-                ],
-                "BEd Senior Phase": [
-                    { code: "EDN111", name: "Education Theory and Context 1", year: "1st Year", credits: "15 Credits" },
-                    { code: "EDN211", name: "Classroom Management Logic", year: "2nd Year", credits: "20 Credits" },
-                    { code: "EDN311", name: "Teaching Practice and Simulation", year: "3rd Year", credits: "24 Credits" }
-                ]
-            };
+            //Dynamic list
+            const programModulesData =JSON.parse('{{ All_modules | tojson | safe }}')
 
-            // Generic Fallback list if someone selects an unmapped program card during prototyping
+
+
+
+
+            // 1. Local Database storing sample modules mapped directly to program titles
+                    // Generic Fallback list if someone selects an unmapped program card during prototyping
             const genericFallbackModules = [
-                { code: "MOD101", name: "Core Discipline Foundation 1A", year: "1st Year", credits: "15 Credits" },
-                { code: "MOD201", name: "Intermediate Academic Practice", year: "2nd Year", credits: "20 Credits" },
-                { code: "MOD301", name: "Advanced Application Capstone", year: "3rd Year", credits: "24 Credits" }
+                { mod_code: "MOD101", mod_name: "Core Discipline Foundation 1A", year: "Year 1" },
+                { mod_code: "MOD201", mod_name: "Intermediate Academic Practice", year: "Year 2" },
+                { mod_code: "MOD301", mod_name: "Advanced Application Capstone", year: "Year 3" }
             ];
 
             // 2. Extract program query parameter out of the incoming URL parameter string
@@ -205,17 +165,38 @@
                             <div class="card shadow-sm border-0 module-card">
                                 <div class="card-body p-4 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <span class="badge module-code-badge px-3 py-2 rounded fs-6">${mod.code}</span>
+                                        <span class="badge module-code-badge px-3 py-2 rounded fs-6">${mod.mod_code}</span>
                                         <div>
-                                            <h5 class="fw-bold text-dark mb-1">${mod.name}</h5>
+                                            <h5 class="fw-bold text-dark mb-1">${mod.mod_name}</h5>
                                             <div class="d-flex gap-3 text-muted small">
                                                 <span><i class="fa-solid fa-calendar-days me-1"></i>${mod.year}</span>
-                                                <span><i class="fa-solid fa-bookmark me-1"></i>${mod.credits}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div>
-                                        <a href="module_page.html?code=${encodeURIComponent(mod.code)}" class="btn btn-navy text-white rounded-pill px-4 fw-bold shadow-sm">View Reviews</a>                                    </div>
+
+
+
+
+
+
+
+
+
+
+                                        
+                                        <a href="{{ url_for('module_page') }}?code=${encodeURIComponent(mod.mod_code)}" class="btn btn-navy text-white rounded-pill px-4 fw-bold shadow-sm">View Reviews</a>
+
+
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
                         `;
@@ -231,8 +212,8 @@
                 const searchTerm = e.target.value.toLowerCase();
                 
                 const filteredModules = currentModules.filter(mod => 
-                    mod.name.toLowerCase().includes(searchTerm) || 
-                    mod.code.toLowerCase().includes(searchTerm)
+                    mod.mod_name.toLowerCase().includes(searchTerm) || 
+                    mod.mod_code.toLowerCase().includes(searchTerm)
                 );
                 
                 renderModules(filteredModules);

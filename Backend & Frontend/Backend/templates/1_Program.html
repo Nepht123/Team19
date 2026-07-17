@@ -196,7 +196,7 @@
 
             let currentProgrammes = [];
 
-            // 3. Check if faculty exists in our dummy database and load it
+            // 3. Check if faculty exists in our database and load it
             if (selectedFacultyKey && facultyData[selectedFacultyKey]) {
                 const faculty = facultyData[selectedFacultyKey];
                 titleElement.textContent = faculty.title;
@@ -223,7 +223,7 @@
 
                     // 1. Define a base URL using url_for with a placeholder string at the top
                     // NOTE: Replace 'by_program_modules' with the exact name of your Python function in app.py!
-                    const modulesBaseUrl = "{{ url_for('Program_modules', module='PLACEHOLDER') }}";
+                    const modulesBaseUrl = "{{ url_for('Program_modules', Programme='PLACEHOLDER') }}";
 
 
                     // Loop through each programme and create a card for it
