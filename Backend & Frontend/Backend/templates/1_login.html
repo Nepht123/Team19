@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Configures character encoding and responsive scaling for mobile screens -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication - Rate My Module</title>
+    
+    <!-- Bootstrap 5 layout stylesheet framework -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome icon styles for the form input fields -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Link connects directly to your home.css stylesheet -->
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<!-- Body wrapper applies your custom SVG background pattern and forces a full screen viewport layout stack -->
+<body class="custom-pattern-bg d-flex flex-column vh-100">
+
+    <!-- Top header navigation brand section -->
+    <nav class="navbar navbar-light bg-white border-bottom shadow-sm py-3 w-100">
+        <div class="container justify-content-center justify-content-md-start">
+            <a class="navbar-brand fw-bold text-navy" href="#">
+                    
+                    <img src="/static/UWC_LOGO.png" alt="UWC Logo" height="40" class="me-2">
+                    Rate My Module
+                
+                </a>
+        </div>
+    </nav>
+
+    <!-- Main screen section stretches to center the card vertically and horizontally -->
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center p-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                    
+                    <!-- Central authentication presentation card matching your homepage card border structure -->
+                    <div class="card border-0 shadow-lg p-4 login-card rounded-3 bg-white">
+                        
+                        <!-- Gateway landing view interface showing choices by default -->
+                        <div id="gatewaySection" class="text-center py-4">
+                            <h2 class="fw-bold text-navy mb-2">Get Started</h2>
+                            <p class="text-muted small mb-4">Select an option below to access your reviews profile</p>
+                            
+                            <div class="d-grid gap-3 col-10 mx-auto">
+                                <button type="button" class="btn btn-navy text-white py-3 fw-bold rounded-pill shadow-sm" onclick="showForm('login')">
+                                    <i class="fa-solid fa-right-to-bracket me-2"></i> Log In
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary py-3 fw-bold rounded-pill shadow-sm" onclick="showForm('register')">
+                                    <i class="fa-solid fa-user-plus me-2"></i> Create Account
+                                </button>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- Login panel layout context structure hidden by default -->
+                        <div id="loginFormSection" class="d-none">
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold text-navy mb-1">Welcome Back</h2>
+                                <p class="text-muted small">Enter your credentials below to access your account</p>
+                            </div>
+
+                            <form action="#" method="POST">
+                                <!-- Required 7-digit student number functioning as username -->
+                                <div class="mb-3">
+                                    <label for="loginStudentNumber" class="form-label small fw-bold text-secondary">Student Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-user"></i></span>
+                                        <input type="text" class="form-control bg-light border-start-0" id="loginStudentNumber" placeholder="e.g., 4123456" pattern="\d{7}" title="Must be exactly 7 digits" required>
+                                    </div>
+                                </div>
+
+                                <!-- User profile account security password component entry box -->
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label for="loginPassword" class="form-label small fw-bold text-secondary mb-0">Password</label>
+                                        <a href="#" class="text-gold text-decoration-none small fw-semibold">Forgot Password?</a>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-lock"></i></span>
+                                        <input type="password" class="form-control bg-light border-start-0" id="loginPassword" placeholder="••••••••" required>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-navy text-white w-100 py-2.5 fw-bold rounded-pill shadow-sm mb-3">
+                                    Log In
+                                </button>
+                            </form>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- Registration signup interface form area hidden by default -->
+                        <div id="registerFormSection" class="d-none">
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold text-navy mb-1">Create Account</h2>
+                                <p class="text-muted small">Please fill in your student information below</p>
+                            </div>
+
+                            <form action="#" method="POST">
+                                <!-- Enforces required student registration key mapping of exactly 7 digit inputs -->
+                                <div class="mb-3">
+                                    <label for="regStudentNumber" class="form-label small fw-bold text-secondary">Student Number *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-id-card"></i></span>
+                                        <input type="text" class="form-control bg-light border-start-0" id="regStudentNumber" placeholder="e.g., 4123456" pattern="\d{7}" title="Student number must be exactly 7 digits" required>
+                                    </div>
+                                </div>
+
+                                <!-- Official required academic communication verification address input -->
+                                <div class="mb-3">
+                                    <label for="regEmailPrefix" class="form-label small fw-bold text-secondary">Student Email *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-envelope"></i></span>
+                                        <input type="text" class="form-control bg-light border-start-0" id="regEmailPrefix" placeholder="e.g., 4123456" pattern="\d{7}" title="Enter your 7-digit student number" required>
+                                        <span class="input-group-text bg-light text-muted fw-semibold">@myuwc.ac.za</span>
+                                    </div>
+                                </div>
+
+                                <!-- Required strict password criteria matching lower case, upper case, numbers, and symbols -->
+                                <div class="mb-3">
+                                    <label for="regPassword" class="form-label small fw-bold text-secondary">Password *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-key"></i></span>
+                                        <input type="password" class="form-control bg-light border-start-0" id="regPassword" placeholder="Min. 8 characters with upper/lower, numbers, symbols" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=\[{\]};:<>|./?,-]).{8,}$" title="Must be at least 8 characters long, containing 1 uppercase, 1 lowercase letter, numbers, and a special sign symbol." required>
+                                    </div>
+                                </div>
+
+                                <!-- Optional cascade selector component mapping programmes -->
+                                <div class="mb-3">
+                                    <label for="programmeSearchInput" class="form-label small fw-bold text-secondary">Programme / Degree (Optional)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-graduation-cap"></i></span>
+                                        <input class="form-control bg-light border-start-0" list="programmesOptions" id="programmeSearchInput" placeholder="Type to search e.g., BSc Computer Science">
+                                        <datalist id="programmesOptions">
+                                            </datalist>
+                                    </div>
+                                </div>
+
+                                <!-- Optional selector parsing current registered student module term length tracking -->
+                                <div class="mb-4">
+                                    <label for="regYear" class="form-label small fw-bold text-secondary">Year of Study (Optional)</label>
+                                    <select class="form-select bg-light" id="regYear">
+                                        <option value="">-- Select Year --</option>
+                                        <option value="1">1st Year</option>
+                                        <option value="2">2nd Year</option>
+                                        <option value="3">3rd Year</option>
+                                        <option value="4">Honours / 4th Year</option>
+                                        <option value="postgrad">Postgraduate</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-navy text-white w-100 py-2.5 fw-bold rounded-pill shadow-sm mb-3">
+                                    Register Account
+                                </button>
+                            </form>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+                        <!-- Selection control button utilities to revert form screen tracking state back to index -->
+                        <div class="text-center mt-2">
+                            <a href="javascript:void(0)" class="text-navy text-decoration-none small fw-bold d-none" id="backToGatewayBtn" onclick="resetGateway()">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Change Selection
+                            </a>
+                            <a href="{{ url_for('index') }}" class="text-navy text-decoration-none small fw-bold d-inline-block mt-2" id="backToHomeBtn">
+                                <i class="fa-solid fa-house me-1"></i> Back to Homepage
+                            </a>
+                        </div>
+
+                    </div> 
+                </div> 
+            </div> 
+        </div>
+    </main>
+
+    <!-- Base floor screen layout flat minimalist platform footer block -->
+    <footer class="text-center py-3 bg-white border-top w-100 mt-auto">
+        <p class="small text-muted mb-0">&copy; 2026 University of the Western Cape. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap 5 JavaScript compiled interaction dependency files bundle package link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+
+    
+    <script>
+        /**
+         * Switches the visible authentication form (login or registration) and
+         * hides the initial gateway/selection screen.
+         *
+         * This is called when the user clicks a "Login" or "Register" option
+         * from the gateway section, and controls which form section is shown
+         * by toggling Bootstrap's 'd-none' (display: none) utility class.
+         *
+         * @param {string} mode - Either 'login' or 'register' (or any non-'login'
+         *                        value, which defaults to showing the register form).
+         */
+        function showForm(mode) {
+            // Hide the initial gateway section, since we're now showing a specific form
+            document.getElementById('gatewaySection').classList.add('d-none');
+
+            // Hide the "back to home" button, since we're no longer on the home/gateway view
+            document.getElementById('backToHomeBtn').classList.add('d-none');
+
+            // Show the "back to gateway" button, so the user can navigate back to the
+            // login/register choice screen from within a form
+            document.getElementById('backToGatewayBtn').classList.remove('d-none');
+            
+            if(mode === 'login') {
+                // Show the login form and hide the registration form
+                document.getElementById('loginFormSection').classList.remove('d-none');
+                document.getElementById('registerFormSection').classList.add('d-none');
+            } else {
+                // Any mode other than 'login' (typically 'register') shows the
+                // registration form and hides the login form
+                document.getElementById('registerFormSection').classList.remove('d-none');
+                document.getElementById('loginFormSection').classList.add('d-none');
+            }
+        }
+
+        /**
+         * Resets the view back to the initial gateway screen, hiding both the
+         * login and registration forms.
+         *
+         * This is called when the user clicks the "back to gateway" button,
+         * effectively undoing whatever showForm() did.
+         */
+        function resetGateway() {
+            // Show the gateway section again (the login/register choice screen)
+            document.getElementById('gatewaySection').classList.remove('d-none');
+
+            // Hide both forms, since we're back at the choice screen
+            document.getElementById('loginFormSection').classList.add('d-none');
+            document.getElementById('registerFormSection').classList.add('d-none');
+
+            // Hide the "back to gateway" button, since we're already there
+            document.getElementById('backToGatewayBtn').classList.add('d-none');
+
+            // Show the "back to home" button again, since we're back at the top-level view
+            document.getElementById('backToHomeBtn').classList.remove('d-none');
+        }
+
+        // Flat (non-grouped) list of available academic programmes/degrees.
+        // Used to populate the <datalist> options for a programme input field,
+        // giving users autocomplete suggestions as they type.
+        const flatProgrammesList = [
+            "BCom General", 
+            "BCom Accounting", 
+            "BCom Information Systems", 
+            "Bachelor of Administration",
+            "BA General", 
+            "Bachelor of Laws (LLB)", 
+            "BA Psychology",
+            "BSc General", 
+            "BSc Computer Science", 
+            "BSc Biotechnology", 
+            "BSc Chemical Sciences"
+        ];
+
+        // Once the DOM is fully loaded, populate the programmes <datalist>
+        // element with <option> entries so the browser can offer them as
+        // autocomplete suggestions for a linked text input.
+        document.addEventListener("DOMContentLoaded", function() {
+            // Locate the <datalist> element (referenced by an input's "list" attribute)
+            const datalistContainer = document.getElementById('programmesOptions');
+
+            // Only proceed if the datalist actually exists on this page
+            if (datalistContainer) {
+                // Create and append one <option> element per programme name
+                flatProgrammesList.forEach(function(programme) {
+                    let optionNode = document.createElement('option');
+                    optionNode.value = programme;
+                    datalistContainer.appendChild(optionNode);
+                });
+            }
+        });
+    </script>
+
+
+
+
+
+</body>
+</html>

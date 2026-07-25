@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, jsonify,redirect,session
+from flask_session import Session
 import mysql.connector
 from mysql.connector import Error
 
@@ -364,9 +365,76 @@ def get_mod_name(id,year):
 
 
 
+def get_single_module(module_code,program_name):
+    mydatabase = None
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
 
 
-print((get_modules("Bachelor of Science in Computer Science")))
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        get_query="SELECT * FROM modules where mod_code=%s"
+        mycursor.execute(get_query,(module_code,))
+        module_info = mycursor.fetchone()
+
+
+        mod_id=module_info["id"]
+
+    
+        get_query_1="SELECT *  FROM courses WHERE course_name=%s"
+        mycursor.execute(get_query_1,(program_name,))
+        program_info= mycursor.fetchone()
+
+        program_id=program_info["id"]
+
+
+
+        get_query_2="SELECT year_of_study FROM course_modules WHERE course_id=%s AND module_id=%s"
+        mycursor.execute(get_query_2,(program_id,mod_id,))
+        year_study= mycursor.fetchone()
+
+        programe_info_for_module=program_info
+        programe_info_for_module["year"]=year_study["year_of_study"]
+        programe_info_for_module["prereqs"]=module_info["prerequisites"]
+        programe_info_for_module["coreqs"]=module_info["corequisites"]
+
+
+
+        return programe_info_for_module
+
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+    
+
+
+
+
+print(get_single_module("APG232","Bachelor of Science in Applied Geology"))
 
 
 #def get_modulu
@@ -395,10 +463,50 @@ for programmes in ProG:
 app = Flask(__name__)
 
 
+#configuring the sessions. This will store the cookies on the server instead of a database or somewhere else
+
+app.config["Session_PERMANENT"]=False
+app.config["SESSION_TYPE"]="filesystem"
+Session(app)
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route("/",methods=["GET"])
 def index():
     Faculties = getfaculties()
-    return render_template("1_index.html",Faculties=Faculties)
+
+
+
+
+
+    #user_login=session.get("User")
+
+
+    # True if user is logged in, False if None
+    #status = user_login is not None
+
+
+    return render_template("1_index.html",Faculties=Faculties )
+
+
+
+@app.route("/Loggin",methods=["Get"])
+def log_in():
+I need to make changes to my 1_login.html by handeling the login in and the registering
+
+
+    return render_template("1_login.html")
+
+
 
 
 @app.route("/Program",methods=["GET"])
@@ -426,6 +534,34 @@ def Program_modules():
 
 @app.route('/module')  # or whatever your module endpoint is
 def module_page():
-    code = request.args.get('code')
-    # ...
+    module_code = request.args.get('code')
+    program_name=request.args.get('program')
+    module_info=get_single_module(module_code,program_name)
+    return render_template("1_modulepage.html",module_code=module_code,module_info=module_info)
 
+#Now I need to get this data into the modules
+
+
+
+
+@app.route('/add-review', methods=['POST'])
+def add_review():
+    """
+    Endpoint that handles the JavaScript fetch() submission.
+    """
+    try:
+        # Convert the raw JSON string payload sent by fetch() into a native Python dictionary
+        data = request.get_json()
+
+
+
+
+        # I first went to sort out the login info in order to be able to do this.
+
+
+        
+        return
+
+    except Exception as error:
+        # Handle unexpected server errors
+        return jsonify({'status': 'error', 'message': str(error)}), 500

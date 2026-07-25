@@ -185,7 +185,7 @@
 
 
                                         
-                                        <a href="{{ url_for('module_page') }}?code=${encodeURIComponent(mod.mod_code)}" class="btn btn-navy text-white rounded-pill px-4 fw-bold shadow-sm">View Reviews</a>
+                                        <a href="{{ url_for('module_page') }}?code=${encodeURIComponent(mod.mod_code)}&program=${encodeURIComponent(urlParams.get('Programme') || '')}" class="btn btn-navy text-white rounded-pill px-4 fw-bold shadow-sm">View Reviews</a>
 
 
 

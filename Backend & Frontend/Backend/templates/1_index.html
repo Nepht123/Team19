@@ -56,7 +56,7 @@
                     </div>
 
                     <!-- Main authentication action button/link; starts as "Log In" pointing to the login/create account page; JS below changes it dynamically -->
-                    <a id="authActionButton" href="login_create.html" class="btn btn-navy text-white fw-bold rounded-pill shadow-sm">
+                    <a id="authActionButton" href="{{ url_for('log_in') }}" class="btn btn-navy text-white fw-bold rounded-pill shadow-sm">
                         Log In
                     <!-- End of the auth action link -->
                     </a>
@@ -288,7 +288,7 @@
 
                         // Revert the main action button back
                         // Resets the auth button's link destination back to the login/create account page
-                        authActionButton.href = "login_create.html";
+                        authActionButton.href = "{{ url_for('log_in') }}";
                         // Resets the auth button's visible text back to "Log In"
                         authActionButton.textContent = "Log In";
                     // Closes the if/else block
