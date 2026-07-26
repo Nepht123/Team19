@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify,redirect,session
+from flask import Flask, render_template, request, jsonify,redirect,session, url_for
+
 from flask_session import Session
 import mysql.connector
 from mysql.connector import Error
@@ -104,7 +105,6 @@ def getfaculties_id(Faculty_Name):
             print("MySQL database connection securely closed.")
 
 
-
 def get_programmes(faculty_id):
     mydatabase = None
 
@@ -152,9 +152,6 @@ def get_programmes(faculty_id):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
-
-
 
 
 
@@ -219,10 +216,6 @@ def get_modules(programme_name):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
-    
-    
-
 
 
 
@@ -310,7 +303,6 @@ def get_module_name(module_id):
 
 
 
-
 def get_mod_name(id,year):
     mydatabase = None
 
@@ -361,7 +353,6 @@ def get_mod_name(id,year):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
 
 
 
@@ -430,11 +421,53 @@ def get_single_module(module_code,program_name):
             print("MySQL database connection securely closed.")
 
     
+def get_all_programmes():
+    mydatabase = None
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        get_query="SELECT course_name FROM courses "
+        mycursor.execute(get_query)
+        # Extract just the 'course_name' value from each dictionary
+        all_programmes = [row['course_name'] for row in mycursor.fetchall()]       
+
+        return all_programmes
+
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
 
 
 
 
-print(get_single_module("APG232","Bachelor of Science in Applied Geology"))
+
+print(get_all_programmes())
 
 
 #def get_modulu
@@ -501,10 +534,98 @@ def index():
 
 @app.route("/Loggin",methods=["Get"])
 def log_in():
-I need to make changes to my 1_login.html by handeling the login in and the registering
+#I need to make changes to my 1 login.html by handeling the login in and the registering
+    programmes=get_all_programmes()
+
+    return render_template("1_login.html",programmes=programmes)
 
 
-    return render_template("1_login.html")
+
+@app.route("/register", methods=["POST"])
+def register():
+    # Read data sent from the HTML form
+    student_number = request.form.get("student_number")
+    password = request.form.get("password")
+    programme = request.form.get("programme")
+    year_of_study = request.form.get("year_of_study")
+
+    # Generate user email automatically
+    student_email = f"{student_number}@myuwc.ac.za"
+
+    # TODO: Add database logic here to save the user...
+
+    # Send the user to whichever endpoint/page you want!
+    # Options:
+    # 1. Send to homepage: return redirect(url_for('index'))
+    # 2. Send back to login route: return redirect(url_for('log_in'))
+
+
+
+
+    """I will add some way of varyfying the user by sending them an email
+    If the email is valid it should just log them in, but if the email isn't valid 
+    then it should show an error message and send them back to the login page
+    
+
+    """
+
+
+
+    '''
+    #This should return true or fales
+    validity=chech_validity(student_email)
+
+    if validity:
+        next_page=url_for("index")
+    else:
+        flash("Invalid UWC email or student credentials.", "error")
+        next_page=url_for("log_in")
+
+    
+    
+    
+    '''
+
+    next_page=url_for("index")
+    return redirect(next_page)
+
+
+@app.route("/Loggin",methods=["Get"])
+def loged_in():
+#I need to make changes to my 1 login.html by handeling the login in and the registering
+    """I will check if the the student name and password are valid """
+
+
+
+    student_number = request.form.get("uwc_student_number")
+    password = request.form.get("uwc_password")
+
+
+    '''
+    #This should return true or fales
+    re
+    validity=chech_validity(student_number,password)
+    
+    if validity:
+        next_page=url_for("index")
+    else:
+        flash("Invalid UWC email or student credentials.", "error")
+        next_page=url_for("log_in")
+    
+        
+        
+        
+    '''
+    next_page=url_for("index")
+
+    '''Add the user to the session'''
+    return render_template("next_page")
+
+
+
+
+
+
 
 
 
