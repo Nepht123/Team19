@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify,redirect,session, url_for
+from flask import Flask, render_template, request, jsonify,redirect,session, url_for, flash
+from werkzeug.security import generate_password_hash
 
 from flask_session import Session
 import mysql.connector
@@ -465,29 +466,73 @@ def get_all_programmes():
 
 
 
+def add_user(student_number,password,programme,year_of_study,student_email):
+    mydatabase = None
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        #Hashing the password before storing it
+        hashed_password = generate_password_hash(password)
 
 
-print(get_all_programmes())
+        sql_query = """
+            INSERT INTO users (username, student_email, password, degree_program, year_of_study)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+
+        user_data = (student_number, student_email, hashed_password, programme, year_of_study)
 
 
-#def get_modulu
-
-
-#I now need to iterate through this list of module_id dictionaries, to get the module name of each id
-
-
-'''
-ProG=[]
+        mycursor.execute(sql_query, user_data)
+        mydatabase.commit()
 
 
 
-for programmes in prog:
-        ProG.append(programmes["course_name"])
+        print("User successfully registered!")
+        return True
 
-for programmes in ProG:
-        print(programmes)
+        
 
-'''
+
+
+    except Exception as error:
+        print(f" Database Error encountered: {error}")
+        return False
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+
+
+
+    print()
+
+
+
+
+
+
+
+
+
+#print(get_all_programmes())
+
+
 
 
 
@@ -540,7 +585,6 @@ def log_in():
     return render_template("1_login.html",programmes=programmes)
 
 
-
 @app.route("/register", methods=["POST"])
 def register():
     # Read data sent from the HTML form
@@ -549,45 +593,36 @@ def register():
     programme = request.form.get("programme")
     year_of_study = request.form.get("year_of_study")
 
-    # Generate user email automatically
-    student_email = f"{student_number}@myuwc.ac.za"
-
-    # TODO: Add database logic here to save the user...
-
-    # Send the user to whichever endpoint/page you want!
-    # Options:
-    # 1. Send to homepage: return redirect(url_for('index'))
-    # 2. Send back to login route: return redirect(url_for('log_in'))
 
 
+    print("\n--- NEW REGISTRATION ATTEMPT ---")
+    print(f"Received student_number: '{student_number}' (Length: {len(student_number) if student_number else 0})")
+    print(f"Received password: '{password}'")
+    print(f"Received programme: '{programme}'")
+    print(f"Received year_of_study: '{year_of_study}'")
 
 
-    """I will add some way of varyfying the user by sending them an email
-    If the email is valid it should just log them in, but if the email isn't valid 
-    then it should show an error message and send them back to the login page
-    
-
-    """
-
-
-
-    '''
-    #This should return true or fales
-    validity=chech_validity(student_email)
-
-    if validity:
-        next_page=url_for("index")
+    # Check if student_number exists AND has a length of 7
+    if not student_number or len(student_number) != 7:
+        flash("Student number must be exactly 7 digits.", "danger")
+        return redirect(url_for("log_in"))
     else:
-        flash("Invalid UWC email or student credentials.", "error")
-        next_page=url_for("log_in")
+        # Generate user email automatically
+        student_email = f"{student_number}@myuwc.ac.za"
+
+        added=add_user(student_number,password,programme,year_of_study,student_email)
+        if added:
+            return redirect(url_for("index"))
+        else:
+            flash("There was an error in creating new user, try again")
+            return redirect(url_for("log_in"))
+
+
 
     
-    
-    
-    '''
+   
 
-    next_page=url_for("index")
-    return redirect(next_page)
+
 
 
 @app.route("/Loggin",methods=["Get"])
@@ -604,7 +639,7 @@ def loged_in():
     '''
     #This should return true or fales
     re
-    validity=chech_validity(student_number,password)
+    validity=chech_validity(uwc_student_number,uwc_password)
     
     if validity:
         next_page=url_for("index")
