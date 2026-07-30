@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify,redirect,session, url_for, flash
 from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 
 from flask_session import Session
 import mysql.connector
@@ -7,7 +8,7 @@ from mysql.connector import Error
 
 
 
-
+I now need to sort out the reviews, After that, I technically have a fully working pmv
 
 
 
@@ -481,8 +482,21 @@ def add_user(student_number,password,programme,year_of_study,student_email):
         mycursor = mydatabase.cursor(dictionary=True)
 
         #Hashing the password before storing it
-        hashed_password = generate_password_hash(password)
 
+        check_query = "SELECT username FROM users WHERE username = %s"
+        mycursor.execute(check_query, (student_number,))
+        existing_user = mycursor.fetchone()
+
+
+        if existing_user:
+            print(
+                f"Registration failed: Student number {student_number} already exists."
+            )
+            return False
+
+        
+
+        hashed_password = generate_password_hash(password)
 
         sql_query = """
             INSERT INTO users (username, student_email, password, degree_program, year_of_study)
@@ -499,6 +513,8 @@ def add_user(student_number,password,programme,year_of_study,student_email):
 
         print("User successfully registered!")
         return True
+
+
 
         
 
@@ -521,6 +537,67 @@ def add_user(student_number,password,programme,year_of_study,student_email):
 
 
     print()
+
+
+def vallid_user(number,password):
+    mydatabase = None
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        get_query="SELECT * FROM users WHERE username= %s"
+        mycursor.execute(get_query,(number,))
+        user = mycursor.fetchone()
+        #print(user)
+
+        if user:
+            # For Hashed Passwords (Flask standard):
+            if check_password_hash(user['password'], password):
+                return True
+
+       
+
+
+        return False
+
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return False
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+
+
+
+
+
+print(vallid_user(4492340,"N@M51310"))
+
+
 
 
 
@@ -585,6 +662,15 @@ def log_in():
     return render_template("1_login.html",programmes=programmes)
 
 
+
+
+
+'''
+
+I need to add a feature that will look in the database to see if a username (student number) already exist, if it does,
+I need to send an error message to the user, telling them that user already exists and redirect them to the login page
+
+'''
 @app.route("/register", methods=["POST"])
 def register():
     # Read data sent from the HTML form
@@ -610,22 +696,33 @@ def register():
         # Generate user email automatically
         student_email = f"{student_number}@myuwc.ac.za"
 
+
+        '''I need to do that username check somewhere around here. I will put everything bellow in the case where new user being created'''
         added=add_user(student_number,password,programme,year_of_study,student_email)
         if added:
             return redirect(url_for("index"))
         else:
             flash("There was an error in creating new user, try again")
-            return redirect(url_for("log_in"))
+            error_msg="That student number already as an account"
+            return render_template(
+            "1_login_error.html",
+            title="Registration Failed",
+            error="Registration failed because this student number is already registered in the system.",
+            )
 
 
 
-    
+
+
+@app.route("/Login Error",methods=["GET"])
+def login_error():
+    return render_template("1_login_error.html")
    
 
 
 
 
-@app.route("/Loggin",methods=["Get"])
+@app.route("/Loggin",methods=["POST"])
 def loged_in():
 #I need to make changes to my 1 login.html by handeling the login in and the registering
     """I will check if the the student name and password are valid """
@@ -636,28 +733,22 @@ def loged_in():
     password = request.form.get("uwc_password")
 
 
-    '''
-    #This should return true or fales
-    re
-    validity=chech_validity(uwc_student_number,uwc_password)
-    
+    print("Student number: "+student_number )
+    print("Password: "+password)
+
+
+    validity=vallid_user(student_number,password)
     if validity:
-        next_page=url_for("index")
-    else:
-        flash("Invalid UWC email or student credentials.", "error")
-        next_page=url_for("log_in")
-    
-        
-        
-        
-    '''
-    next_page=url_for("index")
-
-    '''Add the user to the session'''
-    return render_template("next_page")
+        return redirect(url_for("index"))
 
 
-
+    else:    
+        error_msg="The student number or password you entered is incorrect. Please verify your account details and try again."
+        return render_template(
+            "1_login_error.html",
+            title="Login Failed",
+            error="The student number or password you entered is incorrect. Please verify your account details and try again.",
+        ) 
 
 
 
