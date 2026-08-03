@@ -1,15 +1,67 @@
 {%extends "1_layout.html" %}
 
 {%block body%}
+<!-- Font Awesome CDN to ensure sidebar icons render properly -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
 <!--Every piece of code between a section is where I should make changes and connect it to the backend-->
 
+        <!-- Sidebar Offcanvas Menu -->
+        <div class="offcanvas offcanvas-start bg-navy text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+            <div class="offcanvas-header bg-white text-navy">
+                <h5 class="offcanvas-title fw-bold d-flex align-items-center text-navy" id="sidebarMenuLabel">
+                    <img src="/static/UWC_LOGO.png" alt="UWC Logo" height="32" class="me-2">Rate My Module
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column justify-content-between bg-navy">
+                <ul class="nav flex-column gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="#">
+                            <i class="fa-solid fa-circle-user me-2 text-white"></i>Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <hr class="my-2 border-light">
+                        <h6 class="px-3 text-white-50 fw-bold small text-uppercase">Faculties</h6>
+                    </li>
+                    {% for fac in Faculties %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ url_for('Program', faculty=fac['fac_name']) }}">
+                            <i class="fa-solid fa-book-open me-2 text-white"></i>{{ fac['fac_name'] }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <!-- Dynamic Log In / Log Out Button positioned at the very bottom -->
+                <div class="mt-auto pt-3 border-top border-secondary">
+                    {% if user %}
+                    <a href="{{ url_for('logout') }}" class="btn btn-gold text-dark fw-bold w-100 rounded-pill shadow-sm">
+                        <i class="fa-solid fa-right-from-bracket me-2"></i>Log Out
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('log_in') }}" class="btn btn-gold text-dark fw-bold w-100 rounded-pill shadow-sm">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i>Log In
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
         
         <!-- Navigation bar: Bootstrap navbar, expands on large screens, light theme, white background, sticky to top, with shadow and vertical padding -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
             <!-- Bootstrap container to center and constrain the navbar's width -->
-            <div class="container">
+            <div class="container d-flex align-items-center">
                 
+                <!-- Sidebar Toggle Button (Guaranteed SVG Icon) placed in top left corner before logo -->
+                <button class="btn p-1 me-3 border-0 shadow-none d-flex align-items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-label="Toggle Navigation">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#00205b" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </button>
+
                 <!-- The brand/logo link in the navbar, bold and custom navy text color, links to "#" (top of page) -->
                 <a class="navbar-brand fw-bold text-navy" href="#">
 
@@ -23,11 +75,7 @@
                 <!-- Flex container pushed to the right (ms-auto) holding the auth toggle, categories dropdown, and login button -->
                 <div class="ms-auto d-flex align-items-center">
 
-                    <!-- Developer/testing toggle button: red "danger" style button used to simulate login/logout state -->
-                    <button id="devAuthToggle" class="btn btn-danger btn-sm fw-bold rounded-pill me-3 px-3 shadow-sm" style="font-size: 0.8rem;">
-                        Testing: Logged Out
-                    <!-- End of the dev auth toggle button -->
-                    </button>
+                    
 
                     <!-- Wrapper div for the Bootstrap dropdown menu, with right margin spacing -->
                     <div class="dropdown me-4">
@@ -250,68 +298,22 @@
 <!--There are some things I need to try to figure out with this js script but that will be later-->
 <!-- Start of the page's custom inline JavaScript -->
         <script>
-            // Waits until the full HTML document has been parsed and loaded before running the enclosed code
-            document.addEventListener('DOMContentLoaded', function() {
-                // 1. Initial State Tracking (False = Logged Out, True = Logged In)
-                // Declares a variable to track whether the mock user is currently "logged in"; starts as false (logged out)
-                let userIsLoggedIn = false;
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Check login state directly from Flask session
+        let userIsLoggedIn = "{{ 'true' if user else 'false' }}" === 'true';
 
-                // 2. Elements from the DOM
-                // Grabs a reference to the developer testing toggle button by its id
-                const devAuthToggle = document.getElementById('devAuthToggle');
-                // Grabs a reference to the main login/AI-guide action button by its id
-                const authActionButton = document.getElementById('authActionButton');
+        // 2. Grab the main action button
+        const authActionButton = document.getElementById('authActionButton');
 
-                // 3. Central UI Layout Engine
-                // Defines a function that updates the navbar's appearance based on the current login state
-                function updateNavbarState() {
-                    // Checks if the mock user is currently logged in
-                    if (userIsLoggedIn) {
-                        // Change Dev Switch Display Style
-                        // Updates the toggle button's classes to a green "success" style to indicate logged-in state
-                        devAuthToggle.className = "btn btn-success btn-sm fw-bold rounded-pill me-3 px-3 shadow-sm";
-                        // Updates the toggle button's visible text to reflect the logged-in state
-                        devAuthToggle.textContent = "Logged In";
-
-                        // Transform the main action button
-                        // Changes the auth button's link destination to the AI career/guide page when logged in
-                        authActionButton.href = "AI_carear_page.html";
-                        // Changes the auth button's visible text to "AI Guide" when logged in
-                        authActionButton.textContent = "AI Guide";
-                    // Handles the case where the mock user is logged out
-                    } else {
-                        // Change Dev Switch Display Style
-                        // Updates the toggle button's classes to a red "danger" style to indicate logged-out state
-                        devAuthToggle.className = "btn btn-danger btn-sm fw-bold rounded-pill me-3 px-3 shadow-sm";
-                        // Updates the toggle button's visible text to reflect the logged-out state
-                        devAuthToggle.textContent = "Logged Out";
-
-                        // Revert the main action button back
-                        // Resets the auth button's link destination back to the login/create account page
-                        authActionButton.href = "{{ url_for('log_in') }}";
-                        // Resets the auth button's visible text back to "Log In"
-                        authActionButton.textContent = "Log In";
-                    // Closes the if/else block
-                    }
-                // Closes the updateNavbarState function definition
-                }
-
-                // 4. Click Event to instantly toggle user state in the browser mockup
-                // Attaches a click listener to the dev toggle button so clicking it flips the mock login state
-                devAuthToggle.addEventListener('click', function() {
-                    // Flips the boolean value of userIsLoggedIn (true becomes false, and vice versa)
-                    userIsLoggedIn = !userIsLoggedIn;
-                    // Calls the function to refresh the navbar UI to match the new state
-                    updateNavbarState();
-                // Closes the click event listener callback
-                });
-
-                // Initialize layout setup on page render
-                // Runs the update function once immediately so the navbar matches the initial state on page load
-                updateNavbarState();
-            // Closes the DOMContentLoaded event listener callback
-            });
-        <!-- End of the inline JavaScript block -->
+        // 3. Update button text & destination based on session state
+        if (userIsLoggedIn) {
+            authActionButton.href = "AI_carear_page.html";
+            authActionButton.textContent = "AI Guide";
+        } else {
+            authActionButton.href = "{{ url_for('log_in') }}";
+            authActionButton.textContent = "Log In";
+        }
+    });
         </script>
 
 

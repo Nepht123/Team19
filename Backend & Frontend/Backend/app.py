@@ -8,20 +8,12 @@ from mysql.connector import Error
 
 
 
-I now need to sort out the reviews, After that, I technically have a fully working pmv
 
 
 
 #Now what I need to do is to establish a connection with my database and get all the faculties into a list 
 
-'''
-db_config = {
-    'host': '127.0.0.1',
-    'user': 'root',
-    'password': '4492340',
-    'database': 'rate_mm'
-}
-'''
+
 
 def getfaculties():
     mydatabase = None
@@ -156,7 +148,6 @@ def get_programmes(faculty_id):
             print("MySQL database connection securely closed.")
 
 
-
 def get_modules(programme_name):
     mydatabase = None
 
@@ -220,7 +211,6 @@ def get_modules(programme_name):
             print("MySQL database connection securely closed.")
 
 
-
 def get_moduluse_from_id(programme_id):
     mydatabase = None
 
@@ -262,7 +252,6 @@ def get_moduluse_from_id(programme_id):
             print("MySQL database connection securely closed.")
 
 
-
 def get_module_name(module_id):
     mydatabase = None
 
@@ -302,7 +291,6 @@ def get_module_name(module_id):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
 
 
 def get_mod_name(id,year):
@@ -355,7 +343,6 @@ def get_mod_name(id,year):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
 
 
 def get_single_module(module_code,program_name):
@@ -607,7 +594,6 @@ print(vallid_user(4492340,"N@M51310"))
 
 
 
-#print(get_all_programmes())
 
 
 
@@ -617,10 +603,11 @@ print(vallid_user(4492340,"N@M51310"))
 
 app = Flask(__name__)
 
+# Required: Flask needs a secret key to sign session cookies
+app.secret_key = "dev"
 
 #configuring the sessions. This will store the cookies on the server instead of a database or somewhere else
-
-app.config["Session_PERMANENT"]=False
+app.config["SESSION_PERMANENT"]=False
 app.config["SESSION_TYPE"]="filesystem"
 Session(app)
 
@@ -643,14 +630,14 @@ def index():
 
 
 
-    #user_login=session.get("User")
+    #user_login=session.get("user")
 
 
     # True if user is logged in, False if None
     #status = user_login is not None
 
 
-    return render_template("1_index.html",Faculties=Faculties )
+    return render_template("1_index.html",Faculties=Faculties,user=session.get("user") )
 
 
 
@@ -700,10 +687,20 @@ def register():
         '''I need to do that username check somewhere around here. I will put everything bellow in the case where new user being created'''
         added=add_user(student_number,password,programme,year_of_study,student_email)
         if added:
+
+
+
+
+            #--------------------------------------------------------------------------------------------------
+
+
+
+
+
+            session["user"]=student_number
             return redirect(url_for("index"))
         else:
             flash("There was an error in creating new user, try again")
-            error_msg="That student number already as an account"
             return render_template(
             "1_login_error.html",
             title="Registration Failed",
@@ -722,7 +719,7 @@ def login_error():
 
 
 
-@app.route("/Loggin",methods=["POST"])
+@app.route("/Log",methods=["POST"])
 def loged_in():
 #I need to make changes to my 1 login.html by handeling the login in and the registering
     """I will check if the the student name and password are valid """
@@ -739,6 +736,12 @@ def loged_in():
 
     validity=vallid_user(student_number,password)
     if validity:
+
+
+        #---------------------------------------------------------------------
+        session["user"]=student_number
+
+
         return redirect(url_for("index"))
 
 
@@ -751,6 +754,11 @@ def loged_in():
         ) 
 
 
+
+@app.route("/Log out")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
 
 
 
@@ -779,12 +787,12 @@ def Program_modules():
 
 
 
-@app.route('/module')  # or whatever your module endpoint is
+@app.route('/Module')  
 def module_page():
     module_code = request.args.get('code')
     program_name=request.args.get('program')
     module_info=get_single_module(module_code,program_name)
-    return render_template("1_modulepage.html",module_code=module_code,module_info=module_info)
+    return render_template("1_modulepage.html",module_code=module_code,module_info=module_info,user=session.get("user"))
 
 #Now I need to get this data into the modules
 
