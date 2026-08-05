@@ -7,6 +7,8 @@ import mysql.connector
 from mysql.connector import Error
 
 
+#I now neeeed to work on the reviews and AI api for verifying reviews
+
 
 
 
@@ -577,12 +579,93 @@ def vallid_user(number,password):
             print("MySQL database connection securely closed.")
 
 
+def get_all_modules():
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        get_query="SELECT *FROM modules"
+        mycursor.execute(get_query)
+        full_module_list = mycursor.fetchall()
+
+        return full_module_list
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def get_mode_info(mode_code):
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        get_query="SELECT *FROM modules WHERE mod_code=%s"
+        mycursor.execute(get_query,(mode_code,))
+        full_module_list = mycursor.fetchall()
+
+        return full_module_list
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
 
 
 
 
 
-print(vallid_user(4492340,"N@M51310"))
+
+
+
+#print(get_mode_info("COS101"))
 
 
 
@@ -626,19 +709,11 @@ Session(app)
 def index():
     Faculties = getfaculties()
 
+    module_list=get_all_modules()
 
 
 
-
-    #user_login=session.get("user")
-
-
-    # True if user is logged in, False if None
-    #status = user_login is not None
-
-
-    return render_template("1_index.html",Faculties=Faculties,user=session.get("user") )
-
+    return render_template("1_index.html",Faculties=Faculties,user=session.get("user"),Modules=module_list )
 
 
 @app.route("/Loggin",methods=["Get"])
@@ -650,14 +725,6 @@ def log_in():
 
 
 
-
-
-'''
-
-I need to add a feature that will look in the database to see if a username (student number) already exist, if it does,
-I need to send an error message to the user, telling them that user already exists and redirect them to the login page
-
-'''
 @app.route("/register", methods=["POST"])
 def register():
     # Read data sent from the HTML form
@@ -708,16 +775,10 @@ def register():
             )
 
 
-
-
-
 @app.route("/Login Error",methods=["GET"])
 def login_error():
     return render_template("1_login_error.html")
    
-
-
-
 
 @app.route("/Log",methods=["POST"])
 def loged_in():
@@ -784,17 +845,38 @@ def Program_modules():
     return render_template("1_module.html",All_modules=All_modules)
 
 
-
-
-
-@app.route('/Module')  
+@app.route('/Module by program')  
 def module_page():
     module_code = request.args.get('code')
     program_name=request.args.get('program')
     module_info=get_single_module(module_code,program_name)
+
+
+    I should probably send all the reviews as well
+
+
     return render_template("1_modulepage.html",module_code=module_code,module_info=module_info,user=session.get("user"))
 
-#Now I need to get this data into the modules
+
+@app.route('/Module')
+def module_direct():
+    mode_code=request.args.get("code")
+    mode_info=get_mode_info(mode_code)
+
+
+    I should probably send all the reviews as well
+
+
+
+    print(f"This is the mode: {mode_code}")
+
+
+    return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"))
+
+
+
+
+
 
 
 

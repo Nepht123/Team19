@@ -138,48 +138,40 @@
                 
                 <!-- Bootstrap row used to horizontally center the search bar column -->
                 <div class="row justify-content-center">
-                    <!-- Column sizing: 8/12 width on medium screens, 6/12 width on large screens -->
-                    <div class="col-md-8 col-lg-6">
-                        
+                        <!-- Column sizing: 8/12 width on medium screens, 6/12 width on large screens -->
+                        <!-- Main Search Container -->
+                    <div class="position-relative w-100">
 
-
-
-
-
-
-
-
-                        
-
-                        <!-- Search form styled as a large, rounded, shadowed input group with white background and padding -->
-                        <form action-"/...I_Still_Need_To_Make_Changes_Here_To_Link_It_Directly_To_The_Module_{Also_had_an_autocomplit_based_on_what_is_in_the_database_}" method="post" class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden bg-white p-1">
+                        <!-- Form action linked to /Module with GET method -->
+                        <form action="{{ url_for('module_direct') }}" method="GET" class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden bg-white p-1">
                             
-                            <!-- Text input field for entering a module search query, borderless with padding and rounded left edge -->
-                            <input type="text" class="form-control border-0 px-4 py-3 rounded-pill-start" placeholder="Search for a module (e.g., COS101, MAT105)..." aria-label="Module Search">
-                            
-                            <!-- Submit button for the search form, styled with a custom gold background and dark text -->
+                            <!-- Input name updated to "code" to match request.args.get('code') -->
+                            <input type="text" 
+                                id="moduleSearchInput" 
+                                name="code" 
+                                list="modulesDatalist" 
+                                class="form-control border-0 px-4 py-3 rounded-pill-start" 
+                                placeholder="Search for a module (e.g., COS101, MAT105)..." 
+                                aria-label="Module Search"
+                                autocomplete="off"
+                                required>
+
                             <button class="btn btn-gold text-dark font-weight-bold px-4 rounded-pill" type="submit">
-                                <!-- Bold "Search" label text inside the button -->
                                 <strong>Search</strong>
-                            <!-- End of the search button -->
                             </button>
                             
-                        <!-- End of the search form -->
                         </form>
-                        
 
+                        <!-- Datalist placed outside the flex input-group container -->
+                        <datalist id="modulesDatalist">
+                            {% for mod in Modules %}
+                                {# Fallback checks to prevent empty option values #}
+                                {% set code_val = mod.mod_cod or mod.mod_code or mod.code %}
+                                {% set name_val = mod.mod_name or mod.name or '' %}
+                                <option value="{{ code_val }}">{{ name_val }}</option>
+                            {% endfor %}
+                        </datalist>
 
-
-
-
-
-
-
-
-
-
-
-                    <!-- End of the search bar column -->
                     </div>
                 <!-- End of the centering row -->
                 </div>
@@ -229,7 +221,7 @@
 
 
                         
-<!--I need to get images to replace the emojis-->>
+<!--I need to get images to replace the emojis-->
                         <!-- Link wrapping the whole card, pointing to the Arts faculty page, with no underline and dark text -->
                         <a href="{{ url_for('Program', faculty=fac['fac_name']) }}" class="text-decoration-none text-dark">
                             <!-- Bootstrap card with full height, no border, shadow, vertical padding, and a custom faculty-card style -->

@@ -256,6 +256,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
+
+
+
+
+
+
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -267,9 +277,10 @@
         const isLoggedIn = "{{ 'true' if user else 'false' }}" === 'true';
         const currentUser = "{{ user or '' }}";
 
-        // Read module code from URL parameter, fallback to Jinja module_code
+        // Read URL parameters (code is required, program is optional)
         const urlParams = new URLSearchParams(window.location.search);
         const targetCode = urlParams.get('code') || "{{ module_code }}";
+        const targetProgram = urlParams.get('program'); // Returns null if not present in URL
 
         // Parse module_info dictionary injected directly from Flask
         const selectedMod = JSON.parse('{{ module_info | tojson | safe }}') || {
@@ -284,9 +295,13 @@
         if (document.getElementById('moduleCodeBadge')) {
             document.getElementById('moduleCodeBadge').textContent = targetCode;
         }
+
+        // Handle title dynamically: uses program name if available, otherwise defaults to module name
         if (document.getElementById('moduleNameTitle')) {
-            document.getElementById('moduleNameTitle').textContent = selectedMod.course_name || selectedMod.name || "Module Details";
+            const defaultName = selectedMod.course_name || selectedMod.name || "Module Details";
+            document.getElementById('moduleNameTitle').textContent = targetProgram ? targetProgram : defaultName;
         }
+
         if (document.getElementById('modCreditsYear')) {
             document.getElementById('modCreditsYear').textContent = ` ${selectedMod.year || '1st Year'}`;
         }
@@ -532,6 +547,7 @@
 
                 const newReviewPayload = {
                     code: targetCode,
+                    program: targetProgram || null, // Sends program string or null to backend
                     user: currentUser ? `Student #${currentUser}` : "Verified Student",
                     date: formattedDate,
                     difficulty: difficultyValue,
