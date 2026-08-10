@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify,redirect,session, url_for, flash
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from datetime import datetime
 
 from flask_session import Session
 import mysql.connector
@@ -660,12 +661,222 @@ def get_mode_info(mode_code):
 
 
 
+def get_reviews(module_code):
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # 1. Fetch module primary key ID using mod_code
+        get_id = "SELECT id FROM modules WHERE mod_code=%s"
+        mycursor.execute(get_id, (module_code,))
+        mod_result = mycursor.fetchone()
+        
+        # If module code doesn't exist, return empty list safely
+        if not mod_result:
+            return []
+
+        mod_id = mod_result["id"]
+
+        # 2. Fetch reviews using exact schema column names
+        get_reviews_query = """
+            SELECT 
+                IF(r.is_anonymous, 'Anonymous Student', COALESCE(u.username, 'Student')) AS user_id,
+                r.difficulty_rating,
+                r.teaching_rating AS teaching,
+                r.content_rating AS content,
+                r.pros,
+                r.cons,
+                r.general_advice,
+                DATE_FORMAT(r.date_posted, '%b %d, %Y') AS date
+            FROM reviews r
+            LEFT JOIN users u ON r.user_id = u.id
+            WHERE r.module_id = %s
+            ORDER BY r.id DESC
+        """
+        
+        mycursor.execute(get_reviews_query, (mod_id,))
+        mod_review_info = mycursor.fetchall()
+
+        return mod_review_info or []
+
+    except Exception as error:
+        print(f"❌ DATABASE ERROR: {error}")
+        return []
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def add_a_review(payload: dict):
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        mod_code=payload.get('code')
+        get_mod_id="SELECT id FROM modules WHERE mod_code=%s"
+        mycursor.execute(get_mod_id,(mod_code,))
+        module_result = mycursor.fetchone()
+
+        if not module_result:
+            print(f"Module '{mod_code}' not found.")
+            return False
+
+        module_id=module_result["id"]          #The fetchone will return a dictionary, so I am doing this to get the integer value
+
+
+
+        user=payload.get('user')
+        get_user_id="SELECT id FROM users WHERE username=%s"
+        mycursor.execute(get_user_id,(user,))
+        user_result = mycursor.fetchone()
+
+        if not user_result:
+            print(f"User '{user}' not found.")
+            return False
+
+        user_id = user_result['id']          #The fetchone will return a dictionary, so I am doing this to get the integer value
 
 
 
 
 
-#print(get_mode_info("COS101"))
+        diff=payload.get('difficulty')
+        teach=payload.get('teaching')
+        content=payload.get('content')
+
+        pros = payload.get('pros')
+        cons= payload.get('cons')
+        advice=payload.get('advice')
+
+        review_values = (
+            diff,
+            teach,
+            content,
+            pros,
+            cons,
+            advice,
+            user_id,
+            module_id
+        )
+
+        insert_query = """
+            INSERT INTO reviews (
+                difficulty_rating,
+                teaching_rating,
+                content_rating,
+                pros,
+                cons,
+                general_advice,
+                user_id,
+                module_id
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+
+
+        mycursor.execute(insert_query, review_values)
+        mydatabase.commit()
+
+
+        print(f"Review inserted successfully! (Inserted Row ID: {mycursor.lastrowid})")
+        return True
+
+
+    except Error as error:
+        if mydatabase:
+            mydatabase.rollback()
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def already_reviewed(mod_code,user):
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        get_mod_id="SELECT id FROM modules WHERE mod_code=%s"
+        mycursor.execute(get_mod_id,(mod_code,))
+        module_result = mycursor.fetchone()
+
+        if not module_result:
+            print(f"Module '{mod_code}' not found.")
+            return False
+
+        module_id=module_result["id"]          #The fetchone will return a dictionary, so I am doing this to get the integer value
+
+        
+        get_user_id="SELECT id FROM users WHERE username=%s"
+        mycursor.execute(get_user_id,(user,))
+        user_result = mycursor.fetchone()
+
+        if not user_result:
+            print(f"User '{user}' not found.")
+            return False
+
+        user_id = user_result['id']          #The fetchone will return a dictionary, so I am doing this to get the integer value
+
+
+        check_query="SELECT id FROM reviews WHERE user_id=%s AND module_id=%s"
+        mycursor.execute(check_query,(user_id,module_id))
+        existing_review = mycursor.fetchone()
+
+        # True if a review exists, False if user hasn't reviewed yet
+        return existing_review is not None
+
+
+    except Error as error:
+        if mydatabase:
+            mydatabase.rollback()
+        print(f" Database Error encountered: {error}")
+        return False
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+
+
+
+
+
 
 
 
@@ -702,15 +913,14 @@ Session(app)
 
 
 
-
-
+    
 
 @app.route("/",methods=["GET"])
 def index():
     Faculties = getfaculties()
 
     module_list=get_all_modules()
-
+    
 
 
     return render_template("1_index.html",Faculties=Faculties,user=session.get("user"),Modules=module_list )
@@ -852,10 +1062,9 @@ def module_page():
     module_info=get_single_module(module_code,program_name)
 
 
-    I should probably send all the reviews as well
+    reviews=get_reviews(module_code)
 
-
-    return render_template("1_modulepage.html",module_code=module_code,module_info=module_info,user=session.get("user"))
+    return render_template("1_modulepage.html",module_code=module_code,module_info=module_info,user=session.get("user"),reviews=reviews)
 
 
 @app.route('/Module')
@@ -864,14 +1073,14 @@ def module_direct():
     mode_info=get_mode_info(mode_code)
 
 
-    I should probably send all the reviews as well
+    reviews=get_reviews(mode_code)
 
 
 
     print(f"This is the mode: {mode_code}")
 
 
-    return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"))
+    return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"),reviews=reviews)
 
 
 
@@ -883,22 +1092,72 @@ def module_direct():
 
 @app.route('/add-review', methods=['POST'])
 def add_review():
-    """
-    Endpoint that handles the JavaScript fetch() submission.
-    """
+
+    # 1. Parse JSON body sent from the JS fetch request
+    data = request.get_json()
+    if not data:
+        return jsonify({'status': 'error', 'message': 'No data payload received.'}), 400
+
+    # 2. Verify authentication on the server side
+    # Don't rely strictly on client-side JS flags
+    current_user = session.get('user')
+    if not current_user:
+        return jsonify({'status': 'error', 'message': 'Authentication required to post a review.'}), 401
+
+    # 3. Extract and cast form values matching modal elements
     try:
-        # Convert the raw JSON string payload sent by fetch() into a native Python dictionary
-        data = request.get_json()
+        review_payload = {
+                    'code': data.get('code'),
+                    'program': data.get('program'),
+                    'user': current_user,
+                    'difficulty': int(data.get('difficulty_rating', 0)),
+                    'teaching': int(data.get('teaching', 0)),
+                    'content': int(data.get('content', 0)),
+                    'pros': data.get('pros', '').strip(),
+                    'cons': data.get('cons', '').strip(),
+                    'advice': (data.get('general_advice') or '').strip()
+                }
 
 
 
-
-        # I first went to sort out the login info in order to be able to do this.
-
-
+       
         
-        return
 
-    except Exception as error:
-        # Handle unexpected server errors
-        return jsonify({'status': 'error', 'message': str(error)}), 500
+    except (ValueError, TypeError):
+        return jsonify({'status': 'error', 'message': 'Invalid score rating payload.'}),400
+
+    # 4. Input Vlidation
+
+    """Here is where I should add the verifying whether the review is safe or not
+    
+    if not review_safety:
+        return jsonify({'status': 'error', 'message': 'The review is not safe to add.'})
+    
+        
+
+    """
+    if not review_payload.get('code') or not review_payload.get('pros') or not review_payload.get('cons') or not review_payload.get('advice'):
+        return jsonify({'status': 'error', 'message': 'All required fields must be completed.'}), 400
+    
+
+    if already_reviewed(review_payload.get("code"),review_payload.get("user")):
+        return jsonify({'status': 'error', 'message': 'A user cannot add multipple reviews to a singular module'}), 400
+
+
+    if not (1 <= review_payload['difficulty'] <= 10 and 1 <= review_payload['teaching'] <= 10 and 1 <= review_payload['content'] <= 10):
+        return jsonify({'status': 'error', 'message': 'Ratings must be between 1 and 10.'}),400
+
+    # 5. Database Insertion Logic (Example: Flask-SQLAlchemy)
+    success = add_a_review(review_payload)
+
+    if not success:
+        return jsonify({'status': 'error', 'message': 'Failed to save review to the database.'}), 500
+
+
+
+    # 6. Response expected by frontend JS block (data.status === 'success')
+    return jsonify({
+        'status': 'success',
+        'message': 'Evaluation posted successfully!'
+    })
+

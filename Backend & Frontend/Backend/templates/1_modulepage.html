@@ -265,7 +265,6 @@
 
 
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -273,16 +272,24 @@
         // 1. FLASK BACKEND DATA & SESSION INTEGRATION
         // ===================================================================
 
-        // Check if a user is logged in via Flask session
+        // Read Flask/Jinja session variables rendered on the server side:
+        // - Jinja evaluates {{ 'true' if user else 'false' }} into a string literal "true" or "false"
+        // - Jinja evaluates {{ user or '' }} into the logged-in username or an empty string
         const isLoggedIn = "{{ 'true' if user else 'false' }}" === 'true';
         const currentUser = "{{ user or '' }}";
 
-        // Read URL parameters (code is required, program is optional)
+        // Extract query parameters from the current page URL (e.g., ?code=CS101&program=Computer+Science)
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // Fall back to server-injected {{ module_code }} if 'code' is missing from the URL
         const targetCode = urlParams.get('code') || "{{ module_code }}";
-        const targetProgram = urlParams.get('program'); // Returns null if not present in URL
+        
+        // Returns null if the 'program' parameter is not present in the URL query string
+        const targetProgram = urlParams.get('program');
 
-        // Parse module_info dictionary injected directly from Flask
+        // Parse the Flask module dictionary into a native JS object:
+        // '| tojson | safe' converts a Python dictionary into a valid JSON string without escaping HTML characters.
+        // If the backend object is empty/null, fall back to default fallback values.
         const selectedMod = JSON.parse('{{ module_info | tojson | safe }}') || {
             course_name: "Academic Curricular Course Module",
             credits: "15 Credits",
@@ -291,17 +298,21 @@
             coreqs: "None"
         };
 
-        // Populate Module Details on DOM
+        // --- DOM POPULATION FOR MODULE DETAILS ---
+        // Safely update DOM text nodes if the corresponding HTML elements exist on the page
+
+        // Display the target module code (e.g., "CS101") inside a badge element
         if (document.getElementById('moduleCodeBadge')) {
             document.getElementById('moduleCodeBadge').textContent = targetCode;
         }
 
-        // Handle title dynamically: uses program name if available, otherwise defaults to module name
+        // Set page header title: prefer URL program name if provided, otherwise default to module name
         if (document.getElementById('moduleNameTitle')) {
             const defaultName = selectedMod.course_name || selectedMod.name || "Module Details";
             document.getElementById('moduleNameTitle').textContent = targetProgram ? targetProgram : defaultName;
         }
 
+        // Populate metadata details: academic year, prerequisites, and co-requisites
         if (document.getElementById('modCreditsYear')) {
             document.getElementById('modCreditsYear').textContent = ` ${selectedMod.year || '1st Year'}`;
         }
@@ -316,76 +327,95 @@
         // 2. REVIEWS DATASET
         // ===================================================================
 
-        let reviewDataset = [
-            {
-                user: "Anonymous Student",
-                date: "Oct 12, 2025",
-                difficulty: 8,
-                teaching: 7,
-                content: 9,
-                pros: "The coursework is very well structured. Practical sessions are excellent.",
-                cons: "The workload ramps up very quickly after the mid-term.",
-                advice: "Make sure you attend all the practical sessions, they help immensely with the final assignments."
-            },
-            {
-                user: "Jane Doe",
-                date: "Sep 05, 2025",
-                difficulty: 6,
-                teaching: 8,
-                content: 8,
-                pros: "Tutors are incredibly helpful and always available.",
-                cons: "Lectures can be a bit dry sometimes.",
-                advice: "The pacing is a bit fast in the second term, but the tutors are always willing to help."
-            }
-        ];
+
+
+
+
+
+
+
+
+
+
+        // Local client-side review array initialized with mock student feedback.
+        // Each object represents a single student evaluation with sub-scores out of 10.
+        // Replace hardcoded reviewDataset with Flask Jinja data
+        let reviewDataset = JSON.parse('{{ reviews | tojson | safe }}') || [];
+
+
+
+
+
+
+
 
         // ===================================================================
         // 3. UI & MODAL AUTH CONTROLS
         // ===================================================================
 
+        // Grab UI DOM nodes for review submission trigger and modal popup
         const writeReviewBtn = document.getElementById('writeReviewBtn');
         const reviewModalEl = document.getElementById('reviewModal');
+        
+        // Initialize Bootstrap 5 Modal instance if the modal container exists in the HTML
         const reviewModalInstance = reviewModalEl ? new bootstrap.Modal(reviewModalEl) : null;
 
+        /**
+        * Updates the "Write a Review" button's visual state based on user login status.
+        */
         function updateAuthUI() {
             if (!writeReviewBtn) return;
 
             if (isLoggedIn) {
+                // Logged-in styling: Blue primary button with a edit/pen icon
                 writeReviewBtn.className = "btn btn-primary rounded-pill px-4 fw-bold shadow-sm";
                 writeReviewBtn.innerHTML = '<i class="fa-solid fa-pen me-2"></i>Write a review';
             } else {
+                // Guest styling: Muted secondary button with a lock icon
                 writeReviewBtn.className = "btn btn-secondary rounded-pill px-4 fw-bold shadow-sm";
                 writeReviewBtn.innerHTML = '<i class="fa-solid fa-lock me-2"></i>Log in to write review';
             }
         }
 
+        // Attach click listener to the review button
         if (writeReviewBtn) {
             writeReviewBtn.addEventListener('click', function() {
                 if (!isLoggedIn) {
+                    // Block guests with an alert prompt
                     alert("🔒 Access Restricted: Please log in to your student account to submit a module evaluation!");
                 } else if (reviewModalInstance) {
+                    // Open Bootstrap submission modal for authenticated users
                     reviewModalInstance.show();
                 }
             });
         }
 
+        // Set initial button visual state on script load
         updateAuthUI();
 
         // ===================================================================
         // 4. STAR RATING GENERATOR
         // ===================================================================
 
+        /**
+        * Converts a numerical rating (0.0 to 5.0) into FontAwesome star HTML markup.
+        * @param {number} ratingValue - Calculated score out of 5
+        * @returns {string} String containing FontAwesome <i> star icon tags
+        */
         function generateStarsHTML(ratingValue) {
             let starsHtml = '';
-            const fullStars = Math.floor(ratingValue);
-            const hasHalf = (ratingValue % 1) >= 0.4;
+            const fullStars = Math.floor(ratingValue); // Get integer count of full stars
+            const hasHalf = (ratingValue % 1) >= 0.4;   // Add half star if remainder is >= 0.4
 
             for (let i = 1; i <= 5; i++) {
                 if (i <= fullStars) {
+                    // Full solid star
                     starsHtml += '<i class="fa-solid fa-star"></i>';
                 } else if (i === fullStars + 1 && hasHalf) {
+                    // Half star
                     starsHtml += '<i class="fa-solid fa-star-half-stroke"></i>';
                 } else {
+                    // Empty outline star
                     starsHtml += '<i class="fa-regular fa-star"></i>';
                 }
             }
@@ -396,39 +426,55 @@
         // 5. METRICS CALCULATION & REVIEW CARD RENDERING
         // ===================================================================
 
+        /**
+        * Calculates overall module metrics, renders individual review cards,
+        * and updates summary widgets across the dashboard.
+        */
         function processMetricsAndRender() {
             const container = document.getElementById('reviewsContainer');
             if (!container) return;
             
+            // Reset the container HTML to prepare for re-rendering
             container.innerHTML = '';
 
+            // Accumulators for aggregate module metrics
             let totalDifficulty = 0;
             let totalTeaching = 0;
             let totalContent = 0;
             let compositeGlobalStarsSum = 0;
 
+            // Loop through each review object in the dataset
             reviewDataset.forEach((rev, index) => {
-                totalDifficulty += rev.difficulty;
+                // Aggregate raw 10-point sub-scores
+                totalDifficulty += rev.difficulty_rating;
                 totalTeaching += rev.teaching;
                 totalContent += rev.content;
 
-                const localTenPointAvg = (rev.difficulty + rev.teaching + rev.content) / 3;
+                // Compute local overall rating for this single review:
+                // 1. Average the 3 category scores (0-10)
+                // 2. Divide by 2 to convert to a 5-star scale
+                const localTenPointAvg = (rev.difficulty_rating + rev.teaching + rev.content) / 3;
                 const localFiveStarRating = localTenPointAvg / 2;
                 compositeGlobalStarsSum += localFiveStarRating;
 
+                // Generate star icons string for this review
                 const starsHtml = generateStarsHTML(localFiveStarRating);
+                
+                // Unique ID for toggling the Bootstrap collapse element per card
                 const collapseId = `metricCollapse_${index}`;
 
+                // Build review card HTML dynamically using Template Literals
                 const cardHTML = `
                     <div class="card shadow-sm border-0 review-card p-3 mb-3">
                         <div class="card-body">
+                            <!-- Review Header: User details, rating, and date -->
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="bg-light rounded-circle d-flex align-items-center justify-content-center text-muted" style="width: 40px; height: 40px;">
                                         <i class="fa-solid fa-user"></i>
                                     </div>
                                     <div>
-                                        <h6 class="fw-bold mb-0">${rev.user}</h6>
+                                        <h6 class="fw-bold mb-0">${rev.user_id}</h6>
                                         <small class="text-muted">${rev.date}</small>
                                     </div>
                                 </div>
@@ -438,13 +484,16 @@
                                 </div>
                             </div>
                             
-                            <p class="text-dark my-3 small fw-medium"><i class="fa-solid fa-quote-left text-muted me-2 opacity-50"></i>${rev.advice}</p>
+                            <!-- Review Advice / Quote -->
+                            <p class="text-dark my-3 small fw-medium"><i class="fa-solid fa-quote-left text-muted me-2 opacity-50"></i>${rev.general_advice}</p>
                             
+                            <!-- Collapsible Section Toggle Button -->
                             <div class="mt-3 pt-2 border-top">
                                 <button class="btn btn-sm btn-link text-navy p-0 fw-bold text-decoration-none small d-flex align-items-center gap-1" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false">
                                     <i class="fa-solid fa-sliders text-muted"></i> View Pros, Cons & Category Scores <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
                                 </button>
                                 
+                                <!-- Collapsible Content: Pros, Cons, and Sub-Score Progress Bars -->
                                 <div class="collapse mt-3" id="${collapseId}">
                                     <div class="row g-4 mb-3 px-1">
                                         <div class="col-md-6">
@@ -459,13 +508,15 @@
 
                                     <div class="bg-light p-3 rounded border">
                                         <div class="row g-3">
+                                            <!-- Difficulty Progress Bar -->
                                             <div class="col-sm-4">
                                                 <div class="text-muted small mb-1 fw-bold">Difficulty Challenge</div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-grow-1 micro-progress"><div class="progress-bar bg-navy" style="width: ${rev.difficulty * 10}%"></div></div>
-                                                    <span class="small fw-bold text-dark">${rev.difficulty}/10</span>
+                                                    <div class="progress flex-grow-1 micro-progress"><div class="progress-bar bg-navy" style="width: ${rev.difficulty_rating * 10}%"></div></div>
+                                                    <span class="small fw-bold text-dark">${rev.difficulty_rating}/10</span>
                                                 </div>
                                             </div>
+                                            <!-- Teaching Quality Progress Bar -->
                                             <div class="col-sm-4">
                                                 <div class="text-muted small mb-1 fw-bold">Teaching Quality</div>
                                                 <div class="d-flex align-items-center gap-2">
@@ -473,6 +524,7 @@
                                                     <span class="small fw-bold text-dark">${rev.teaching}/10</span>
                                                 </div>
                                             </div>
+                                            <!-- Content Relevance Progress Bar -->
                                             <div class="col-sm-4">
                                                 <div class="text-muted small mb-1 fw-bold">Content Relevance</div>
                                                 <div class="d-flex align-items-center gap-2">
@@ -489,35 +541,44 @@
                         </div>
                     </div>
                 `;
+                // Append generated HTML string to container element
                 container.innerHTML += cardHTML;
             });
 
+            // --- GLOBAL SUMMARY METRICS UPDATE ---
             const len = reviewDataset.length;
             if (len > 0) {
+                // Compute averages across all existing reviews
                 const finalAvgDifficulty = totalDifficulty / len;
                 const finalAvgTeaching = totalTeaching / len;
                 const finalAvgContent = totalContent / len;
                 const finalGlobalStarsAverage = compositeGlobalStarsSum / len;
 
+                // Render calculated totals and average progress bars into summary dashboard components
                 if (document.getElementById('overallScore')) document.getElementById('overallScore').textContent = finalGlobalStarsAverage.toFixed(1);
                 if (document.getElementById('totalReviewsCount')) document.getElementById('totalReviewsCount').textContent = `${len} student reviews`;
                 if (document.getElementById('overallStarsContainer')) document.getElementById('overallStarsContainer').innerHTML = generateStarsHTML(finalGlobalStarsAverage);
                 
+                // Update difficulty metric and bar width
                 if (document.getElementById('avgDifficulty')) document.getElementById('avgDifficulty').textContent = `${finalAvgDifficulty.toFixed(1)}/10`;
                 if (document.getElementById('barDifficulty')) document.getElementById('barDifficulty').style.width = `${finalAvgDifficulty * 10}%`;
                 
+                // Update teaching metric and bar width
                 if (document.getElementById('avgTeaching')) document.getElementById('avgTeaching').textContent = `${finalAvgTeaching.toFixed(1)}/10`;
                 if (document.getElementById('barTeaching')) document.getElementById('barTeaching').style.width = `${finalAvgTeaching * 10}%`;
                 
+                // Update content metric and bar width
                 if (document.getElementById('avgContent')) document.getElementById('avgContent').textContent = `${finalAvgContent.toFixed(1)}/10`;
                 if (document.getElementById('barContent')) document.getElementById('barContent').style.width = `${finalAvgContent * 10}%`;
             } else {
+                // Default state when 0 reviews exist
                 if (document.getElementById('overallScore')) document.getElementById('overallScore').textContent = "0.0";
                 if (document.getElementById('totalReviewsCount')) document.getElementById('totalReviewsCount').textContent = "0 student reviews";
                 if (document.getElementById('overallStarsContainer')) document.getElementById('overallStarsContainer').innerHTML = generateStarsHTML(0);
             }
         }
 
+        // Initial render call on DOM load
         processMetricsAndRender();
 
         // ===================================================================
@@ -527,37 +588,44 @@
         const addReviewForm = document.getElementById('addReviewForm');
         if (addReviewForm) {
             addReviewForm.addEventListener('submit', function(e) {
+                // Prevent default HTML form navigation / full page reload
                 e.preventDefault();
 
+                // Guard check: enforce authentication state
                 if (!isLoggedIn) {
                     alert("Action blocked: You must be logged in to post a review.");
                     return;
                 }
 
+                // Read integer slider/number values from form inputs
                 const difficultyValue = parseInt(document.getElementById('inputDifficulty').value);
                 const teachingValue = parseInt(document.getElementById('inputTeaching').value);
                 const contentValue = parseInt(document.getElementById('inputContent').value);
                 
+                // Read text values from textareas/inputs
                 const prosText = document.getElementById('inputPros').value;
                 const consText = document.getElementById('inputCons').value;
                 const adviceText = document.getElementById('inputAdvice').value;
 
+                // Generate localized date string (e.g., "Oct 12, 2026")
                 const options = { month: 'short', day: '2-digit', year: 'numeric' };
                 const formattedDate = new Date().toLocaleDateString('en-US', options);
 
+                // Construct JSON request body payload matching Flask expectation
                 const newReviewPayload = {
                     code: targetCode,
-                    program: targetProgram || null, // Sends program string or null to backend
-                    user: currentUser ? `Student #${currentUser}` : "Verified Student",
+                    program: targetProgram || null,
+                    user_id: currentUser ? `Student #${currentUser}` : "Verified Student", // changed from 'user'
                     date: formattedDate,
-                    difficulty: difficultyValue,
+                    difficulty_rating: difficultyValue, // changed from 'difficulty'
                     teaching: teachingValue,
                     content: contentValue,
                     pros: prosText,
                     cons: consText,
-                    advice: adviceText
+                    general_advice: adviceText // changed from 'advice'
                 };
 
+                // Send AJAX HTTP POST request to Flask endpoint '/add-review'
                 fetch('/add-review', {
                     method: 'POST',
                     headers: {
@@ -565,26 +633,32 @@
                     },
                     body: JSON.stringify(newReviewPayload)
                 })
-                .then(response => response.json())
+                .then(response => response.json()) // Parse JSON response from server
                 .then(data => {
                     if (data.status === 'success') {
+                        // Prepend new review object to the top of the local dataset array
                         reviewDataset.unshift(newReviewPayload);
+
+                        // Re-calculate statistics and re-render the card list without reloading
                         processMetricsAndRender();
 
+                        // Reset form fields and hide submission modal dialog
                         addReviewForm.reset();
                         if (reviewModalInstance) reviewModalInstance.hide();
                     } else {
+                        // Display server-returned error message
                         alert("Failed to submit review: " + (data.message || 'Unknown error'));
                     }
                 })
                 .catch(error => {
+                    // Handle network or unexpected server errors
                     console.error("Submission Error:", error);
                     alert("Server error: Could not save review.");
                 });
             });
         }
 
-    });
+    })
 </script>
 
 </body>
