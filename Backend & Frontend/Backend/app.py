@@ -7,10 +7,33 @@ from flask_session import Session
 import mysql.connector
 from mysql.connector import Error
 
+import os
+from google import genai
+
+
+#This automatically grabs the API key from my Windows Environment variables
+    #Side note:    You'd need to set up an gemini api key if you plan on working on this project
+
+
+"""
+client=genai.Client()
+
+interaction = client.interactions.create(
+    model="gemini-3.6-flash", input="I want you to look at the what is after the colon, and moderate it for me. Is it safe to post to a social university application. I want no unprofesional negativity towards a person or professor. ? Respond with True if yes and False if no.: I hate that professor drinks"
+
+)
+
+print(interaction.output_text)
+"""
+
+
+
 
 #I now neeeed to work on the reviews and AI api for verifying reviews
 
 
+
+#I need to create a new html page fpor the AI side of the code as well as find a way to check reviews before They are posted 
 
 
 
@@ -456,7 +479,6 @@ def get_all_programmes():
             print("MySQL database connection securely closed.")
 
 
-
 def add_user(student_number,password,programme,year_of_study,student_email):
     mydatabase = None
 
@@ -872,28 +894,49 @@ def already_reviewed(mod_code,user):
             print("MySQL database connection securely closed.")
 
 
+def safe_moderation(Pros, Cons, Advice):
+    client=genai.Client()
+    comment=Pros+Cons+Advice
+
+    moderation_prompt = """
+        You are a content moderator for a professional university social application. Analyze the comment provided after the colon. Determine whether it is safe to post. It must NOT contain:
+        - Unprofessional negativity, harassment, or personal attacks directed at any student, person, or professor.
+        - Hate speech, profanity, or malicious spam.
+        - Bullying or toxic behavior.
+
+        Constructive academic disagreement or casual conversation is allowed. 
+
+        Respond with ONLY the exact word "True" if it is safe, or "False" if it violates the rules. Do not include any punctuation, explanation, or extra text.
+
+        Comment to evaluate: 
+        """
+
+    interaction = client.interactions.create(
+        model="gemini-3.5-flash-lite", 
+        input=moderation_prompt + comment,generation_config={
+          "max_output_tokens": 5,  # Stop generating instantly after True/False
+          "temperature": 0.0,  # Zero randomness speeds up processing
+      },
+        
+
+    )
+
+    if interaction.output_text.strip() == "True":
+        return True
+    else:
+        return False    
 
 
 
 
 
+pros="Well, this module covers the very basics on how to use a computer so that's a positive"
+cons="The content is a bit outdated, and for most of the periods we were just on the computer working through the questions in the online textbook. The proffesors don't really lecture at all." 
+advice="I considered it as a free period. But fuck does professors, the group they gave me to work with for the final project were dogshit."
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(safe_moderation(pros,cons,advice))
 
 app = Flask(__name__)
 
@@ -966,9 +1009,6 @@ def register():
         if added:
 
 
-
-
-            #--------------------------------------------------------------------------------------------------
 
 
 
@@ -1083,13 +1123,6 @@ def module_direct():
     return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"),reviews=reviews)
 
 
-
-
-
-
-
-
-
 @app.route('/add-review', methods=['POST'])
 def add_review():
 
@@ -1128,14 +1161,11 @@ def add_review():
 
     # 4. Input Vlidation
 
-    """Here is where I should add the verifying whether the review is safe or not
     
-    if not review_safety:
-        return jsonify({'status': 'error', 'message': 'The review is not safe to add.'})
+    if not safe_moderation(review_payload.get("pros"),review_payload.get("cons"),review_payload.get("advice")):
+        return jsonify({'status': 'error', 'message': 'This review might be toxic or contain vulgar language'})
     
-        
 
-    """
     if not review_payload.get('code') or not review_payload.get('pros') or not review_payload.get('cons') or not review_payload.get('advice'):
         return jsonify({'status': 'error', 'message': 'All required fields must be completed.'}), 400
     
