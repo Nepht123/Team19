@@ -1,0 +1,21 @@
+Module descriptor:
+Simple, just use a prompt
+
+Full degree roadmap:
+potential but the problem with that is the student can study dei
+
+AI career guide: 
+- A student can ask for a specific job field and the AI will be able to show them the programme and modules they need in order to make it to that field.
+- The Ai can show the year they would take each particular module, the pre-requisites and co-requisites that are required with that module
+
+
+
+
+I Will have two different AI sections:
+
+~First one in the review page where the AI will take all the reviews and generate a summary of it, 
+but if there are no reviews the Ai will use the learning outcomes and main content to generate a summary.
+
+~The second one will an AI career guide:
+- A student can ask for a specific job field and the AI will be able to show them the programme and modules they need in order to make it to that field.
+- The Ai can show the year they would take each particular module, the pre-requisites and co-requisites that are required with that module and how each module is going to help in there career.

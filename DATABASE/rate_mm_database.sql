@@ -8,7 +8,10 @@ id INT PRIMARY KEY AUTO_INCREMENT,
 mod_code VARCHAR(15) UNIQUE NOT NULL,
 mod_name VARCHAR(127) NOT NULL,
 prerequisites VARCHAR(255) DEFAULT "None",
-corequisites VARCHAR(255) DEFAULT "None"
+corequisites VARCHAR(255) DEFAULT "None",
+learning_outcome VARCHAR(2000) NOT NULL DEFAULT 'None',
+main_content VARCHAR(2000) NOT NULL DEFAULT 'None',
+credits VARCHAR(20) NOT NULL DEFAULT 'None',
 
 );
 
@@ -95,9 +98,27 @@ CREATE TABLE reviews (
 
 
 Use rate_mm;
-SELECT * FROM users;
+
 SELECT * FROM modules;
-SELECT * FROM course_modules;
+DELETE FROM reviews WHERE id =6; 
+SELECT * FROM courses;
+
+
+
+Select id from modules where mod_code="APG232";
+
+SELECT id FROM users WHERE username=4492340;
+
+
+
+
+
+Select mod_name from modules where id=1;
+
+SELECT id FROM courses where course_name="Bachelor of Science in Applied Geology";
+
+
+SELECT id FROM faculties where fac_name="Law";
 
 
  

@@ -299,7 +299,7 @@
 
         // 3. Update button text & destination based on session state
         if (userIsLoggedIn) {
-            authActionButton.href = "AI_carear_page.html";
+            authActionButton.href = "{{ url_for('ai_guide') }}";
             authActionButton.textContent = "AI Guide";
         } else {
             authActionButton.href = "{{ url_for('log_in') }}";

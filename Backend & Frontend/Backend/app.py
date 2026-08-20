@@ -416,6 +416,10 @@ def get_single_module(module_code,program_name):
         programe_info_for_module["year"]=year_study["year_of_study"]
         programe_info_for_module["prereqs"]=module_info["prerequisites"]
         programe_info_for_module["coreqs"]=module_info["corequisites"]
+        programe_info_for_module["learning_outcome"]=module_info["learning_outcome"]
+        programe_info_for_module["main_content"]=module_info["main_content"]
+        programe_info_for_module["credits"]=module_info["credits"]
+
 
 
 
@@ -477,7 +481,6 @@ def get_all_programmes():
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
 
 def add_user(student_number,password,programme,year_of_study,student_email):
     mydatabase = None
@@ -664,7 +667,7 @@ def get_mode_info(mode_code):
 
         get_query="SELECT *FROM modules WHERE mod_code=%s"
         mycursor.execute(get_query,(mode_code,))
-        full_module_list = mycursor.fetchall()
+        full_module_list = mycursor.fetchone()
 
         return full_module_list
 
@@ -680,7 +683,6 @@ def get_mode_info(mode_code):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
 
 
 def get_reviews(module_code):
@@ -927,16 +929,92 @@ def safe_moderation(Pros, Cons, Advice):
         return False    
 
 
+def generate_ai_summary(mod_code):
+    mod_data=get_mode_info(mod_code)
+    mod_name=mod_data["mod_name"]
+    content=mod_data["main_content"]
+    outcome=mod_data["learning_outcome"]
+
+    reviews=get_reviews(mod_code)
+
+    all_general_advice=[]
 
 
 
-pros="Well, this module covers the very basics on how to use a computer so that's a positive"
-cons="The content is a bit outdated, and for most of the periods we were just on the computer working through the questions in the online textbook. The proffesors don't really lecture at all." 
-advice="I considered it as a free period. But fuck does professors, the group they gave me to work with for the final project were dogshit."
+    #If there were any comments
+    if len(reviews) != 0:
+        #I need an if statement that will only happen if the reviews list, isn't empty 
+        for x in reviews:
+            all_general_advice.append(x["pros"])
+            all_general_advice.append(x["cons"])
+            all_general_advice.append(x["general_advice"])
+
+
+        prompt = f"""
+        Write a concise 2-sentence summary for the module '{mod_name}'.
+        
+        Module name: {mod_name}
+        Syllabus Content: {content}
+        Learning Outcomes: {outcome}
+        Student Reviews: {all_general_advice}
+        
+        Combine syllabus facts with real student sentiment. Keep it under 75 words and student-friendly.
+        """
 
 
 
-print(safe_moderation(pros,cons,advice))
+    #Here is where I will be generating the summary
+
+
+
+
+    #if there weren't any comments
+
+    else:
+        prompt = f"""
+        Write a concise 2-sentence summary for the module '{mod_name}'.
+        
+        Module name: {mod_name}
+        Syllabus Content: {content}
+        Learning Outcomes: {outcome}
+        
+        Base this strictly on the course details above. Keep it under 75 words and student-friendly.
+        """
+        
+
+
+
+
+
+# 3. Call Gemini API
+    try:
+        client=genai.Client()
+        response = client.models.generate_content(
+            model="gemini-3.5-flash",
+            contents=prompt,
+            )
+        return response.text.strip()
+
+
+
+    
+    except Exception as e:
+        print(f"Gemini API Error: {e}")
+        return "This module covers core foundational concepts, practical exercises, and structured assessments."
+    
+
+print(generate_ai_summary("COS101"))#I need to figure out what to do about the AI guide
+
+
+
+
+
+
+
+
+
+
+
 
 app = Flask(__name__)
 
@@ -1072,9 +1150,6 @@ def logout():
     return redirect(url_for("index"))
 
 
-
-
-
 @app.route("/Program",methods=["GET"])
 def Program():
     # Flask automatically grabs 'faculty' from the URL query string
@@ -1117,7 +1192,7 @@ def module_direct():
 
 
 
-    print(f"This is the mode: {mode_code}")
+    #print(f"This is the mode: {mode_code}")
 
 
     return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"),reviews=reviews)
@@ -1191,3 +1266,21 @@ def add_review():
         'message': 'Evaluation posted successfully!'
     })
 
+
+@app.route('/Ai Guide',methods=["GET"])
+def ai_guide():
+    return
+
+
+
+
+@app.route("/api/module-summary")
+def api_module_summary():
+    # Grab module code from URL parameter e.g., /api/module-summary?code=COS101
+    mod_code = request.args.get("code")
+
+    if not mod_code:
+        return jsonify({"error": "Module code parameter is required"}), 400
+
+    summary = generate_ai_summary(mod_code)
+    return jsonify({"summary": summary})

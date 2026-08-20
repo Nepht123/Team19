@@ -67,7 +67,8 @@
         <div class="row g-4">
             
             <div class="col-lg-8">
-                
+    
+                <!-- Module Details Banner Card -->
                 <div class="card shadow-sm border-0 mb-4 p-2">
                     <div class="card-body">
                         <div class="d-flex align-items-start justify-content-between mb-3">
@@ -88,8 +89,56 @@
                     </div>
                 </div>
 
-                <h4 class="fw-bold text-secondary mb-3 mt-5">Student Reviews</h4>
-                
+                <!-- 1. AI Overview Card -->
+                <!-- 1. AI Overview Card -->
+                <div class="card shadow-sm border-0 mb-4 border-start border-4 border-primary">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h6 class="fw-bold text-navy mb-0">
+                                <i class="fa-solid fa-wand-magic-sparkles text-primary me-2"></i>AI Module Overview
+                            </h6>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill small">Syllabus Insights</span>
+                        </div>
+                        <p id="aiSummaryText" class="text-secondary small mb-0">
+                            <span class="spinner-border spinner-border-sm text-primary me-2" role="status"></span>
+                            Generating live summary from course syllabus and reviews...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2. Syllabus Accordion (Learning Outcomes & Main Content) -->
+                <div class="accordion border-0 shadow-sm rounded-3 mb-4" id="syllabusAccordion">
+                    <!-- Learning Outcomes -->
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold text-navy bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOutcomes">
+                                <i class="fa-solid fa-bullseye me-2 text-primary"></i> Learning Outcomes
+                            </button>
+                        </h2>
+                        <div id="collapseOutcomes" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                            <div class="accordion-body text-secondary small pt-0" id="modLearningOutcomes">
+                                Loading learning outcomes...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="accordion-item border-0 border-top">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold text-navy bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContent">
+                                <i class="fa-solid fa-book-open me-2 text-primary"></i> Main Content
+                            </button>
+                        </h2>
+                        <div id="collapseContent" class="accordion-collapse collapse" data-bs-parent="#syllabusAccordion">
+                            <div class="accordion-body text-secondary small pt-0" id="modMainContent">
+                                Loading main content...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Reviews Heading & Container -->
+                <h4 class="fw-bold text-secondary mb-3 mt-4">Student Reviews</h4>
                 <div id="reviewsContainer" class="d-flex flex-column gap-3"></div>
 
             </div>
@@ -142,13 +191,16 @@
                         <h5 class="fw-bold mb-4">Module Information</h5>
                         
                         <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                            <!-- Year -->
                             <li class="d-flex align-items-start gap-3">
                                 <div class="text-muted fs-5"><i class="fa-solid fa-bookmark"></i></div>
                                 <div>
                                     <h6 class="fw-bold mb-1">Year</h6>
-                                    <p class="text-muted small mb-0" id="modCreditsYear">15 Credits • 1st Year</p>
+                                    <p class="text-muted small mb-0" id="modYear">1st Year</p>
                                 </div>
                             </li>
+
+                            <!-- Prerequisites -->
                             <li class="d-flex align-items-start gap-3">
                                 <div class="text-muted fs-5"><i class="fa-solid fa-lock-open"></i></div>
                                 <div>
@@ -156,11 +208,22 @@
                                     <p class="text-muted small mb-0" id="modPrereqs">None</p>
                                 </div>
                             </li>
+
+                            <!-- Corequisites -->
                             <li class="d-flex align-items-start gap-3">
                                 <div class="text-muted fs-5"><i class="fa-solid fa-link"></i></div>
                                 <div>
                                     <h6 class="fw-bold mb-1">Corequisites</h6>
                                     <p class="text-muted small mb-0" id="modCoreqs">None</p>
+                                </div>
+                            </li>
+
+                            <!-- Credits (Under Corequisites) -->
+                            <li class="d-flex align-items-start gap-3">
+                                <div class="text-muted fs-5"><i class="fa-solid fa-graduation-cap"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Credits</h6>
+                                    <p class="text-muted small mb-0" id="modCredits">15 Credits</p>
                                 </div>
                             </li>
                         </ul>
@@ -298,29 +361,65 @@
             coreqs: "None"
         };
 
+
+        console.log("Module data from Flask:", selectedMod);
+
         // --- DOM POPULATION FOR MODULE DETAILS ---
         // Safely update DOM text nodes if the corresponding HTML elements exist on the page
 
-        // Display the target module code (e.g., "CS101") inside a badge element
+        // --- DOM POPULATION FOR MODULE DETAILS ---
+
+        // Display the target module code
         if (document.getElementById('moduleCodeBadge')) {
             document.getElementById('moduleCodeBadge').textContent = targetCode;
         }
 
-        // Set page header title: prefer URL program name if provided, otherwise default to module name
+        // Set page header title
         if (document.getElementById('moduleNameTitle')) {
             const defaultName = selectedMod.course_name || selectedMod.name || "Module Details";
             document.getElementById('moduleNameTitle').textContent = targetProgram ? targetProgram : defaultName;
         }
 
-        // Populate metadata details: academic year, prerequisites, and co-requisites
-        if (document.getElementById('modCreditsYear')) {
-            document.getElementById('modCreditsYear').textContent = ` ${selectedMod.year || '1st Year'}`;
+        // Populate Module Information sidebar
+        if (document.getElementById('modYear')) {
+            document.getElementById('modYear').textContent = selectedMod.year || "1st Year";
         }
         if (document.getElementById('modPrereqs')) {
             document.getElementById('modPrereqs').textContent = selectedMod.prereqs || "None";
         }
         if (document.getElementById('modCoreqs')) {
             document.getElementById('modCoreqs').textContent = selectedMod.coreqs || "None";
+        }
+        if (document.getElementById('modCredits')) {
+            document.getElementById('modCredits').textContent = selectedMod.credits || "15 Credits";
+        }
+
+
+
+        // Populate AI Summary & Accordion syllabus details
+        // Fetch AI Summary asynchronously from Flask endpoint
+        const aiSummaryBox = document.getElementById('aiSummaryText');
+        if (aiSummaryBox) {
+            fetch(`/api/module-summary?code=${encodeURIComponent(targetCode)}`)
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to load summary");
+                    return response.json();
+                })
+                .then(data => {
+                    aiSummaryBox.textContent = data.summary;
+                })
+                .catch(error => {
+                    console.error("AI Summary Fetch Error:", error);
+                    aiSummaryBox.textContent = "This module covers core foundational concepts, practical exercises, and structured assessments.";
+                });
+        }
+
+
+        if (document.getElementById('modLearningOutcomes')) {
+            document.getElementById('modLearningOutcomes').textContent = selectedMod.learning_outcome || selectedMod.learning_outcome || "No specific learning outcomes available.";
+        }
+        if (document.getElementById('modMainContent')) {
+            document.getElementById('modMainContent').textContent = selectedMod.main_content || "No detailed course content outline available.";
         }
 
         // ===================================================================
