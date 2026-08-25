@@ -669,6 +669,7 @@ def get_mode_info(mode_code):
         mycursor.execute(get_query,(mode_code,))
         full_module_list = mycursor.fetchone()
 
+
         return full_module_list
 
 
@@ -683,6 +684,115 @@ def get_mode_info(mode_code):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
+
+
+
+def get_programs_single_module(mode_code):
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        get_id="SELECT id FROM modules WHERE mod_code=%s"
+        mycursor.execute(get_id,(mode_code,))
+        mod_id = mycursor.fetchone()["id"]
+
+
+        get_list="SELECT course_id,year_of_study FROM course_modules WHERE module_id=%s"
+        mycursor.execute(get_list,(mod_id,))
+        full_programs_id_list = mycursor.fetchall()
+
+        course_names= get_programme_from_id(full_programs_id_list)
+
+        for i in range (len(full_programs_id_list)):
+            full_programs_id_list[i]["course_name"]=course_names[i]["course_name"]
+
+        
+        '''
+        I have a slight issue, so my course_module table is 
+        where we get the info on year and so on, but when you search just by module and not course, 
+        it doesn't show the year and prereq... so I need to find a way to update my single module page
+        -I could potentially get it to also get every program it is going to be in and list all of that in the mod info section 
+        aong with each  the other info.
+        '''
+        
+
+        return full_programs_id_list 
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+
+def get_programme_from_id(course_module):
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        '''# Practice to ensure that it is connected and working
+        mycursor.execute("show tables")
+        for i in mycursor:
+            print(i)
+        '''
+
+        program_ids=[]
+
+        for i in course_module:
+            get_name="SELECT course_name FROM courses WHERE id=%s"
+            mycursor.execute(get_name,(i["course_id"],))
+            program_ids.append(mycursor.fetchone())
+
+
+
+        
+
+        return program_ids
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
 
 
 def get_reviews(module_code):
@@ -1003,8 +1113,7 @@ def generate_ai_summary(mod_code):
         return "This module covers core foundational concepts, practical exercises, and structured assessments."
     
 
-print(generate_ai_summary("COS101"))#I need to figure out what to do about the AI guide
-
+print(get_programs_single_module("COS101"))#I need to figure out what to do about the AI guide
 
 
 
@@ -1186,6 +1295,7 @@ def module_page():
 def module_direct():
     mode_code=request.args.get("code")
     mode_info=get_mode_info(mode_code)
+    programs=get_programs_single_module(mode_code)
 
 
     reviews=get_reviews(mode_code)
@@ -1195,7 +1305,7 @@ def module_direct():
     #print(f"This is the mode: {mode_code}")
 
 
-    return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"),reviews=reviews)
+    return render_template("1_modulepage.html",module_code=mode_code,module_info=mode_info,user=session.get("user"),reviews=reviews,programs_list=programs)
 
 
 @app.route('/add-review', methods=['POST'])
@@ -1270,8 +1380,6 @@ def add_review():
 @app.route('/Ai Guide',methods=["GET"])
 def ai_guide():
     return
-
-
 
 
 @app.route("/api/module-summary")

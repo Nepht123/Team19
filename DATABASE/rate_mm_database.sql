@@ -11,7 +11,7 @@ prerequisites VARCHAR(255) DEFAULT "None",
 corequisites VARCHAR(255) DEFAULT "None",
 learning_outcome VARCHAR(2000) NOT NULL DEFAULT 'None',
 main_content VARCHAR(2000) NOT NULL DEFAULT 'None',
-credits VARCHAR(20) NOT NULL DEFAULT 'None',
+credits VARCHAR(20) NOT NULL DEFAULT 'None'
 
 );
 
