@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify,redirect,session, url_for, flash
+from flask import Flask, render_template, request, jsonify,redirect,session, url_for, flash, abort
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from datetime import datetime
@@ -10,6 +10,7 @@ from mysql.connector import Error
 import os
 from google import genai
 
+from functools import wraps
 
 #This automatically grabs the API key from my Windows Environment variables
     #Side note:    You'd need to set up an gemini api key if you plan on working on this project
@@ -686,7 +687,6 @@ def get_mode_info(mode_code):
             print("MySQL database connection securely closed.")
 
 
-
 def get_programs_single_module(mode_code):
 
     try:
@@ -747,7 +747,6 @@ def get_programs_single_module(mode_code):
             print("MySQL database connection securely closed.")
 
 
-
 def get_programme_from_id(course_module):
     try:
         mydatabase = mysql.connector.connect(
@@ -792,7 +791,6 @@ def get_programme_from_id(course_module):
             mycursor.close()
             mydatabase.close()
             print("MySQL database connection securely closed.")
-
 
 
 def get_reviews(module_code):
@@ -1050,7 +1048,6 @@ def generate_ai_summary(mod_code):
     all_general_advice=[]
 
 
-
     #If there were any comments
     if len(reviews) != 0:
         #I need an if statement that will only happen if the reviews list, isn't empty 
@@ -1071,12 +1068,7 @@ def generate_ai_summary(mod_code):
         Combine syllabus facts with real student sentiment. Keep it under 75 words and student-friendly.
         """
 
-
-
     #Here is where I will be generating the summary
-
-
-
 
     #if there weren't any comments
 
@@ -1090,12 +1082,6 @@ def generate_ai_summary(mod_code):
         
         Base this strictly on the course details above. Keep it under 75 words and student-friendly.
         """
-        
-
-
-
-
-
 # 3. Call Gemini API
     try:
         client=genai.Client()
@@ -1104,18 +1090,57 @@ def generate_ai_summary(mod_code):
             contents=prompt,
             )
         return response.text.strip()
-
-
-
     
     except Exception as e:
         print(f"Gemini API Error: {e}")
         return "This module covers core foundational concepts, practical exercises, and structured assessments."
+
     
 
-print(get_programs_single_module("COS101"))#I need to figure out what to do about the AI guide
 
 
+def get_user_role(user):
+    mydatabase = None
+
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+             database='rate_mm')
+        
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        person=session["user"]
+
+        get_query="SELECT role FROM users WHERE username=%s"
+        mycursor.execute(get_query,(user,))
+        get_role_dict = mycursor.fetchone()
+
+        get_role=get_role_dict["role"]
+
+        return get_role
+
+
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return None
+
+
+    finally:
+        # 4. ENVIRONMENT CLEANUP
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+    
+
+#print((get_user_role("4492340")))#I need to figure out what to do about the AI guide
 
 
 
@@ -1136,14 +1161,25 @@ app.config["SESSION_TYPE"]="filesystem"
 Session(app)
 
 
+# Decorator to protect all admin-only routes
+def admin_required(func):
+    @wraps(func)  # Prevents Flask endpoint naming conflicts
+    def wrapper(*args, **kwargs):
 
+        # Check if user is logged in AND has the admin role
+        if "user" not in session or session.get("role") != "ADMIN":
+            abort(403)
 
+        # Executes original route if check succeeds
+        return func(*args, **kwargs)
 
-
+    return wrapper
 
 
 
     
+
+#Standard User Section
 
 @app.route("/",methods=["GET"])
 def index():
@@ -1202,6 +1238,8 @@ def register():
 
 
             session["user"]=student_number
+            session["role"]=get_user_role(student_number)
+
             return redirect(url_for("index"))
         else:
             flash("There was an error in creating new user, try again")
@@ -1238,6 +1276,8 @@ def loged_in():
 
         #---------------------------------------------------------------------
         session["user"]=student_number
+        session["role"]=get_user_role(student_number)
+
 
 
         return redirect(url_for("index"))
@@ -1377,6 +1417,25 @@ def add_review():
     })
 
 
+@app.route('/profile')
+def user_profile():
+    if 'user' not in session:
+        return redirect(url_for('log_in'))
+   
+    username = session['user']
+    '''I need to create a func that will get all the necessary user info and send it to that html page'''
+
+
+    return render_template('1_profile.html') # You can create this template next!
+
+
+I have a couple of orders of bussiness
+- I need to complete the 1_profile.html 
+- I need to complete the 1_admin_dashboard.html page
+- I need to give normal users the aboiluity to delete or edit a review in the Module page
+
+#AI Section
+
 @app.route('/Ai Guide',methods=["GET"])
 def ai_guide():
     return
@@ -1392,3 +1451,32 @@ def api_module_summary():
 
     summary = generate_ai_summary(mod_code)
     return jsonify({"summary": summary})
+
+
+
+
+
+
+
+
+
+#Admin Section
+
+@app.route('/admin/dashboard')
+@admin_required
+def admin_dashboard():
+
+    '''Here I will just have a screen where the admin will have options to:
+        Look at a particular module:
+            -delete a comment under the module
+            -
+            
+        Look at a particular user:
+            -They can view the user details
+            -They can decide to give the user admin permisions 
+            -They can delete a user
+            -They can view all comments by a user
+            -They can remove a comment a user might have posted on a review'''
+
+
+    return render_template('1_admin_dashboard.html')

@@ -17,10 +17,22 @@
             <div class="offcanvas-body d-flex flex-column justify-content-between bg-navy">
                 <ul class="nav flex-column gap-2">
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="#">
+                        <a class="nav-link text-white fw-bold" href="{{ url_for('user_profile') }}">
                             <i class="fa-solid fa-circle-user me-2 text-white"></i>Profile
                         </a>
                     </li>
+
+                    <!-- NEW ADMIN SECTION START -->
+                    {% if session.get('role') == 'ADMIN' %}
+                    <li class="nav-item">
+                        <a class="nav-link text-warning fw-bold" href="{{ url_for('admin_dashboard') }}">
+                            <i class="fa-solid fa-shield-halved me-2"></i>Admin Panel
+                        </a>
+                    </li>
+                    {% endif %}
+                    <!-- NEW ADMIN SECTION END -->
+
+
                     <li class="nav-item">
                         <hr class="my-2 border-light">
                         <h6 class="px-3 text-white-50 fw-bold small text-uppercase">Faculties</h6>

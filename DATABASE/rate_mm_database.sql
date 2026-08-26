@@ -34,6 +34,9 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) DEFAULT 'ROLE_STUDENT',
     
+    -- Status Flag for Soft Deletes
+    is_active BOOLEAN DEFAULT TRUE,
+    
     -- Context for the UI
     degree_program VARCHAR(100),                
     year_of_study VARCHAR(20),                  
@@ -99,9 +102,7 @@ CREATE TABLE reviews (
 
 Use rate_mm;
 
-SELECT * FROM modules;
-DELETE FROM reviews WHERE id =6; 
-SELECT * FROM courses;
+SELECT * FROM users;
 
 
 
@@ -121,4 +122,3 @@ SELECT id FROM courses where course_name="Bachelor of Science in Applied Geology
 SELECT id FROM faculties where fac_name="Law";
 
 
- 
