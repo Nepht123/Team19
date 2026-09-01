@@ -1140,6 +1140,43 @@ def get_user_role(user):
 
     
 
+
+def get_user_details(student_number):
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        mycursor = mydatabase.cursor(dictionary=True)
+
+
+        get_query="SELECT username,student_email,degree_program,year_of_study FROM users WHERE username=%s"
+        mycursor.execute(get_query,(student_number,))
+        get_role_dict = mycursor.fetchone()
+
+        return get_role_dict
+
+    except Exception as error:
+        print(f"❌ DATABASE ERROR: {error}")
+        return []
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+    return
+
+print((get_user_details("4492340")))
+
+
+
+
 #print((get_user_role("4492340")))#I need to figure out what to do about the AI guide
 
 
@@ -1177,9 +1214,326 @@ def admin_required(func):
 
 
 
+
+
+
+
+# ==============================================================================
+#                      ADMIN DASHBOARD DATABASE HELPER FUNCTIONS
+# ==============================================================================
+
+def get_admin_dashboard_stats():
+    """
+    Fetches high-level summary statistics (total user count and total review count)
+    to populate overview cards on the admin dashboard.
+    """
+    mydatabase = None
+    try:
+        # 1. Establish database connection using host credentials
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # 2. Count total registered users in system
+        user_count_query = "SELECT COUNT(*) AS total_users FROM users"
+        mycursor.execute(user_count_query)
+        total_users = mycursor.fetchone()['total_users']
+
+        # 3. Count total posted module reviews in system
+        review_count_query = "SELECT COUNT(*) AS total_reviews FROM reviews"
+        mycursor.execute(review_count_query)
+        total_reviews = mycursor.fetchone()['total_reviews']
+
+        # 4. Return formatted data dictionary
+        return {
+            'total_users': total_users,
+            'total_reviews': total_reviews
+        }
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return {'total_users': 0, 'total_reviews': 0}
+
+    finally:
+        # 5. ENVIRONMENT CLEANUP: Close cursor and database connection safely
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def get_all_users_admin():
+    """
+    Retrieves all user records with profile metadata for administrative monitoring.
+    Excludes sensitive password hashes for safety.
+    """
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # SQL query to fetch user details ordered by most recent signups
+        get_query = """
+            SELECT 
+                id, 
+                username, 
+                student_email, 
+                role, 
+                degree_program, 
+                year_of_study, 
+                created_at 
+            FROM users 
+            ORDER BY id DESC
+        """
+        mycursor.execute(get_query)
+        all_users = mycursor.fetchall()
+
+        return all_users
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return []
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def get_all_reviews_admin():
+    """
+    Fetches all posted reviews with mapped module codes and author usernames 
+    for administrative review moderation.
+    """
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # Join reviews with users and modules tables to give admins full context
+        get_query = """
+            SELECT 
+                r.id, 
+                r.pros, 
+                r.cons, 
+                r.general_advice, 
+                r.difficulty_rating,
+                r.teaching_rating,
+                r.content_rating,
+                DATE_FORMAT(r.date_posted, '%Y-%m-%d %H:%i') AS date_posted, 
+                r.module_id, 
+                m.mod_code,
+                m.mod_name,
+                r.user_id, 
+                u.username AS author_student_number
+            FROM reviews r
+            LEFT JOIN users u ON r.user_id = u.id
+            LEFT JOIN modules m ON r.module_id = m.id
+            ORDER BY r.date_posted DESC
+        """
+        mycursor.execute(get_query)
+        all_reviews = mycursor.fetchall()
+
+        return all_reviews
+
+    except Error as error:
+        print(f" Database Error encountered: {error}")
+        return []
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def toggle_user_role(user_id):
+    """
+    Toggles a target user's authority level between 'STUDENT' and 'ADMIN'.
+    Prevents role assignment errors by checking the current value first.
+    """
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # 1. Obtain current role of target user
+        get_role_query = "SELECT role FROM users WHERE id = %s"
+        mycursor.execute(get_role_query, (user_id,))
+        user_record = mycursor.fetchone()
+
+        if not user_record:
+            print(f"User ID {user_id} not found.")
+            return None
+
+        # 2. Determine opposing role
+        current_role = user_record.get('role', 'STUDENT')
+        new_role = 'STUDENT' if current_role == 'ADMIN' else 'ADMIN'
+
+        # 3. Update database record
+        update_query = "UPDATE users SET role = %s WHERE id = %s"
+        mycursor.execute(update_query, (new_role, user_id))
+        mydatabase.commit()
+
+        print(f"User #{user_id} role updated successfully to '{new_role}'.")
+        return new_role
+
+    except Error as error:
+        if mydatabase:
+            mydatabase.rollback()
+        print(f" Database Error encountered: {error}")
+        return None
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def delete_user_by_id(user_id):
+    """
+    Removes a target user from the database completely. 
+    Deletes all associated user reviews first to maintain foreign key integrity.
+    """
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # 1. Delete dependent reviews written by this user first
+        delete_reviews_query = "DELETE FROM reviews WHERE user_id = %s"
+        mycursor.execute(delete_reviews_query, (user_id,))
+
+        # 2. Delete main user profile row
+        delete_user_query = "DELETE FROM users WHERE id = %s"
+        mycursor.execute(delete_user_query, (user_id,))
+
+        # 3. Commit atomic transaction
+        mydatabase.commit()
+        print(f"User #{user_id} and all their posted reviews were deleted.")
+        return True
+
+    except Error as error:
+        if mydatabase:
+            mydatabase.rollback()
+        print(f" Database Error encountered: {error}")
+        return False
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+def delete_review_by_id(review_id):
+    """
+    Removes an individual review entry permanently by its primary key ID.
+    Used by admins to remove reported, toxic, or low-quality comments.
+    """
+    mydatabase = None
+    try:
+        mydatabase = mysql.connector.connect(
+            host='127.0.0.1', 
+            user='root', 
+            password='4492340',
+            database='rate_mm'
+        )
+
+        print("Connecting to MySQL Database...")
+        mycursor = mydatabase.cursor(dictionary=True)
+
+        # Execute single deletion by review primary ID
+        delete_query = "DELETE FROM reviews WHERE id = %s"
+        mycursor.execute(delete_query, (review_id,))
+        mydatabase.commit()
+
+        print(f"Review #{review_id} successfully deleted.")
+        return True
+
+    except Error as error:
+        if mydatabase:
+            mydatabase.rollback()
+        print(f" Database Error encountered: {error}")
+        return False
+
+    finally:
+        if mydatabase and mydatabase.is_connected():
+            mycursor.close()
+            mydatabase.close()
+            print("MySQL database connection securely closed.")
+
+
+
+
+
+
     
 
 #Standard User Section
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route("/",methods=["GET"])
 def index():
@@ -1417,6 +1771,19 @@ def add_review():
     })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/profile')
 def user_profile():
     if 'user' not in session:
@@ -1425,15 +1792,27 @@ def user_profile():
     username = session['user']
     '''I need to create a func that will get all the necessary user info and send it to that html page'''
 
+    details=get_user_details(username)
 
-    return render_template('1_profile.html') # You can create this template next!
+    return render_template('1_profile.html',details=details) # You can create this template next!
 
 
+
+
+
+
+
+
+
+
+
+
+
+'''
 I have a couple of orders of bussiness
-- I need to complete the 1_profile.html 
-- I need to complete the 1_admin_dashboard.html page
 - I need to give normal users the aboiluity to delete or edit a review in the Module page
-
+- Normal Users should be able to view the reviews they have posted
+'''
 #AI Section
 
 @app.route('/Ai Guide',methods=["GET"])
@@ -1462,21 +1841,87 @@ def api_module_summary():
 
 #Admin Section
 
-@app.route('/admin/dashboard')
+# ==============================================================================
+#                          ADMIN DASHBOARD FLASK ROUTES
+# ==============================================================================
+
+@app.route('/admin/dashboard', methods=['GET'])
 @admin_required
 def admin_dashboard():
+    """
+    Main Admin Dashboard View Route:
+    Retrieves dataset stats, user list, and review moderation queue, 
+    then passes them to '1_admin_dashboard.html'.
+    """
+    # 1. Fetch system metrics (total user count and total review count)
+    stats = get_admin_dashboard_stats()
 
-    '''Here I will just have a screen where the admin will have options to:
-        Look at a particular module:
-            -delete a comment under the module
-            -
-            
-        Look at a particular user:
-            -They can view the user details
-            -They can decide to give the user admin permisions 
-            -They can delete a user
-            -They can view all comments by a user
-            -They can remove a comment a user might have posted on a review'''
+    # 2. Fetch all registered users for user management tab
+    users = get_all_users_admin()
+
+    # 3. Fetch all posted reviews for moderation tab
+    reviews = get_all_reviews_admin()
+
+    # 4. Render template with database context
+    return render_template(
+        '1_admin_dashboard.html',
+        stats=stats,
+        users=users,
+        reviews=reviews,
+        admin_user=session.get('user')
+    )
 
 
-    return render_template('1_admin_dashboard.html')
+@app.route('/admin/user/toggle-role/<int:user_id>', methods=['POST'])
+@admin_required
+def admin_toggle_role(user_id):
+    """
+    POST route: Toggles a user's role between STUDENT and ADMIN.
+    Re-directs back to dashboard upon completion.
+    """
+    # Prevent admins from demoting themselves by mistake
+    current_admin = session.get('user')
+    
+    # Query details of target user to avoid accidental self-demotion
+    user_details = get_user_details(current_admin)
+    
+    new_role = toggle_user_role(user_id)
+    
+    if new_role:
+        flash(f"Success: User ID #{user_id} role updated to '{new_role}'.", "success")
+    else:
+        flash(f"Error: Could not update role for User ID #{user_id}.", "danger")
+
+    return redirect(url_for('admin_dashboard'))
+
+
+@app.route('/admin/user/delete/<int:user_id>', methods=['POST'])
+@admin_required
+def admin_delete_user(user_id):
+    """
+    POST route: Deletes a user account along with all their posted content.
+    """
+    success = delete_user_by_id(user_id)
+
+    if success:
+        flash(f"User #{user_id} and all associated reviews have been permanently removed.", "warning")
+    else:
+        flash(f"Failed to delete User #{user_id} from database.", "danger")
+
+    return redirect(url_for('admin_dashboard'))
+
+
+@app.route('/admin/review/delete/<int:review_id>', methods=['POST'])
+@admin_required
+def admin_delete_review(review_id):
+    """
+    POST route: Deletes a single student review post from the moderation tab.
+    """
+    success = delete_review_by_id(review_id)
+
+    if success:
+        flash(f"Review #{review_id} has been removed successfully.", "info")
+    else:
+        flash(f"Failed to delete Review #{review_id}.", "danger")
+
+    return redirect(url_for('admin_dashboard'))

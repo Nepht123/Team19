@@ -1,4 +1,3 @@
-'''I will use this to instert the data into my faculties while I am still learning Spring Boot'''
 import csv
 import mysql.connector
 from mysql.connector import Error
@@ -68,6 +67,5 @@ def update_module_details(csv_file_path):
 
 if __name__ == "__main__":
     # Point this to your saved Under.csv file location
-    target_csv = r"C:\\Users\\mwamb\\OneDrive\Desktop\\Team_6_repo\\Team19\\Faculties\\Natural Science\\Extensions\\Unified_csv_.csv"
-    
+    target_csv = r"C:\Users\mwamb\OneDrive\Desktop\Team_6_repo\Team19\Faculties\By programe code\Art\CSV\uwc-arts-humanities-modules-2026-v2_CSV_.csv"
     update_module_details(target_csv)

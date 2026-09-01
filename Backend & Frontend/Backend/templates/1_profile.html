@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Rate My Module</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Static stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='1_index.css') }}">
+
+    <style>
+        .text-navy { color: #00205b; }
+        .bg-navy { background-color: #00205b; }
+        .btn-navy { background-color: #00205b; color: #ffffff; transition: 0.2s ease-in-out; }
+        .btn-navy:hover { background-color: #00153b; color: #ffffff; }
+        .btn-gold { background-color: #ffc107; color: #000000; font-weight: 700; }
+        .btn-gold:hover { background-color: #e0a800; color: #000000; }
+        .text-gold { color: #ffb400; }
+        .profile-card-header { border-top: 5px solid #00205b; }
+    </style>
+</head>
+
+<body class="bg-light d-flex flex-column vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-navy d-flex align-items-center" href="{{ url_for('index') }}">
+                <img src="/static/UWC_LOGO.png" alt="UWC Logo" height="45" class="me-2">                  
+                Rate My Module
+            </a>
+            
+            <div class="ms-auto d-flex gap-2 align-items-center">
+                {% if details and details.username %}
+                    <span class="badge bg-success rounded-pill px-3 py-2 fw-bold me-2 shadow-sm">
+                        <i class="fa-solid fa-circle-user me-1"></i> Student #{{ details.username }}
+                    </span>
+                {% elif user %}
+                    <span class="badge bg-success rounded-pill px-3 py-2 fw-bold me-2 shadow-sm">
+                        <i class="fa-solid fa-circle-user me-1"></i> Student #{{ user }}
+                    </span>
+                {% endif %}
+
+                <button onclick="history.back()" class="btn btn-outline-secondary rounded-pill fw-bold">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back
+                </button>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary rounded-pill fw-bold">
+                    <i class="fa-solid fa-house me-1"></i> Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5 flex-grow-1">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                
+                <!-- Profile Summary Card -->
+                <div class="card border-0 shadow-sm profile-card-header rounded-3 bg-white mb-4 p-4">
+                    <div class="card-body p-2 d-flex flex-column flex-sm-row align-items-center gap-4 text-center text-sm-start">
+                        
+                        <!-- Avatar Badge -->
+                        <div class="bg-navy text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm flex-shrink-0" style="width: 85px; height: 85px; font-size: 2.2rem;">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+
+                        <!-- Basic Information -->
+                        <div class="flex-grow-1">
+                            <h3 class="fw-bold text-navy mb-1">Student Account</h3>
+                            <p class="text-muted small mb-1">
+                                <i class="fa-solid fa-id-card me-1 text-navy"></i> Student Number: <strong>{{ details.username if details and details.username else user }}</strong>
+                            </p>
+                            <p class="text-muted small mb-0">
+                                <i class="fa-solid fa-envelope me-1 text-navy"></i> {{ details.student_email if details and details.student_email else 'No email recorded' }}
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Detailed Academic Information Card -->
+                <div class="card border-0 shadow-sm rounded-3 bg-white mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom">
+                            <i class="fa-solid fa-graduation-cap me-2 text-navy"></i>Academic Overview
+                        </h5>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0 bg-transparent">
+                                <span class="text-secondary fw-semibold">
+                                    <i class="fa-solid fa-hashtag me-2 text-muted"></i>Student Number
+                                </span>
+                                <span class="fw-bold text-dark">{{ details.username if details and details.username else user }}</span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0 bg-transparent">
+                                <span class="text-secondary fw-semibold">
+                                    <i class="fa-solid fa-at me-2 text-muted"></i>UWC Email Address
+                                </span>
+                                <span class="fw-bold text-dark">
+                                    {{ details.student_email if details and details.student_email else 'Not Available' }}
+                                </span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0 bg-transparent">
+                                <span class="text-secondary fw-semibold">
+                                    <i class="fa-solid fa-book-bookmark me-2 text-muted"></i>Degree Programme
+                                </span>
+                                <span class="fw-bold text-dark text-end ms-3">
+                                    {{ details.degree_program if details and details.degree_program else 'Unspecified' }}
+                                </span>
+                            </li>
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0 bg-transparent">
+                                <span class="text-secondary fw-semibold">
+                                    <i class="fa-solid fa-calendar-days me-2 text-muted"></i>Current Year of Study
+                                </span>
+                                <span class="badge bg-light text-navy border fw-bold fs-6 px-3 py-1 shadow-sm">
+                                    {% if details and details.year_of_study %}
+                                        Year {{ details.year_of_study }}
+                                    {% else %}
+                                        Not Specified
+                                    {% endif %}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Account Actions Card -->
+                <div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                        <span class="text-muted small">
+                            <i class="fa-solid fa-circle-info me-1"></i> Logged in as <strong>{{ details.username if details and details.username else user }}</strong>
+                        </span>
+                        <a href="{{ url_for('logout') }}" class="btn btn-gold rounded-pill px-4 py-2 shadow-sm w-100 w-sm-auto">
+                            <i class="fa-solid fa-right-from-bracket me-2"></i> Log Out
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-white border-top w-100 mt-auto">
+        <p class="small text-muted mb-0">&copy; 2026 University of the Western Cape. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

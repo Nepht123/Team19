@@ -20,29 +20,32 @@ def insert_standalone_modules(csv_file_path):
         mycursor = mydatabase.cursor()
 
         print(f"Reading spreadsheet file from: {csv_file_path}")
-        with open(csv_file_path, mode='r', encoding='utf-8') as file:
-            csv_reader = csv.reader(file)
+        with open(csv_file_path, mode='r', encoding='utf-8-sig', newline='') as file:
+            csv_reader = csv.reader(file, delimiter=';')
             header = next(csv_reader) # Skips the excel column header row
             modules_inserted = 0
 
             for row in csv_reader:
-                # Basic layout safety filter
-                if not row or len(row) < 6:
+                # Basic layout safety filter (row must reach Credits, column I)
+                if not row or len(row) < 9:
                     continue 
                 
                 # Extracting specific data positions, ignoring columns C and D
-                mod_code      = row[0].strip()  # Column A
-                mod_name      = row[1].strip()  # Column B
-                prerequisites = row[4].strip()  # Column E
-                corequisites  = row[5].strip()  # Column F
+                mod_code         = row[0].strip()  # Column A
+                mod_name         = row[1].strip()  # Column B
+                prerequisites    = row[4].strip()  # Column E
+                corequisites     = row[5].strip()  # Column F
+                learning_outcome = row[6].strip()  # Column G
+                main_content     = row[7].strip()  # Column H
+                credits          = row[8].strip()  # Column I
 
                 # Target query mapping to your exact schema definitions
                 insert_mod_query = """
-                    INSERT IGNORE INTO modules (mod_code, mod_name, prerequisites, corequisites)
-                    VALUES (%s, %s, %s, %s)
+                    INSERT IGNORE INTO modules (mod_code, mod_name, prerequisites, corequisites, learning_outcome, main_content, credits)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """
                 
-                mycursor.execute(insert_mod_query, (mod_code, mod_name, prerequisites, corequisites))
+                mycursor.execute(insert_mod_query, (mod_code, mod_name, prerequisites, corequisites, learning_outcome, main_content, credits))
                 
                 # Count only if it's a brand new record added to the database
                 if mycursor.rowcount > 0:
@@ -66,6 +69,5 @@ def insert_standalone_modules(csv_file_path):
 
 if __name__ == "__main__":
     # Point this to your saved modules CSV file location
-    target_csv = "C:/Users/mwamb/OneDrive/Desktop/Team_6_repo/Team19/Faculties/Natural Science/Experimental/CSVs/Post_mod_NS.csv"
-    
+    target_csv = r"C:\Users\mwamb\OneDrive\Desktop\Team_6_repo\Team19\Faculties\By programe code\EMS\CSV\uwc-ems-modules-2026_CSV.csv"
     insert_standalone_modules(target_csv)

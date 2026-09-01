@@ -1,10 +1,18 @@
+Look under the UWC "DEGREES AND DIPLOMAS CONFERRED BY THE FACULTY "for the "{}" . I want you generate for me an excel sheet with the headings Programme Name, Programme Code, Abbreviation, Duration Years.
+
+
+
+
+
+
+
 Look under the "{} MODULE DESCRIPTORS ". I want you to tell me how many modules there are
 
 
 
 
 Okay for those {} modules, I want you to Look under the " {} MODULE DESCRIPTORS ". I want you to create for me an excel sheet with the columns:
-Module code, Module name, Year Level, Programmes, Pre-requisite, Co-requisite. Use the information from the resource I have provide to fill this excel sheet.Make sure that every single one out of the {} modules are covered. I want the generated excel sheet to be accurate and cover all modules. 
+Module code, Module name, Year Level, Programmes, Pre-requisite, Co-requisite, Learning Outcome, Main content, Credits. Use the information from the resource I have provide to fill this excel sheet. Make sure that every single one out of the {} modules are covered. I want the generated excel sheet to be accurate and cover all modules. 
 
 
 

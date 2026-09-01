@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Moderation Dashboard - Rate My Module</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Optional custom stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='1_index.css') }}">
+
+    <style>
+        /* Custom Color Palette matching UWC Theme */
+        :root {
+            --uwc-navy: #00205b;
+            --uwc-navy-dark: #00153b;
+            --uwc-gold: #ffc107;
+            --uwc-gold-hover: #e0a800;
+        }
+
+        .bg-navy { background-color: var(--uwc-navy) !important; }
+        .text-navy { color: var(--uwc-navy) !important; }
+        .border-navy { border-color: var(--uwc-navy) !important; }
+        
+        .btn-navy {
+            background-color: var(--uwc-navy);
+            color: #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-navy:hover {
+            background-color: var(--uwc-navy-dark);
+            color: #ffffff;
+        }
+
+        .btn-gold {
+            background-color: var(--uwc-gold);
+            color: #000000;
+            font-weight: 700;
+        }
+        .btn-gold:hover {
+            background-color: var(--uwc-gold-hover);
+            color: #000000;
+        }
+
+        .metric-card {
+            border-left: 5px solid var(--uwc-navy);
+            transition: transform 0.2s ease;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--uwc-navy) !important;
+        }
+        .nav-pills .nav-link {
+            color: var(--uwc-navy);
+            font-weight: 600;
+        }
+
+        .table-v-align td, .table-v-align th {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body class="bg-light d-flex flex-column vh-100">
+
+    <!-- =================================================================== -->
+    <!-- 1. TOP ADMIN NAVIGATION BAR                                         -->
+    <!-- =================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-navy sticky-top shadow-sm py-3">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('admin_dashboard') }}">
+                <i class="fa-solid fa-shield-halved text-warning me-2 fs-4"></i>
+                <span>Rate My Module — <span class="fw-normal text-light opacity-75">Admin Control Panel</span></span>
+            </a>
+
+            <div class="ms-auto d-flex align-items-center gap-2">
+                <!-- Logged in Admin Badge -->
+                <span class="badge bg-light text-navy fw-bold px-3 py-2 me-2 border shadow-sm d-none d-md-inline-block">
+                    <i class="fa-solid fa-user-shield me-1"></i> Admin #{{ session.get('user') }}
+                </span>
+
+                <!-- Quick Navigation Action Buttons -->
+                <a href="{{ url_for('index') }}" class="btn btn-outline-light rounded-pill btn-sm fw-bold px-3">
+                    <i class="fa-solid fa-globe me-1"></i> Main Application
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-gold rounded-pill btn-sm px-3">
+                    <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =================================================================== -->
+    <!-- 2. MAIN DASHBOARD CONTENT AREA                                      -->
+    <!-- =================================================================== -->
+    <main class="container-fluid px-4 my-4 flex-grow-1">
+
+        <!-- Flash Message Alerts -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+                        <i class="fa-solid fa-circle-info me-2"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Header Title Block -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
+            <div>
+                <h3 class="fw-bold text-navy mb-1">System Overview & Management</h3>
+                <p class="text-muted small mb-0">Monitor registered users, manage permissions, and moderate student module reviews.</p>
+            </div>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- 3. SUMMARY METRICS CARDS                                        -->
+        <!-- =============================================================== -->
+        <div class="row g-3 mb-4">
+            <!-- Metric 1: Total Registered Users -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm metric-card p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small text-uppercase fw-bold">Registered Users</span>
+                            <h2 class="fw-bold text-navy mb-0 mt-1">{{ stats.total_users }}</h2>
+                        </div>
+                        <div class="bg-light rounded-circle p-3 text-navy">
+                            <i class="fa-solid fa-users fs-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric 2: Total Module Reviews -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm metric-card p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small text-uppercase fw-bold">Total Reviews</span>
+                            <h2 class="fw-bold text-navy mb-0 mt-1">{{ stats.total_reviews }}</h2>
+                        </div>
+                        <div class="bg-light rounded-circle p-3 text-navy">
+                            <i class="fa-solid fa-comments fs-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- 4. DASHBOARD TABS (USER MANAGEMENT & REVIEW MODERATION)         -->
+        <!-- =============================================================== -->
+        <div class="card border-0 shadow-sm bg-white rounded-3 mb-4">
+            <div class="card-header bg-white border-bottom py-3 px-4 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+                
+                <!-- Tab Controls -->
+                <ul class="nav nav-pills card-header-pills" id="adminTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active rounded-pill px-4 me-2" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-pane" type="button" role="tab">
+                            <i class="fa-solid fa-users-gear me-2"></i> User Management ({{ users|length }})
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill px-4" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-pane" type="button" role="tab">
+                            <i class="fa-solid fa-shield-cat me-2"></i> Review Moderation ({{ reviews|length }})
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Instant Search Filter Field -->
+                <div class="position-relative" style="min-width: 260px;">
+                    <i class="fa-solid fa-magnifying-glass position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input type="text" id="adminSearchInput" class="form-control form-control-sm ps-5 rounded-pill border" placeholder="Search records...">
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="tab-content" id="adminTabContent">
+                    
+                    <!-- =================================================== -->
+                    <!-- TAB 1: USER MANAGEMENT                              -->
+                    <!-- =================================================== -->
+                    <div class="tab-pane fade show active" id="users-pane" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-v-align mb-0 align-middle" id="usersTable">
+                                <thead class="table-light text-uppercase small text-muted">
+                                    <tr>
+                                        <th class="ps-4">User ID</th>
+                                        <th>Student #</th>
+                                        <th>UWC Email</th>
+                                        <th>Degree Programme</th>
+                                        <th>Year</th>
+                                        <th>Role Authority</th>
+                                        <th class="text-end pe-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if users %}
+                                        {% for u in users %}
+                                        <tr>
+                                            <td class="ps-4"><strong>#{{ u.id }}</strong></td>
+                                            <td>
+                                                <span class="fw-bold text-navy">
+                                                    <i class="fa-solid fa-user-graduate me-1 text-muted"></i>{{ u.username }}
+                                                </span>
+                                            </td>
+                                            <td class="small">{{ u.student_email }}</td>
+                                            <td class="small text-truncate" style="max-width: 220px;">
+                                                {{ u.degree_program or 'Unspecified' }}
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-light text-dark border">
+                                                    Year {{ u.year_of_study or '-' }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if u.role == 'ADMIN' %}
+                                                    <span class="badge bg-danger rounded-pill px-3"><i class="fa-solid fa-shield-halved me-1"></i> ADMIN</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary rounded-pill px-3">STUDENT</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <div class="d-inline-flex gap-2">
+                                                    
+                                                    <!-- Toggle Admin Role Form -->
+                                                    <form action="{{ url_for('admin_toggle_role', user_id=u.id) }}" method="POST" class="d-inline">
+                                                        <button type="submit" class="btn btn-sm btn-outline-navy fw-semibold" title="Change Role Permissions">
+                                                            <i class="fa-solid fa-user-shield me-1"></i>
+                                                            {{ 'Demote' if u.role == 'ADMIN' else 'Make Admin' }}
+                                                        </button>
+                                                    </form>
+
+                                                    <!-- Delete User Form -->
+                                                    <form action="{{ url_for('admin_delete_user', user_id=u.id) }}" method="POST" class="d-inline" onsubmit="return confirm('WARNING: Deleting Student #{{ u.username }} will permanently remove their profile and all posted reviews! Continue?');">
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete Account">
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </button>
+                                                    </form>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="7" class="text-center py-5 text-muted">
+                                                <i class="fa-solid fa-users-slash fs-1 d-block mb-2"></i>
+                                                No users currently registered in the database.
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- =================================================== -->
+                    <!-- TAB 2: REVIEW MODERATION                            -->
+                    <!-- =================================================== -->
+                    <div class="tab-pane fade" id="reviews-pane" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-v-align mb-0 align-middle" id="reviewsTable">
+                                <thead class="table-light text-uppercase small text-muted">
+                                    <tr>
+                                        <th class="ps-4">ID</th>
+                                        <th>Module Code</th>
+                                        <th>Author</th>
+                                        <th>Ratings (D / T / C)</th>
+                                        <th style="width: 35%;">Feedback Content (Pros / Cons / Advice)</th>
+                                        <th>Date Posted</th>
+                                        <th class="text-end pe-4">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if reviews %}
+                                        {% for r in reviews %}
+                                        <tr>
+                                            <td class="ps-4"><strong>#{{ r.id }}</strong></td>
+                                            <td>
+                                                <span class="badge bg-navy px-2 py-1 fs-6">
+                                                    {{ r.mod_code or ('Module #' ~ r.module_id) }}
+                                                </span>
+                                            </td>
+                                            <td class="small">
+                                                <i class="fa-solid fa-circle-user me-1 text-muted"></i>
+                                                {{ r.author_student_number or ('User #' ~ r.user_id) }}
+                                            </td>
+                                            <td class="small">
+                                                <span class="badge bg-light text-dark border me-1" title="Difficulty Rating">Diff: {{ r.difficulty_rating or '-' }}</span>
+                                                <span class="badge bg-light text-dark border me-1" title="Teaching Quality">Teach: {{ r.teaching_rating or '-' }}</span>
+                                                <span class="badge bg-light text-dark border" title="Content Quality">Cont: {{ r.content_rating or '-' }}</span>
+                                            </td>
+                                            <td class="small">
+                                                {% if r.pros %}
+                                                    <div class="text-success text-truncate mb-1" style="max-width: 380px;">
+                                                        <strong>Pros:</strong> {{ r.pros }}
+                                                    </div>
+                                                {% endif %}
+                                                {% if r.cons %}
+                                                    <div class="text-danger text-truncate mb-1" style="max-width: 380px;">
+                                                        <strong>Cons:</strong> {{ r.cons }}
+                                                    </div>
+                                                {% endif %}
+                                                {% if r.general_advice %}
+                                                    <div class="text-secondary text-truncate" style="max-width: 380px;">
+                                                        <strong>Advice:</strong> {{ r.general_advice }}
+                                                    </div>
+                                                {% endif %}
+                                            </td>
+                                            <td class="small text-muted">{{ r.date_posted }}</td>
+                                            <td class="text-end pe-4">
+                                                <!-- Delete Single Review Form -->
+                                                <form action="{{ url_for('admin_delete_review', review_id=r.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to permanently delete Review #{{ r.id }}?');">
+                                                    <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3">
+                                                        <i class="fa-solid fa-trash-can me-1"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="7" class="text-center py-5 text-muted">
+                                                <i class="fa-solid fa-comments-blinded fs-1 d-block mb-2"></i>
+                                                No module reviews posted yet.
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-white border-top w-100 mt-auto">
+        <p class="small text-muted mb-0">&copy; 2026 University of the Western Cape — Rate My Module Admin Engine</p>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Simple Dynamic Search Script for Instant Table Filtering -->
+    <script>
+        document.getElementById('adminSearchInput').addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            const activeTabPane = document.querySelector('.tab-pane.active');
+            const rows = activeTabPane.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

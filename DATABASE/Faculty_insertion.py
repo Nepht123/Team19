@@ -80,4 +80,4 @@ def insert_faculty(faculty_name, icon_name):
 
 if __name__ == "__main__":
     # To insert your Natural Science faculty, you just pass its details here!
-    insert_faculty("Law", "Scale")
+    insert_faculty("EMS", "Money")
